@@ -1,0 +1,24 @@
+import './App.css';
+import {Route, Routes} from "react-router-dom";
+import LoginPage from "./Pages/LoginPage";
+import HomePage from "./Pages/HomePage";
+import PrivateRoute from "./customRoutes/PrivateRoute";
+import AdvertView from "./Pages/AdvertView";
+import Dashboard from "./Pages/Dashboard";
+
+function App() {
+  return (
+      <Routes>
+        {/*<Route*/}
+        {/*    path='/dashboard'*/}
+        {/*    element={<PrivateRoute> <Dashboard/> </PrivateRoute> } />*/}
+
+        <Route  path='/' element={<HomePage/>}  />
+        <Route path='/login' element={<LoginPage/>} />
+        <Route path='/adverts/:id' element={<PrivateRoute><AdvertView/></PrivateRoute>}/>
+          <Route path='/adverts' element={<PrivateRoute><Dashboard/></PrivateRoute>}/>
+      </Routes>
+  );
+}
+
+export default App;
