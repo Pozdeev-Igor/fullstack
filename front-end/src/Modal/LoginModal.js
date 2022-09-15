@@ -1,14 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
 
-const LoginModal = () => {
+const LoginModal = (props) => {
 
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const {show, handleClose, handleShow} = props
 
     return (
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose} style={{backdropFilter: "blur(5px)"}}>
             <Modal.Header closeButton>
                 <Modal.Title>Modal heading</Modal.Title>
             </Modal.Header>
@@ -27,7 +25,7 @@ const LoginModal = () => {
                         controlId="exampleForm.ControlTextarea1"
                     >
                         <Form.Label>Example textarea</Form.Label>
-                        <Form.Control as="textarea" rows={3} />
+                        <Form.Control as="textarea" rows={3}/>
                     </Form.Group>
                 </Form>
             </Modal.Body>
