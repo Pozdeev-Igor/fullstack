@@ -2,7 +2,6 @@ import {useUser} from "../UserProvider/UserProvider";
 import {useState} from "react";
 import ajax from "../services/fetchServise";
 import {Navigate} from "react-router-dom";
-import LoginModal from "../Modal/LoginModal";
 
 const PrivateRoute = (props) => {
 
@@ -19,8 +18,7 @@ const PrivateRoute = (props) => {
             }
         );
     } else {
-        return <LoginModal/>
-        // <Navigate to="/login" />
+        return <Navigate to="/login" />
     }
 
     return isLoading ? (

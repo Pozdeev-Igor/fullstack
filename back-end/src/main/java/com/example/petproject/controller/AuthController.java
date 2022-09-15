@@ -26,7 +26,7 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping("login")
-    public ResponseEntity<?> login (@RequestBody AuthCredentialsRequest request) {
+    public ResponseEntity<?> login(@RequestBody AuthCredentialsRequest request) {
         try {
             Authentication authenticate = authenticationManager
                     .authenticate(
@@ -50,11 +50,15 @@ public class AuthController {
 
     @GetMapping("/validate")
     public ResponseEntity<?> validateToken(@RequestParam String token, @AuthenticationPrincipal User user) {
-        try {
-            Boolean isValidToken = jwtUtil.validateToken(token, user);
+        if (token.equals("") || token == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            try {
+                Boolean isValidToken = jwtUtil.validateToken(token, user);
                 return ResponseEntity.ok(isValidToken);
-        } catch (ExpiredJwtException exception) {
-            return ResponseEntity.ok(false);
+            } catch (ExpiredJwtException exception) {
+                return ResponseEntity.ok(false);
+            }
         }
     }
 }

@@ -1,23 +1,41 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
+import {useUser} from "../UserProvider/UserProvider";
+import LoginModal from "../Modal/LoginModal";
 
 const HomePage = () => {
+    const navigate = useNavigate();
+    const user = useUser();
+
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    let navigate = useNavigate();
+    // const redirect = useEffect(() => {
+    //     if (user.jwt)
+    //     navigate("/adverts")
+    //     console.log(user)
+    // },[user]);
+
+
+        // useEffect(() =>  {
+        //     if (localStorage.getItem("jwt") === "") {
+        //         localStorage.clear();
+        //         handleShow();
+        //     }
+        // });
 
 
     return (
         <div>
             <h1>Home page</h1>
-            <Button variant="link" onClick={handleShow} on>ADVERTS</Button>
+            <Button variant="link"  onClick={() => user.jwt ? (navigate("/adverts")) : handleShow() }>ADVERTS</Button>
 
 
-            <Modal show={show} style={{backdropFilter: "blur(5px)"}} onHide={handleClose}>
+
+            <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
@@ -36,7 +54,7 @@ const HomePage = () => {
                             controlId="exampleForm.ControlTextarea1"
                         >
                             <Form.Label>Example textarea</Form.Label>
-                            <Form.Control as="textarea" rows={3}/>
+                            <Form.Control as="textarea" rows={3} />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
@@ -55,4 +73,4 @@ const HomePage = () => {
 
 export default HomePage;
 
-//<Button variant="link" onClick={() => (navigate("/adverts")) } on>ADVERTS</Button>
+{/*//<Button variant="link" onClick={() => (navigate("/adverts")) } on>ADVERTS</Button>*/}

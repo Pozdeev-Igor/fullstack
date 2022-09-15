@@ -11,7 +11,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState("");
 
     useEffect(() => {
-        if (user.jwt) navigate("/adverts");
+        if (user.jwt) navigate("/");
     }, [user]);
 
     function sendLoginRequest(e) {
