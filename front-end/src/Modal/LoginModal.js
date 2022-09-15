@@ -1,41 +1,91 @@
-import React from 'react';
-import {Button, Form, Modal} from "react-bootstrap";
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Form, Modal, Row} from "react-bootstrap";
+import {useUser} from "../UserProvider/UserProvider";
+import {useNavigate} from "react-router-dom";
 
 const LoginModal = (props) => {
 
+    const user = useUser();
+    const navigate = useNavigate();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
     const {show, handleClose, handleShow} = props
+
+    useEffect(() => {
+        if (user.jwt) navigate("/");
+    }, [user]);
+
+    function sendLoginRequest(e) {
+        const reqBody = {
+            username: username,
+            password: password
+        };
+
+        fetch("api/auth/login", {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "post",
+            body: JSON.stringify(reqBody),
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    return Promise.all([response.json(), response.headers]);
+                } else return Promise.reject("Invalid login attempt");
+            })
+            .then(([body, headers]) => {
+                user.setJwt(headers.get("authorization"));
+            })
+            .catch((message) => {
+                alert(message);
+            });
+
+        navigate("/adverts")
+    }
 
     return (
         <Modal show={show} onHide={handleClose} style={{backdropFilter: "blur(5px)"}}>
             <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
+                <Modal.Title><p style={{}}>Login</p></Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control
-                            type="email"
-                            placeholder="name@example.com"
-                            autoFocus
-                        />
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Label className="fs-4">Username</Form.Label>
+                        <Form.Control size="lg"
+                                      type="text"
+                                      placeholder="Enter your username"
+                                      value={username}
+                                      onChange={(e) => setUsername(e.target.value)}/>
                     </Form.Group>
-                    <Form.Group
-                        className="mb-3"
-                        controlId="exampleForm.ControlTextarea1"
-                    >
-                        <Form.Label>Example textarea</Form.Label>
-                        <Form.Control as="textarea" rows={3}/>
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <Form.Label className="fs-4">Password</Form.Label>
+                        <Form.Control size="lg"
+                                      type="password"
+                                      placeholder="Enter your password"
+                                      value={password}
+                                      onChange={(e) => setPassword(e.target.value)}/>
                     </Form.Group>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Close
-                </Button>
-                <Button variant="primary" onClick={handleClose}>
-                    Save Changes
-                </Button>
+                <Row className="justify-content-center">
+                    <Col>
+                        <Button
+                            id="submit"
+                            type="button"
+                            size="lg"
+                            onClick={() => sendLoginRequest()}
+                        >Login</Button>
+                        <Button
+                            size="lg"
+                            variant="secondary"
+                            type="button"
+                            onClick={handleClose}
+                        >Exit</Button>
+                    </Col>
+                </Row>
             </Modal.Footer>
         </Modal>
     );
