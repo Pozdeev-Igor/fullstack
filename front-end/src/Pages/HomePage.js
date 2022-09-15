@@ -34,8 +34,7 @@ const HomePage = () => {
             <Button variant="link"  onClick={() => user.jwt ? (navigate("/adverts")) : handleShow() }>ADVERTS</Button>
 
 
-
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} style={{backdropFilter:"blur(5px)"}}>
                 <Modal.Header closeButton>
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>

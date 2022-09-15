@@ -8,8 +8,7 @@ const Dashboard = () => {
         <div>
             <h1>Here you gonna see dashboard</h1>
             <Button variant="link" onClick={() => {
-                // navigate("/")
-                window.location.href="/";
+                navigate("/")
             } }>HOME PAGE</Button>
         </div>
     );
