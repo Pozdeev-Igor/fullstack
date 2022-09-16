@@ -29,16 +29,12 @@ const LoginPage = () => {
             body: JSON.stringify(reqBody),
         })
             .then((response) => {
-                console.log(reqBody)
-                console.log(response)
                 if (response.status === 200){
                     return Promise.all([response.json(), response.headers]);
-                console.log(response.headers);}
+               }
                 else return Promise.reject("Invalid login attempt");
             })
             .then(([body, headers]) => {
-                console.log(body)
-                console.log(headers.get("authorization"))
                 user.setJwt(headers.get("authorization"));
             })
             .catch((message) => {
