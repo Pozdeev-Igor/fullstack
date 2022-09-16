@@ -5,6 +5,7 @@ import HomePage from "./Pages/HomePage";
 import PrivateRoute from "./customRoutes/PrivateRoute";
 import AdvertView from "./Pages/AdvertView";
 import Dashboard from "./Pages/Dashboard";
+import SignUpPage from "./Pages/SignUpPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
 
         <Route  path='/' element={<HomePage/>}  />
         <Route path='/login' element={<LoginPage/>} />
+        <Route path='/registration' element={<SignUpPage/>} />
         <Route path='/adverts/:id' element={<PrivateRoute><AdvertView/></PrivateRoute>}/>
           <Route path='/adverts' element={<PrivateRoute><Dashboard/></PrivateRoute>}/>
       </Routes>

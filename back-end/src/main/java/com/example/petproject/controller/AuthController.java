@@ -1,7 +1,10 @@
 package com.example.petproject.controller;
 
 import com.example.petproject.DTO.AuthCredentialsRequest;
+import com.example.petproject.DTO.RegistrationUserDTO;
 import com.example.petproject.domain.User;
+import com.example.petproject.repos.UserRepo;
+import com.example.petproject.service.UserService;
 import com.example.petproject.utils.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +26,13 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserRepo userRepo;
 
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody AuthCredentialsRequest request) {
@@ -60,5 +69,23 @@ public class AuthController {
                 return ResponseEntity.ok(false);
             }
         }
+    }
+
+    @PostMapping("/registration")
+    public ResponseEntity<?> registration(@RequestBody RegistrationUserDTO registrationUserDTO) {
+
+        if (userRepo.existsByUsername(registrationUserDTO.getUsername())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if (userRepo.existsByEmail(registrationUserDTO.getEmail())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        User user = new User();
+
+        if (user.getPassword() != null && !user.getPassword().equals(registrationUserDTO.getConfirmPassword())) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+        userService.save(user, registrationUserDTO);
+        return ResponseEntity.ok("User registered successfully");
     }
 }

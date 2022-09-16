@@ -71,19 +71,31 @@ const LoginModal = (props) => {
             </Modal.Body>
             <Modal.Footer>
                 <Row className="justify-content-center">
-                    <Col>
+                    <Button variant="link"
+                            onClick={() => navigate("/registration")}>
+                        Sign up
+                    </Button>
+                </Row>
+                <Row className="justify-content-center">
+
+                    <Col className="mt-2 d-flex flex-column gap-5 flex-md-row justify-content-md-between">
+
+
                         <Button
                             id="submit"
                             type="button"
-                            size="lg"
-                            onClick={() => sendLoginRequest()}
-                        >Login</Button>
+                            size="md"
+                            onClick={() => sendLoginRequest()}>
+                                Login
+                        </Button>
+
                         <Button
-                            size="lg"
+                            size="md"
                             variant="secondary"
                             type="button"
-                            onClick={handleClose}
-                        >Exit</Button>
+                            onClick={handleClose}>
+                                Exit
+                        </Button>
                     </Col>
                 </Row>
             </Modal.Footer>
