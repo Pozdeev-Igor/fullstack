@@ -2,6 +2,8 @@ import {useUser} from "../UserProvider/UserProvider";
 import {useState} from "react";
 import ajax from "../services/fetchServise";
 import {Navigate} from "react-router-dom";
+import {Button, Spinner} from "react-bootstrap";
+import Skeleton from "react-loading-skeleton";
 
 const PrivateRoute = (props) => {
 
@@ -18,15 +20,17 @@ const PrivateRoute = (props) => {
             }
         );
     } else {
-        return <Navigate to="/login" />
+        return <Navigate to="/login"/>
     }
 
     return isLoading ? (
-        <div>Loading...</div>
+
+            <Skeleton width={"570px"} height={"45px"} />
+
     ) : isValid === true ? (
         children
     ) : (
-        <Navigate to="/login" />
+        <Navigate to="/login"/>
     );
 };
 
