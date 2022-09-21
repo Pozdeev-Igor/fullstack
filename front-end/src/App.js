@@ -9,20 +9,17 @@ import SignUpPage from "./Pages/SignUpPage";
 import CategoryView from "./AdminView/Pages/CategoryView";
 
 function App() {
-  return (
-      <Routes>
-        {/*<Route*/}
-        {/*    path='/dashboard'*/}
-        {/*    element={<PrivateRoute> <Dashboard/> </PrivateRoute> } />*/}
+    return (
+        <Routes>
 
-        <Route  path='/' element={<HomePage/>}  />
-        <Route path='/login' element={<LoginPage/>} />
-        <Route path='/registration' element={<SignUpPage/>} />
-        <Route path='/adverts/:id' element={<PrivateRoute><AdvertView/></PrivateRoute>}/>
-          <Route path='/adverts' element={<PrivateRoute><Dashboard/></PrivateRoute>}/>
-          <Route path='/admin/categories' element={<PrivateRoute><CategoryView/></PrivateRoute>}/>
-      </Routes>
-  );
+            <Route path='/' element={<HomePage/>}/>
+            <Route path='/login' element={<LoginPage/>}/>
+            <Route path='/registration' element={<SignUpPage/>}/>
+            <Route path='/adverts/:id' element={<PrivateRoute><AdvertView/></PrivateRoute>}/>
+            <Route path='/adverts' element={<PrivateRoute><Dashboard/></PrivateRoute>}/>
+            <Route path='/admin/categories' element={<PrivateRoute><CategoryView/></PrivateRoute>}/>
+        </Routes>
+    );
 }
 
 export default App;

@@ -82,10 +82,13 @@ public class AuthController {
         }
         User user = new User();
 
-        if (user.getPassword() != null && !user.getPassword().equals(registrationUserDTO.getConfirmPassword())) {
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        if (!registrationUserDTO.getPassword().equals(registrationUserDTO.getConfirmPassword())) {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
         }
+//        if (user.getPassword() != null && !user.getPassword().equals(registrationUserDTO.getConfirmPassword())) {
+//            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+//        }
         userService.save(user, registrationUserDTO);
-        return ResponseEntity.ok("User registered successfully");
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 }

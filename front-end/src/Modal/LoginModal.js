@@ -40,8 +40,8 @@ const LoginModal = (props) => {
             .catch((message) => {
                 alert(message);
             });
-
-        navigate("/adverts")
+        handleClose();
+        // navigate("/")
     }
 
     return (
@@ -86,7 +86,7 @@ const LoginModal = (props) => {
                             type="button"
                             size="md"
                             onClick={() => sendLoginRequest()}>
-                                Login
+                            Login
                         </Button>
 
                         <Button
@@ -94,7 +94,7 @@ const LoginModal = (props) => {
                             variant="secondary"
                             type="button"
                             onClick={handleClose}>
-                                Exit
+                            Exit
                         </Button>
                     </Col>
                 </Row>

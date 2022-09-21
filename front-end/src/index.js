@@ -8,12 +8,14 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import {BrowserRouter} from "react-router-dom";
 import {UserProvider} from "./UserProvider/UserProvider";
+import Navbar from "./Navbar/Navbar";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
   <React.StrictMode>
     <UserProvider>
+      <Navbar fixed="top"/>
     <App />
     </UserProvider>
   </React.StrictMode>
