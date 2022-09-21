@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {useUser} from "../UserProvider/UserProvider";
 import {useNavigate} from "react-router-dom";
@@ -102,6 +102,17 @@ const SignUpPage = () => {
                                     onChange={(e) => setPassword(e.target.value)}/>
                             </Form.Group>
 
+                            {(confirmPassword !== "" && confirmPassword !== password) ?
+                                (<Form.Group className="mb-3" controlId="formBasicConfirmPassword">
+                                    <Form.Label style={{color:"red"}}>Пароли не совпадают!</Form.Label>
+                                    <Form.Control
+                                        value={confirmPassword}
+                                        type="password"
+                                        placeholder="Password"
+                                        onChange={(e) => setConfirmPassword(e.target.value)}/>
+                                </Form.Group>
+                                ):(
+
                             <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
                                 <Form.Label>Confirm Password</Form.Label>
                                 <Form.Control
@@ -110,6 +121,7 @@ const SignUpPage = () => {
                                     placeholder="Password"
                                     onChange={(e) => setConfirmPassword(e.target.value)}/>
                             </Form.Group>
+                                )}
                             <Row className="justify-content-center">
                                 <Col
                                     className="mt-3 mb-2 d-flex flex-column gap-3 flex-md-row justify-content-md-between">

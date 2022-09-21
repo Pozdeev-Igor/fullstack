@@ -68,13 +68,17 @@ function BasicExample() {
                     {user.jwt ? (
 
                         <NavDropdown title={usersName} id="basic-nav-dropdown">
-                            <NavDropdown.Item onClick={() => {navigate(`/adverts/${toString(user.id)}`)}} >My adverts</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => {
+                                navigate("/:id/adverts")
+                            }}>My adverts</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">
                                 Another action
                             </NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                             <NavDropdown.Divider/>
-                            <NavDropdown.Item onClick={() => {toLogOut()}}>
+                            <NavDropdown.Item onClick={() => {
+                                toLogOut()
+                            }}>
                                 Log out
                             </NavDropdown.Item>
                         </NavDropdown>
@@ -85,16 +89,9 @@ function BasicExample() {
                             }}>Sign In</span>
                         </Navbar.Text>
                     )}
-
-
-                    {/*<Navbar.Text>*/}
-                    {/*    /!*{user.jwt} ?*!/*/}
-                    {/*    Signed in as: <a href="#login">{usersName}</a>*/}
-                    {/*    */}
-                    {/*</Navbar.Text>*/}
                 </Navbar.Collapse>
             </Container>
-            <LoginModal  show={show} handleClose={handleClose} handleShow={handleShow}/>
+            <LoginModal show={show} handleClose={handleClose} handleShow={handleShow}/>
         </Navbar>
     );
 }

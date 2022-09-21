@@ -16,6 +16,11 @@ const LoginModal = (props) => {
         if (user.jwt) navigate("/");
     }, [user]);
 
+    function handleSignUp () {
+        navigate("/registration");
+        handleClose();
+    }
+
     function sendLoginRequest(e) {
         const reqBody = {
             username: username,
@@ -72,7 +77,7 @@ const LoginModal = (props) => {
             <Modal.Footer>
                 <Row className="justify-content-center">
                     <Button variant="link"
-                            onClick={() => navigate("/registration")}>
+                            onClick={() => handleSignUp()}>
                         Sign up
                     </Button>
                 </Row>
