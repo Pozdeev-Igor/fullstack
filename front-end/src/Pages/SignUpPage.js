@@ -32,6 +32,7 @@ const SignUpPage = () => {
         })
             .then(response => response.json());
         navigate("/");
+        alert("check your mailbox");
     }
 
     return (

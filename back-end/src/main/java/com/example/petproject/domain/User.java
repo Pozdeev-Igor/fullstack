@@ -67,9 +67,9 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return  authorities;
     }
-//    public void setAuthorities(List<Authority> authorities) {
-//        this.authorities = authorities;
-//    }
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
+    }
 
     @Override
     public String getPassword() {
