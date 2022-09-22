@@ -23,7 +23,6 @@ function BasicExample() {
             ajax("api/users", "GET", user.jwt).then(usersData => {
                 setUsersName(usersData.name);
                 setId(usersData.id);
-                console.log(usersData);
             })
         }
     }, [user.jwt]);
