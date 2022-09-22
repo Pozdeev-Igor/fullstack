@@ -8,13 +8,21 @@ import Dashboard from "./Pages/Dashboard";
 import SignUpPage from "./Pages/SignUpPage";
 import CategoryView from "./AdminView/Pages/CategoryView";
 import PersonalDashboard from "./Pages/PersonalDashboard";
+import LoginModal from "./Modal/LoginModal";
+import React, {useState} from "react";
 
 function App() {
+
+    const [show, setShow] = useState(() => false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     return (
         <Routes>
 
             <Route path='/' element={<HomePage/>}/>
             <Route path='/login' element={<LoginPage/>}/>
+            <Route path='/activate/*' element={<LoginPage/>}/>
             <Route path='/registration' element={<SignUpPage/>}/>
             <Route path='/adverts/:id' element={<PrivateRoute><AdvertView/></PrivateRoute>}/>
             <Route path='/adverts' element={<PrivateRoute><Dashboard/></PrivateRoute>}/>

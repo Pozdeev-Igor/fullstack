@@ -26,9 +26,18 @@ public class User implements UserDetails {
     private List<Authority> authorities = new ArrayList<>();
     private String email;
     private String name;
+    private String activationCode;
 
     public LocalDate getCohortStartDate() {
         return cohortStartDate;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 
     public void setCohortStartDate(LocalDate cohortStartDate) {

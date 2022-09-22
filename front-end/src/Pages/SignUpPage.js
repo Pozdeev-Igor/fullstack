@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {useUser} from "../UserProvider/UserProvider";
 import {useNavigate} from "react-router-dom";
+import LoginModal from "../Modal/LoginModal";
 
 const SignUpPage = () => {
 
@@ -12,6 +13,10 @@ const SignUpPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+
+    const [show, setShow] = useState(() => false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     function sendSignupRequest(e) {
 
@@ -31,8 +36,10 @@ const SignUpPage = () => {
             body: JSON.stringify(reqBody),
         })
             .then(response => response.json());
-        navigate("/");
         alert("check your mailbox");
+
+        navigate("/");
+        // handleShow();
     }
 
     return (
@@ -104,9 +111,10 @@ const SignUpPage = () => {
                             </Form.Group>
 
                             {(confirmPassword !== "" && confirmPassword !== password) ?
-                                (<Form.Group className="mb-3" controlId="formBasicConfirmPassword">
+                                (<Form.Group className="mb-3" controlId="formBasicConfirmPassword" >
                                     <Form.Label style={{color:"red"}}>Пароли не совпадают!</Form.Label>
                                     <Form.Control
+                                        style={{borderColor:"red", borderWidth:"3px"}}
                                         value={confirmPassword}
                                         type="password"
                                         placeholder="Password"
@@ -142,6 +150,7 @@ const SignUpPage = () => {
                     </Row>
                 </Form>
             </Container>
+            <LoginModal show={show} handleClose={handleClose} handleShow={handleShow}/>
         </div>
     );
 };
