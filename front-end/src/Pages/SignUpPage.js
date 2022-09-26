@@ -1,12 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
-import {useUser} from "../UserProvider/UserProvider";
 import {useNavigate} from "react-router-dom";
 import LoginModal from "../Modal/LoginModal";
 
 const SignUpPage = () => {
 
-    const user = useUser();
+    // const user = useUser();
     const navigate = useNavigate();
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");

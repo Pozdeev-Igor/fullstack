@@ -23,19 +23,15 @@ const AdminMainPage = () => {
                 <td>1</td>
                 <td>Категории</td>
                 <td>Редактировать категории</td>
-                <td><Button onClick={() => navigate("/admin/categories")}>Войти</Button></td>
+                <td><Button onClick={() => navigate("/admin/categories")}>Edit</Button></td>
             </tr>
             <tr>
                 <td>2</td>
                 <td>Пользователи</td>
                 <td>Редактировать пользователей</td>
-                <td><Button onClick={() => navigate("/admin/users")}>Войти</Button></td>
+                <td><Button onClick={() => navigate("/admin/users")}>Edit</Button></td>
             </tr>
-            <tr>
-                <td>3</td>
-                <td colSpan={2}>Larry the Bird</td>
-                <td>@twitter</td>
-            </tr>
+
             </tbody>
         </Table>
     );

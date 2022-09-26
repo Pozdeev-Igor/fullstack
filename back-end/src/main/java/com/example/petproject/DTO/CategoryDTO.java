@@ -1,5 +1,6 @@
 package com.example.petproject.DTO;
 
+import com.example.petproject.domain.Category;
 import com.example.petproject.domain.User;
 
 public class CategoryDTO {
@@ -8,6 +9,14 @@ public class CategoryDTO {
     private String name;
 
     private User createdBy;
+
+    public CategoryDTO() {
+        super();
+    }
+
+    public CategoryDTO(Category category) {
+
+    }
 
     public User getCreatedBy() {
         return createdBy;

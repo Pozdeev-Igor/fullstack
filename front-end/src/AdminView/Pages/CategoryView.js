@@ -8,38 +8,70 @@ const CategoryView = () => {
 
     const user = useUser();
     const [name, setName] = useState("");
-    const [category, setCategory] = useState(null);
+    const [categories, setCategories] = useState([]);
 
-    // function saveCategory() {
-    //     const reqBody = {
-    //         name: name,
-    //     }
-    //     ajax("api/admin/categories", "POST", user.jwt, reqBody)
-    //         .then((data) => {
-    //             if (data) {
-    //                 setCategory(data)
-    //                 console.log(data);
-    //             }
-    //         })
-    // }
+    const navigate = useNavigate();
+
+    function saveCategory() {
+        const reqBody = {
+            name: name,
+        }
+        ajax("/api/admin/categories", "POST", user.jwt, reqBody)
+            .then((data) => {
+                if (data) {
+                    setName("");
+                }
+            });
+    }
+
+    async function getCategories() {
+        const response = await ajax("/api/admin/categories", "GET", user.jwt).then((response) => response);
+        setCategories(response);
+    }
 
     useEffect(() => {
-        ajax("api/admin/categories", "GET", user.jwt)
-            .then((categoryResponse) => categoryResponse.json())
-            .then(data => setCategory(data.name))
-    }, []);
+        getCategories();
+    }, [name]);
 
     return (
         <Form>
             <Form.Group className="mb-3" controlId="formBasicInput">
                 <Form.Label>Category Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter category name" />
+                <Form.Control
+                    value={name}
+                    type="text"
+                    placeholder="Enter category name"
+                    onChange={(e) => setName(e.target.value)}/>
             </Form.Group>
-            <Button variant="primary" type="button" onClick={() => {
-                console.log(category)}}>
+            <Button className="m-3"
+                    variant="primary"
+                    type="button"
+                    onClick={() => {
+                        saveCategory();
+                    }
+                    }
+            >
                 Save
             </Button>
-            {/*<h2>{category.name}</h2>*/}
+
+            <Table striped bordered hover className="mt-5">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Category Name</th>
+                    <th>Usage</th>
+                </tr>
+                </thead>
+                <tbody>
+                {categories && categories.map((category) => (
+                    <tr key={category.id}>
+                        <td>{category.id}</td>
+                        <td>{category.name}</td>
+                        <td><Button onClick={() => navigate(`/admin/categories/${category.id}`)}>Edit</Button></td>
+                    </tr>
+                ))}
+                </tbody>
+            </Table>
         </Form>
     );
 };

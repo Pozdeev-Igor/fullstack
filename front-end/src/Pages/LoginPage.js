@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {useUser} from "../UserProvider/UserProvider";
-import {Button, Col, Container, Form, Row} from "react-bootstrap";
-import LoginModal from "../Modal/LoginModal";
 
 const LoginPage = () => {
 
@@ -10,11 +8,6 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-
-
-    const [show, setShow] = useState(() => false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     useEffect(() => {
         if (user.jwt) navigate("/");

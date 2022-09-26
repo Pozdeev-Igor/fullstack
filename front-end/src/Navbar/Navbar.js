@@ -1,21 +1,38 @@
 import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import logo from "./img/logo.png"
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import ajax from "../services/fetchServise";
 import {useUser} from "../UserProvider/UserProvider";
 import LoginModal from "../Modal/LoginModal";
+import jwt_decode from "jwt-decode";
 
 
 function BasicExample() {
+
+    const {advertId} = useParams();
     const navigate = useNavigate();
     const user = useUser();
     const [usersName, setUsersName] = useState(null);
     const [id, setId] = useState(null);
+    const [advertsId, setAdvertsId] = useState(null);
+    const [roles, setRoles] = useState([]);
 
     const [show, setShow] = useState(() => false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    useEffect(() => {
+        setRoles(getRolesFromJWT());
+    }, [user.jwt]);
+
+    function getRolesFromJWT() {
+        if (user.jwt) {
+            const decodedJwt = jwt_decode(user.jwt);
+            return decodedJwt.authorities;
+        }
+        return [];
+    }
 
 
     useEffect(() => {
@@ -27,9 +44,23 @@ function BasicExample() {
         }
     }, [user.jwt]);
 
+    // useEffect(() => {
+    //     ajax(`api/adverts`, "GET", user.jwt).then(advertsData => {
+    //         console.log(advertsData)
+    //             setAdvertsId(advertsData.id)
+    //         console.log(advertsId)
+    //     })
+    // }, []);
+
     function toLogOut() {
         localStorage.removeItem("jwt");
         window.location.reload();
+    }
+
+    function createAdvert() {
+        ajax("api/adverts", "POST", user.jwt).then((advert) => {
+            navigate(`/adverts/${advert.id}`);
+        })
     }
 
     return (
@@ -47,7 +78,14 @@ function BasicExample() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="#home">New Advert</Nav.Link>
+                        {roles.find((role) => role === "ROLE_ADMIN") ? (
+                        <Nav.Link onClick={() => {navigate("/admin")
+                        }}>ADMIN</Nav.Link>
+                        ) : (
+                            <Nav.Link onClick={() => navigate(`/adverts/${advertsId}`)}>New Advert</Nav.Link>
+                        )
+
+                        }
                         <Nav.Link href="#link">Link</Nav.Link>
                         <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
