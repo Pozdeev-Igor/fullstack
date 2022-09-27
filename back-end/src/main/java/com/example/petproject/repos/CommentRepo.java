@@ -8,6 +8,6 @@ import java.util.Set;
 
 public interface CommentRepo extends JpaRepository<Comment, Long> {
     @Query("select c from Comment c "
-            + " where c.advert.id = :assignmentId")
-    Set<Comment> findByAssignmentId(Long assignmentId);
+            + " where c.advert.id = :advertId")
+    Set<Comment> findByAdvertId(Long advertId);
 }

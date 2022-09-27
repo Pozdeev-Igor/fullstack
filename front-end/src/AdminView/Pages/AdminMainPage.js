@@ -27,6 +27,12 @@ const AdminMainPage = () => {
             </tr>
             <tr>
                 <td>2</td>
+                <td>Подкатегории</td>
+                <td>Редактировать подкатегории</td>
+                <td><Button onClick={() => navigate("/admin/subcategories")}>Edit</Button></td>
+            </tr>
+            <tr>
+                <td>3</td>
                 <td>Пользователи</td>
                 <td>Редактировать пользователей</td>
                 <td><Button onClick={() => navigate("/admin/users")}>Edit</Button></td>

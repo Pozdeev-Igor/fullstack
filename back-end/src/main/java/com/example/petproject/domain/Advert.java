@@ -6,6 +6,7 @@ import javax.persistence.*;
 public class Advert {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     @Column(length = 5000)

@@ -38,8 +38,8 @@ public class CommentService {
         return commentRepo.save(comment);
     }
 
-    public Set<Comment> getCommentsByAssignmentId(Long assignmentId) {
-        Set<Comment> comments = commentRepo.findByAssignmentId(assignmentId);
+    public Set<Comment> getCommentsByAssignmentId(Long advertId) {
+        Set<Comment> comments = commentRepo.findByAdvertId(advertId);
 
         return comments;
     }

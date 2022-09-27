@@ -32,7 +32,7 @@ function BasicExample() {
             return decodedJwt.authorities;
         }
         return [];
-    }
+    };
 
 
     useEffect(() => {
@@ -54,6 +54,7 @@ function BasicExample() {
 
     function toLogOut() {
         localStorage.removeItem("jwt");
+        navigate("/");
         window.location.reload();
     }
 
@@ -82,7 +83,7 @@ function BasicExample() {
                         <Nav.Link onClick={() => {navigate("/admin")
                         }}>ADMIN</Nav.Link>
                         ) : (
-                            <Nav.Link onClick={() => navigate(`/adverts/${advertsId}`)}>New Advert</Nav.Link>
+                            <Nav.Link onClick={() => createAdvert()}>New Advert</Nav.Link>
                         )
 
                         }

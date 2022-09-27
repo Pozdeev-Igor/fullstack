@@ -1,6 +1,7 @@
 package com.example.petproject.domain;
 
 import javax.persistence.*;
+import java.util.Optional;
 
 @Entity
 public class SubCategory {
@@ -12,9 +13,6 @@ public class SubCategory {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-
-//    @OneToMany(fetch = FetchType.EAGER)
-//    private Set<Advert> advertList;
 
     public Long getId() {
         return id;
@@ -32,8 +30,8 @@ public class SubCategory {
         this.name = name;
     }
 
-    public Category getCategory() {
-        return category;
+    public Optional<Category> getCategory() {
+        return Optional.ofNullable(category);
     }
 
     public void setCategory(Category category) {
