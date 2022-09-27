@@ -48,12 +48,12 @@ const EditCategoryView = () => {
             });
     };
 
-    // useEffect(() => {
-    //     if (previousCategoryValue.current.name !== "") {
-    //         persist();
-    //     }
-    //     previousCategoryValue.current = category;
-    // }, []);
+    useEffect(() => {
+        if (previousCategoryValue.current.name !== "") {
+            persist();
+        }
+        previousCategoryValue.current = category;
+    }, []);
 
     useEffect(() => {
         ajax(`/api/admin/categories/${categoryId}`, "GET", user.jwt).then((response) => {
@@ -61,26 +61,13 @@ const EditCategoryView = () => {
                 if (Array.isArray(response)) {
                     setCategory(response && response.map((cat) => cat.category)[0]);
                     setSubCategory(response && response.map((element) => element));
-                    console.log(response && response.map((element) => element))
                 } else {
                     setCategory(response);
-                    console.log(response)
                 }
-
             }
         );
 
-    }, [category]);
-
-    // useEffect(() => {
-    //     ajax(`/api/admin/categories/${categoryId}`, "GET", user.jwt).then((response) => {
-    //             let subCategoryData = response;
-    //             setSubCategory(subCategoryData);
-    //             console.log(subCategory)
-    //         }
-    //     );
-    // }, []);
-
+    }, []);
 
     return (
         <div>
