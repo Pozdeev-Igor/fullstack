@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useUser} from "../../UserProvider/UserProvider";
 import {useNavigate, useParams} from "react-router-dom";
 import ajax from "../../services/fetchServise";
-import {Accordion, Button, Form, Table} from "react-bootstrap";
+import {Accordion, Button, Container, Form, Row, Table} from "react-bootstrap";
 
 const SubCategoryView = () => {
 
@@ -63,80 +63,30 @@ const SubCategoryView = () => {
     return (
         <>
 
-            <Form>
-                <Form.Group className="mb-3" controlId="formBasicInput">
-                    <Form.Label>Category Name</Form.Label>
-                    <Form.Control
-                        value={name}
-                        type="text"
-                        placeholder="Enter category name"
-                        onChange={(e) => setName(e.target.value)}/>
-                </Form.Group>
-                <Button className="m-3"
-                        variant="primary"
-                        type="button"
-                        onClick={() => {
-                            saveCategory();
-                        }
-                        }
-                >
-                    Save
-                </Button>
-            </Form>
+            {/*<Form className="row">*/}
+            {/*    <Form.Group className="mb-3" controlId="formBasicInput">*/}
+            {/*        <Form.Label >Category</Form.Label>*/}
+            {/*        <Form.Control*/}
+            {/*            value={category.name}*/}
+            {/*            type="text"*/}
+            {/*            placeholder="Category name"*/}
+            {/*            onChange={(e) => updateCategory("name", e.target.value)}/>*/}
+            {/*    </Form.Group>*/}
+            {/*    <Container className="col-md-100">*/}
+            {/*        <Row className="col-md-3">*/}
+            {/*            <><Button className="p-2" variant="primary" type="button" onClick={() => save()}>*/}
+            {/*                Submit*/}
+            {/*            </Button></>*/}
+            {/*            <><Button className="p-2 col-md-offset-3" variant="danger" type="button" onClick={() => deleteCategory()}>*/}
+            {/*                Delete*/}
+            {/*            </Button></>*/}
+            {/*        </Row>*/}
+            {/*    </Container>*/}
+            {/*</Form>*/}
 
-            <Accordion>
-                {categories.map((category) => (
-                        <Accordion.Item eventKey="5">
-                            <Accordion.Header>{category.name}</Accordion.Header>
-                            <Accordion.Body>
-
-                                <Form>
-                                    <Form.Group className="mb-3" controlId="formBasicInput">
-                                        <Form.Label>SubCategory Name</Form.Label>
-                                        <Form.Control
-                                            value={name}
-                                            type="text"
-                                            placeholder="Enter subCategory name"
-                                            onChange={(e) => setName(e.target.value)}/>
-                                    </Form.Group>
-                                    <Button className="m-3"
-                                            variant="primary"
-                                            type="button"
-                                            onClick={() => {
-                                                saveSubCategory();
-                                            }
-                                            }
-                                    >
-                                        Save
-                                    </Button>
-                                </Form>
-
-                                <Table striped bordered hover className="mt-5">
-                                    <thead>
-                                    <tr>
-                                        <th>Category id</th>
-                                        <th>SubCategory Name</th>
-                                        <th>Usage</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {subCategories.map((subCategory) => (
-                                        <tr key={subCategory.id}>
-                                            <td>{subCategory.category.id}</td>
-                                            <td>{subCategory.name}</td>
-                                            <td><Button
-                                                onClick={() => navigate(`/admin/categories/${subCategory.id}`)}>Edit</Button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    </tbody>
-                                </Table>
-                            </Accordion.Body>
-                        </Accordion.Item>
                     )
                 )
                 }
-            </Accordion>
         </>
     )
         ;

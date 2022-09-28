@@ -20,7 +20,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/admin")
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"}, allowCredentials = "true")
-public class AdminController {
+public class AdminCategoryController {
 
     @Autowired
     private CategoryService categoryService;
@@ -41,12 +41,6 @@ public class AdminController {
         return ResponseEntity.ok(categories);
     }
 
-    @GetMapping("/subcategories")
-    public ResponseEntity<List<SubCategory>> getSubCategories() {
-        List<SubCategory> subCategories = subCategoryRepository.findAll();
-        return ResponseEntity.ok(subCategories);
-    }
-
     @GetMapping("categories/{categoryId}")
     public ResponseEntity<?> getCategory(@PathVariable Long categoryId, @AuthenticationPrincipal User user) {
         Optional<Category> optionalCategory = categoryService.findById(categoryId);
@@ -59,20 +53,6 @@ public class AdminController {
         }
         return ResponseEntity.ok(optionalCategory);
     }
-
-//    @GetMapping("categories/{categoryId}")
-//    public ResponseEntity<?> getSubcategories(@PathVariable Long categoryId, @AuthenticationPrincipal User user) {
-//        Set<SubCategory> subCategories = subCategoryRepository.findByCategoryId(categoryId);
-//        return ResponseEntity.ok(subCategories);
-//    }
-
-//    @GetMapping("subcategories/{categoryId}")
-//    public ResponseEntity<?> getSubCategories (@PathVariable Long categoryId, @AuthenticationPrincipal User user) {
-//        Set<SubCategory> subCategories = subCategoryRepository.findByCategoryId(categoryId);
-////        Optional<Category> category = categoryService.findById(categoryId);
-//        subCategories.stream().forEach(subCategory -> subCategory.setCategory(categoryService.findById(categoryId).orElse(null)));
-//        return ResponseEntity.ok(subCategories);
-//    }
 
     @PutMapping("categories/{categoryId}")
     public ResponseEntity<?> updateCategory(
@@ -92,7 +72,8 @@ public class AdminController {
         } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Ошибка! На ключ (id)=(" + categoryId + ") всё ещё есть ссылки в таблице \"sub_category\".");
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+
 }
