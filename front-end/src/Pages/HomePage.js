@@ -5,10 +5,12 @@ import {useUser} from "../UserProvider/UserProvider";
 import LoginModal from "../Modal/LoginModal";
 import ajax from "../services/fetchServise";
 import testPicture from "../static/img/testPicture.jpg";
+import jwt_decode from "jwt-decode";
 
 const HomePage = () => {
     const navigate = useNavigate();
     const user = useUser();
+    let decodedJwt = null;
 
     const [adverts, setAdverts] = useState([]);
 
@@ -21,12 +23,12 @@ const HomePage = () => {
         const advertsData = await ajax(`/api/adverts`, "GET", user.jwt).then((advertsData) => advertsData)
         setAdverts(advertsData);
 
-        // console.log(advertsData)
 
     };
 
     useEffect(() => {
         getAdverts();
+
     }, []);
 
     return (
@@ -35,8 +37,13 @@ const HomePage = () => {
                 <Row>
                     {adverts && adverts.map((advert) => (
                         <Col className="" key={advert.id}>
-                            <span style={{cursor:"pointer"}}>
-                                <Card style={{width: '18rem'}} onClick={() => navigate(`/adverts/${advert.id}`)}>
+                            <span style={{cursor: "pointer"}}>
+                                <Card style={{width: '18rem'}} onClick={() => {
+                                    (user.jwt && advert.user.username === jwt_decode(user.jwt).sub) ?
+                                        navigate(`/adverts/${advert.user.id}/${advert.id}`)
+                                        :
+                                        handleShow();
+                                }}>
                                     <Card.Img variant="top" src={testPicture}/>
                                     <Card.Body>
                                         <Card.Title>{advert.title}</Card.Title>
