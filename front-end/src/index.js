@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './static/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -13,12 +13,11 @@ import Navbar from "./Navbar/Navbar";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
-  <React.StrictMode>
-    <UserProvider>
-      <Navbar fixed="top"/>
-    <App />
-    </UserProvider>
-  </React.StrictMode>
+        <React.StrictMode>
+            <UserProvider>
+                <App/>
+            </UserProvider>
+        </React.StrictMode>
     </BrowserRouter>
 );
 

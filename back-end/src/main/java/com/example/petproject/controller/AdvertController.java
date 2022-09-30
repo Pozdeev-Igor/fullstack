@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,6 +24,8 @@ public class AdvertController {
         Advert newAdvert = advertService.save(user);
         return ResponseEntity.ok(newAdvert);
     }
+
+
 
 //    @GetMapping("/{advertId}")
 //    public ResponseEntity<?> getAdvertById(@PathVariable Long advertId, @AuthenticationPrincipal User user) {

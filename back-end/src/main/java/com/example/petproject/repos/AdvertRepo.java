@@ -3,13 +3,13 @@ package com.example.petproject.repos;
 import com.example.petproject.domain.Advert;
 import com.example.petproject.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
-import java.util.Set;
+import java.util.List;
+import java.util.Optional;
 
 public interface AdvertRepo extends JpaRepository<Advert, Long> {
 
-     Set<Advert> findByUser (User user);
+     List<Advert> findByUser (Optional<User> user);
 
 //    @Query("select a from Advert a " +
 //            "where (a.status = 'Submitted' and (a.codeReviewer is null or a.codeReviewer = :codeReviewer))" +

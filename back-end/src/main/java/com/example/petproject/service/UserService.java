@@ -63,5 +63,9 @@ public class UserService {
             mailSender.send(user.getEmail(), "Activation code", message);
         }
     }
+
+    public User findUserById(Long userId) {
+        return userRepo.getReferenceById(userId);
+    }
 }
 

@@ -1,5 +1,5 @@
 import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
-import logo from "./img/logo.png"
+import logo from "../static/img/logo.png"
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import ajax from "../services/fetchServise";
@@ -8,14 +8,14 @@ import LoginModal from "../Modal/LoginModal";
 import jwt_decode from "jwt-decode";
 
 
-function BasicExample() {
+function BasicExample(props) {
 
-    const {advertId} = useParams();
+    // const {advertId} = useParams();
     const navigate = useNavigate();
     const user = useUser();
     const [usersName, setUsersName] = useState(null);
     const [id, setId] = useState(null);
-    const [advertsId, setAdvertsId] = useState(null);
+    // const [advertsId, setAdvertsId] = useState(null);
     const [roles, setRoles] = useState([]);
 
     const [show, setShow] = useState(() => false);
@@ -34,15 +34,20 @@ function BasicExample() {
         return [];
     };
 
-
-    useEffect(() => {
+    function getUsersData() {
         if (user.jwt) {
             ajax("api/users", "GET", user.jwt).then(usersData => {
                 setUsersName(usersData.name);
                 setId(usersData.id);
             })
         }
+    };
+
+    useEffect(() => {
+        getUsersData();
     }, [user.jwt]);
+
+
 
     // useEffect(() => {
     //     ajax(`api/adverts`, "GET", user.jwt).then(advertsData => {
@@ -59,7 +64,7 @@ function BasicExample() {
     }
 
     function createAdvert() {
-        ajax("api/adverts", "POST", user.jwt).then((advert) => {
+        ajax("/api/adverts", "POST", user.jwt).then((advert) => {
             navigate(`/adverts/${advert.id}`);
         })
     }
@@ -103,11 +108,11 @@ function BasicExample() {
                 </Navbar.Collapse>
                 <Navbar.Collapse className="justify-content-end">
 
-                    {user.jwt ? (
+                    {user.jwt && usersName !== null ? (
 
                         <NavDropdown title={usersName} id="basic-nav-dropdown">
                             <NavDropdown.Item onClick={() => {
-                                navigate("/:id/adverts")
+                                navigate(`/users/adverts`)
                             }}>My adverts</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">
                                 Another action
@@ -121,6 +126,7 @@ function BasicExample() {
                             </NavDropdown.Item>
                         </NavDropdown>
                     ) : (
+
                         <Navbar.Text>
                             <span style={{cursor: "pointer"}} onClick={() => {
                                 handleShow()

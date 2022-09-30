@@ -45,7 +45,7 @@ public class AdminCategoryController {
     public ResponseEntity<?> getCategory(@PathVariable Long categoryId, @AuthenticationPrincipal User user) {
         Optional<Category> optionalCategory = categoryService.findById(categoryId);
         Set<SubCategory> subCategories = subCategoryRepository.findByCategoryId(categoryId);
-        if (!subCategories.isEmpty() ) {
+        if (!subCategories.isEmpty()) {
             for (SubCategory sub : subCategories) {
                 sub.setCategory(optionalCategory.orElse(null));
             }
@@ -60,7 +60,9 @@ public class AdminCategoryController {
             @RequestBody Category category,
             @AuthenticationPrincipal User user
     ) {
-        Category updatedCategory = categoryService.save(category);
+        Optional<Category> updatedCategory = categoryService.findById(categoryId);
+        updatedCategory.orElse(null).setName(category.getName());
+        categoryService.save(updatedCategory.orElse(null));
         return ResponseEntity.ok(updatedCategory);
     }
 

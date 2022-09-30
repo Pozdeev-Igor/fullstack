@@ -6,6 +6,7 @@ import com.example.petproject.repos.AdvertRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,5 +24,9 @@ public class AdvertService {
         advert.setUser(user);
 
         return advertRepo.save(advert);
+    }
+
+    public List<Advert> findByUser(Optional<User> user) {
+        return advertRepo.findByUser(user);
     }
 }

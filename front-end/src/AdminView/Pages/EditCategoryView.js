@@ -2,7 +2,8 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useUser} from "../../UserProvider/UserProvider";
 import {useNavigate, useParams} from "react-router-dom";
 import ajax from "../../services/fetchServise";
-import {Accordion, Button, Container, Form, InputGroup, Row, Table} from "react-bootstrap";
+import {Accordion, Button, Col, Container, Form, Row} from "react-bootstrap";
+import TableSubcategories from "../Components/TableSubcategories";
 
 const EditCategoryView = () => {
 
@@ -15,9 +16,9 @@ const EditCategoryView = () => {
         name: "",
     });
 
-    const [subCategoryName, setSubCategoryName] = useState("");
-
-    const [subCategory, setSubCategory] = useState([]);
+    // const [subCategoryName, setSubCategoryName] = useState("");
+    //
+    // const [subCategory, setSubCategory] = useState([]);
 
     const previousCategoryValue = useRef(category);
 
@@ -43,30 +44,17 @@ const EditCategoryView = () => {
         persist();
     }
 
-
-    function saveSubCategory() {
-        const reqBody = {
-            name: subCategoryName,
-        }
-        ajax(`/api/admin/categories/${categoryId}`, "POST", user.jwt, reqBody)
-            .then((data) => {
-                if (data) {
-                    setSubCategoryName("");
-                }
-            });
-    }
-
     function deleteCategory() {
         ajax(`/api/admin/categories/${categoryId}`, "DELETE", user.jwt)
             .then(() => setCategory(null))
         navigate("/admin/categories");
     }
 
-    function deleteSubCategory(subId) {
-        ajax(`/api/admin/categories/${categoryId}/${subId}`, "DELETE", user.jwt)
-        // .then(() => setSubCategory(null))
-
-    }
+    // function deleteSubCategory(subId) {
+    //     ajax(`/api/admin/categories/${categoryId}/${subId}`, "DELETE", user.jwt)
+    //     // .then(() => setSubCategory(null))
+    //
+    // }
 
     function persist() {
         ajax(`/api/admin/categories/${categoryId}`, "PUT", user.jwt, category)
@@ -101,87 +89,48 @@ const EditCategoryView = () => {
 
     useEffect(() => {
         ajax(`/api/admin/categories/${categoryId}`, "GET", user.jwt).then((response) => {
-                let subcategoryData = response;
                 if (Array.isArray(response)) {
                     setCategory(response && response.map((cat) => cat.category)[0]);
-                    setSubCategory(subcategoryData.map((element) => element));
                 } else {
                     setCategory(response);
                 }
             }
         );
-
-    }, [subCategoryName]);
+    }, []);
 
     return (
         <div>
-
             <Accordion defaultActiveKey="1" className=" md-6" style={{width: "700px"}}>
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>
                         <Form className="row">
-                            <Form.Group className="mb-3" controlId="formBasicInput">
-                                <Form.Label>Category</Form.Label>
-                                <Form.Control
-                                    value={category.name}
-                                    type="text"
-                                    placeholder="Category name"
-                                    onChange={(e) => updateCategory("name", e.target.value)}/>
-                            </Form.Group>
-                            <Container className="col-md-100">
-                                <Row className="col-md-3">
-                                    <><Button className="p-2" variant="primary" type="button"
-                                              onClick={() => saveCategory()}>
-                                        Submit
-                                    </Button></>
-                                    <><Button className="p-2 col-md-offset-3" variant="danger" type="button"
-                                              onClick={() => deleteCategory()}>
-                                        Delete
-                                    </Button></>
+                            <Container>
+                                <Row>
+                                    <Col>
+                                        <Form.Control
+                                            value={category.name}
+                                            type="text"
+                                            placeholder="Category name"
+                                            onChange={(e) => updateCategory("name", e.target.value)}/>
+                                    </Col>
+                                    <Col>
+                                        <Button variant="primary" type="button"
+                                                onClick={() => saveCategory()}>
+                                            Submit
+                                        </Button>
+                                    </Col>
+                                    <Col>
+                                        <Button variant="danger" type="button"
+                                                onClick={() => deleteCategory()}>
+                                            Delete
+                                        </Button>
+                                    </Col>
                                 </Row>
                             </Container>
                         </Form>
                     </Accordion.Header>
                     <Accordion.Body>
-                        <Table>
-                            <tbody>
-                            {
-                                subCategory.map((sub) =>
-                                    (
-                                        <tr key={sub.name}>
-                                            <td>{sub.id}</td>
-                                            <td>{sub.name}</td>
-                                            <td>
-                                                <><Button type="button"
-                                                    // onClick={() => saveSubCategory()}
-                                                >Edit</Button></>
-                                            </td>
-                                            <td><><Button type="button" variant="danger"
-                                                          onClick={() => deleteSubCategory(sub.id)}>Delete</Button></>
-                                            </td>
-                                        </tr>
-                                    )
-                                )
-                            }
-                            </tbody>
-                        </Table>
-                        <InputGroup className="mb-3">
-                            <Button
-                                variant="outline-primary"
-                                id="button-addon1"
-                                onClick={() => saveSubCategory()}
-                            >
-                                Save
-                            </Button>
-                            <Form.Control
-                                aria-label="Example text with button addon"
-                                aria-describedby="basic-addon1"
-                                value={subCategoryName}
-                                type="text"
-                                placeholder="Добавить подкатегорию"
-                                onChange={(e) => setSubCategoryName(e.target.value)}
-                            />
-                        </InputGroup>
+                        <TableSubcategories/>
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
