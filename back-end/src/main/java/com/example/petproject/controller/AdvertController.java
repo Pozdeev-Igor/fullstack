@@ -25,6 +25,12 @@ public class AdvertController {
         return ResponseEntity.ok(newAdvert);
     }
 
+    @GetMapping()
+    public ResponseEntity<?> getAllAdverts(@AuthenticationPrincipal User user) {
+        List<Advert> allAdverts = advertService.findAll();
+        return ResponseEntity.ok(allAdverts);
+    }
+
 
 
 //    @GetMapping("/{advertId}")

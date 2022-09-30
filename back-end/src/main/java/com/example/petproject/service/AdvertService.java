@@ -29,4 +29,8 @@ public class AdvertService {
     public List<Advert> findByUser(Optional<User> user) {
         return advertRepo.findByUser(user);
     }
+
+    public List<Advert> findAll() {
+        return advertRepo.findAll();
+    }
 }

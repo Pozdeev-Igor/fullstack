@@ -21,14 +21,12 @@ const PersonalDashboard = (props) => {
         const advertsData = await ajax(`/api/users/adverts`, "GET", user.jwt).then((advertsData) => advertsData)
         setAdverts(advertsData);
 
-        console.log(advertsData)
+        // console.log(advertsData)
 
     };
 
     return (
         <div>
-            <h1>List of adverts by user's id</h1>
-
             <Container className="row-cols-lg-1">
                 <Row>
                     {adverts && adverts.map((advert) => (
