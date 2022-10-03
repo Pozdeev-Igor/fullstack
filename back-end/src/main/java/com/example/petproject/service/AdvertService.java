@@ -19,8 +19,8 @@ public class AdvertService {
         return advertRepo.findById(advertId);
     }
 
-    public Advert save(User user) {
-        Advert advert = new Advert();
+    public Advert save(User user, Advert advert) {
+//        Advert advert = new Advert();
         advert.setUser(user);
 
         return advertRepo.save(advert);

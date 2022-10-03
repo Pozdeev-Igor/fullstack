@@ -42,7 +42,7 @@ public class AdminCategoryController {
     }
 
     @GetMapping("categories/{categoryId}")
-    public ResponseEntity<?> getCategory(@PathVariable Long categoryId, @AuthenticationPrincipal User user) {
+    public ResponseEntity<?> getCategory(@PathVariable java.lang.Long categoryId, @AuthenticationPrincipal User user) {
         Optional<Category> optionalCategory = categoryService.findById(categoryId);
         Set<SubCategory> subCategories = subCategoryRepository.findByCategoryId(categoryId);
         if (!subCategories.isEmpty()) {
@@ -56,7 +56,7 @@ public class AdminCategoryController {
 
     @PutMapping("categories/{categoryId}")
     public ResponseEntity<?> updateCategory(
-            @PathVariable Long categoryId,
+            @PathVariable java.lang.Long categoryId,
             @RequestBody Category category,
             @AuthenticationPrincipal User user
     ) {
@@ -67,7 +67,7 @@ public class AdminCategoryController {
     }
 
     @DeleteMapping("categories/{categoryId}")
-    public ResponseEntity<?> deleteCategory(@PathVariable Long categoryId, @AuthenticationPrincipal User user) {
+    public ResponseEntity<?> deleteCategory(@PathVariable java.lang.Long categoryId, @AuthenticationPrincipal User user) {
         try {
             categoryService.delete(categoryId);
             return ResponseEntity.ok(categoryId);

@@ -2,16 +2,70 @@ package com.example.petproject.DTO;
 
 import com.example.petproject.Enums.AdvertStatusEnum;
 import com.example.petproject.domain.Advert;
+import com.example.petproject.domain.SubCategory;
+
+import java.util.List;
 
 public class AdvertResponseDTO {
 
     private Advert advert;
-//    private AssignmentEnum[] assignmentEnums = AssignmentEnum.values();
+    private String title;
+    private String description;
+    private SubCategory userId;
+    private SubCategory subCategoryId;
+    private List<String> images;
     private AdvertStatusEnum[] statusEnum = AdvertStatusEnum.values();
 
-    public AdvertResponseDTO(Advert assignment) {
+    public AdvertResponseDTO(Advert advert) {
         super();
-        this.advert = assignment;
+        this.advert = advert;
+    }
+
+    public AdvertResponseDTO() {
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public SubCategory getUserId() {
+        return userId;
+    }
+
+    public void setUserId(SubCategory userId) {
+        this.userId = userId;
+    }
+
+    public SubCategory getSubCategoryId() {
+        return subCategoryId;
+    }
+
+    public void setSubCategory(SubCategory subCategoryId) {
+        this.subCategoryId = subCategoryId;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+    public void setStatusEnum(AdvertStatusEnum[] statusEnum) {
+        this.statusEnum = statusEnum;
     }
 
     public Advert getAdvert() {

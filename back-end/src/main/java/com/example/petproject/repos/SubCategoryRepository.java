@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Set;
 
-public interface SubCategoryRepository extends JpaRepository<SubCategory, Long> {
+public interface SubCategoryRepository extends JpaRepository<SubCategory, java.lang.Long> {
 
     @Query("select s from SubCategory s where s.category.id = :categoryId")
-    Set<SubCategory> findByCategoryId(Long categoryId);
+    Set<SubCategory> findByCategoryId(java.lang.Long categoryId);
 }

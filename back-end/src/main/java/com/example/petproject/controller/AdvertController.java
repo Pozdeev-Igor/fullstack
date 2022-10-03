@@ -2,8 +2,10 @@ package com.example.petproject.controller;
 
 import com.example.petproject.DTO.AdvertResponseDTO;
 import com.example.petproject.domain.Advert;
+import com.example.petproject.domain.ImageName;
 import com.example.petproject.domain.User;
 import com.example.petproject.service.AdvertService;
+import com.example.petproject.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/adverts")
@@ -19,10 +20,13 @@ public class AdvertController {
 
     @Autowired
     private AdvertService advertService;
+    @Autowired
+    private ImageService imageService;
 
     @PostMapping()
-    public ResponseEntity<?> createAdvert (@AuthenticationPrincipal User user) {
-        Advert newAdvert = advertService.save(user);
+    public ResponseEntity<?> createAdvert(@AuthenticationPrincipal User user) {
+        Advert newAdvert = new Advert();
+                advertService.save(user, newAdvert);
         return ResponseEntity.ok(newAdvert);
     }
 
@@ -33,11 +37,25 @@ public class AdvertController {
     }
 
     @PutMapping("{advertId}")
-    public ResponseEntity<?> updateAdvert(@AuthenticationPrincipal User user, @PathVariable String advertId) {
-        List<String> fileNames = new ArrayList<>();
-        return null;
+    public ResponseEntity<?> updateAdvert(
+            @AuthenticationPrincipal User user,
+            @PathVariable Long advertId,
+            @RequestBody AdvertResponseDTO advertResponseDTO) {
+        Advert advertFromDB = advertService.findById(advertId).orElse(null);
+        List<String> fileNames = advertResponseDTO.getImages();
+//        advertResponseDTO.
+        for(String imgs : fileNames) {
+        ImageName imageName = new ImageName();
+            imageName.setName(imgs);
+            imageName.setAdvert(advertFromDB);
+            imageService.save(imageName);
+        }
+        advertFromDB.setSubCategory(advertResponseDTO.getSubCategoryId());
+        advertFromDB.setDescription(advertResponseDTO.getDescription());
+        advertFromDB.setTitle(advertResponseDTO.getTitle());
+        advertService.save(user, advertFromDB);
+        return ResponseEntity.ok(advertFromDB);
     }
-
 
 
 //    @GetMapping("/{advertId}")

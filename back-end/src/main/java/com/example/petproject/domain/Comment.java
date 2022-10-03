@@ -1,7 +1,5 @@
 package com.example.petproject.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 

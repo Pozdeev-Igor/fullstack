@@ -2,20 +2,20 @@ import React, {useState} from 'react';
 import ImageUploading from "react-images-uploading";
 import {Alert, Button, ButtonGroup} from "react-bootstrap";
 import ajax from "./fetchServise";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useUser} from "../UserProvider/UserProvider";
 
 const ImageUploader = (props) => {
+    const navigate = useNavigate();
     const user = useUser();
     const {advertId} = useParams();
     const {
         maxNumber = 10,
         acceptType = ["jpeg", "jpg", "png"],
-        maxFileSize = 5000000
+        maxFileSize = 5000000,
+        title, description
     } = props;
     const [images, setImages] = useState([]);
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
     const [subCategoryId, setSubCategoryId] = useState(null);
     const [userId, setUserId] = useState(null);
 
@@ -34,17 +34,19 @@ const ImageUploader = (props) => {
         //     return "<br>" + "&nbsp;".repeat(p1.length);
         // });
 
-        console.log(images);
+        // console.log(images);
+        console.log(title, description);
 
         const reqBody = {
             title: title,
             description: description,
             subCategoryId: subCategoryId,
-            userId: userId,
-            files: images,
+            // userId: userId,
+            images: images.map((img) => img.file.name),
         }
         ajax(`/api/adverts/${advertId}`, "PUT", user.jwt, reqBody)
-
+        console.log(images);
+navigate("/");
     };
     return (
         <div className="App">

@@ -36,7 +36,7 @@ public class AdminSubcategoryController {
 
     @PostMapping("categories/{categoryId}")
     public ResponseEntity<?> saveSubCategory (
-            @PathVariable Long categoryId,
+            @PathVariable java.lang.Long categoryId,
             @RequestBody SubCategory subCategory,
             @AuthenticationPrincipal User user
     ) {
@@ -50,8 +50,8 @@ public class AdminSubcategoryController {
 
     @PutMapping("categories/{categoryId}/{subId}")
     public ResponseEntity<?> updateSubCategory(
-            @PathVariable Long categoryId,
-            @PathVariable Long subId,
+            @PathVariable java.lang.Long categoryId,
+            @PathVariable java.lang.Long subId,
             @RequestBody SubCategory subCategory,
             @AuthenticationPrincipal User user
     ) {
@@ -60,7 +60,7 @@ public class AdminSubcategoryController {
     }
 
     @DeleteMapping("categories/{categoryId}/{subId}")
-    public ResponseEntity<?> deleteSubCategory(@PathVariable Long categoryId, @PathVariable Long subId, @AuthenticationPrincipal User user) {
+    public ResponseEntity<?> deleteSubCategory(@PathVariable java.lang.Long categoryId, @PathVariable java.lang.Long subId, @AuthenticationPrincipal User user) {
         try {
             subCategoryRepository.deleteById(subId);
             return ResponseEntity.ok(subId);

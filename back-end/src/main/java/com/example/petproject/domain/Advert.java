@@ -17,8 +17,8 @@ public class Advert {
     @ManyToOne
     @JoinColumn(name = "sub_category_id")
     private SubCategory subCategory;
-    @Column(length = 5000)
-    private String filename;
+//    @Column(length = 5000)
+//    private String filename;
 
     private String Status;
 
@@ -38,11 +38,11 @@ public class Advert {
         Status = status;
     }
 
-    public Long getId() {
+    public java.lang.Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(java.lang.Long id) {
         this.id = id;
     }
 
@@ -70,11 +70,5 @@ public class Advert {
         this.user = createdBy;
     }
 
-    public String getFilename() {
-        return filename;
-    }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
 }
