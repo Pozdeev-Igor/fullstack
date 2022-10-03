@@ -38,7 +38,7 @@ const HomePage = () => {
                     {adverts && adverts.map((advert) => (
                         <Col className="" key={advert.id}>
                             <span style={{cursor: "pointer"}}>
-                                <Card style={{width: '18rem'}} onClick={() => {
+                                <Card style={{width: '18rem', marginTop:'30px'}} onClick={() => {
                                     (user.jwt && advert.user.username === jwt_decode(user.jwt).sub) ?
                                         navigate(`/adverts/${advert.user.id}/${advert.id}`)
                                         :
