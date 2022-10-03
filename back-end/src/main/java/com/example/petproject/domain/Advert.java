@@ -17,6 +17,7 @@ public class Advert {
     @ManyToOne
     @JoinColumn(name = "sub_category_id")
     private SubCategory subCategory;
+    @Column(length = 5000)
     private String filename;
 
     private String Status;

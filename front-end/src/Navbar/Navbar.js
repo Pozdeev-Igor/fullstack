@@ -10,12 +10,10 @@ import jwt_decode from "jwt-decode";
 
 function BasicExample(props) {
 
-    // const {advertId} = useParams();
     const navigate = useNavigate();
     const user = useUser();
     const [usersName, setUsersName] = useState(null);
     const [id, setId] = useState(null);
-    // const [advertsId, setAdvertsId] = useState(null);
     const [roles, setRoles] = useState([]);
 
     const [show, setShow] = useState(() => false);

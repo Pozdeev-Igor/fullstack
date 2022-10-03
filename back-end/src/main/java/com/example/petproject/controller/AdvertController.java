@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,12 @@ public class AdvertController {
     public ResponseEntity<?> getAllAdverts(@AuthenticationPrincipal User user) {
         List<Advert> allAdverts = advertService.findAll();
         return ResponseEntity.ok(allAdverts);
+    }
+
+    @PutMapping("{advertId}")
+    public ResponseEntity<?> updateAdvert(@AuthenticationPrincipal User user, @PathVariable String advertId) {
+        List<String> fileNames = new ArrayList<>();
+        return null;
     }
 
 

@@ -3,7 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import LoginPage from "./Pages/LoginPage";
 import HomePage from "./Pages/HomePage";
 import PrivateRoute from "./customRoutes/PrivateRoute";
-import AdvertView from "./Pages/AdvertView";
+import NewAdvertView from "./Pages/NewAdvertView";
 import Dashboard from "./Pages/Dashboard";
 import SignUpPage from "./Pages/SignUpPage";
 import CategoryView from "./AdminView/Pages/CategoryView";
@@ -31,7 +31,7 @@ function App() {
                 <Route path='/login' element={<LoginPage/>}/>
                 <Route path='/activate/*' element={<LoginPage/>}/>
                 <Route path='/registration' element={<SignUpPage/>}/>
-                <Route path='/adverts/:userId/:advertId' element={<PrivateRoute><AdvertView/></PrivateRoute>}/>
+                <Route path='/adverts/new/:advertId' element={<PrivateRoute><NewAdvertView/></PrivateRoute>}/>
                 <Route path='/adverts' element={<PrivateRoute><Dashboard/></PrivateRoute>}/>
                 <Route path='/users/adverts' element={<PrivateRoute><PersonalDashboard/></PrivateRoute>}/>
                 <Route path='/admin/categories' element={<PrivateRoute><CategoryView/></PrivateRoute>}/>
