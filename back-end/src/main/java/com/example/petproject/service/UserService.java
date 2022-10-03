@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -66,6 +67,10 @@ public class UserService {
 
     public User findUserById(Long userId) {
         return userRepo.getReferenceById(userId);
+    }
+
+    public List<User> findAll() {
+        return userRepo.findAll();
     }
 }
 

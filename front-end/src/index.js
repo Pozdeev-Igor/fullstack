@@ -8,7 +8,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import {BrowserRouter} from "react-router-dom";
 import {UserProvider} from "./UserProvider/UserProvider";
-import Navbar from "./Navbar/Navbar";
+import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

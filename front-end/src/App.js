@@ -16,6 +16,7 @@ import EditCategoryView from "./AdminView/Pages/EditCategoryView";
 import EditSubCategoryView from "./AdminView/Pages/EditSubCategoryView";
 import SubCategoryView from "./AdminView/Pages/SubCategoryView";
 import Navbar from "./Navbar/Navbar";
+import Footer from "./Footer/Footer";
 
 function App() {
     const user = useUser();
@@ -36,11 +37,11 @@ function App() {
                 <Route path='/admin/categories' element={<PrivateRoute><CategoryView/></PrivateRoute>}/>
                 <Route path='/admin/subcategories' element={<PrivateRoute><SubCategoryView/></PrivateRoute>}/>
                 <Route path='/admin/categories/:categoryId' element={<PrivateRoute><EditCategoryView/></PrivateRoute>}/>
-                <Route path='/admin/subcategories/:categoryId'
-                       element={<PrivateRoute><EditSubCategoryView/></PrivateRoute>}/>
+                {/*<Route path='/admin/subcategories/:categoryId' element={<PrivateRoute><EditSubCategoryView/></PrivateRoute>}/>*/}
                 <Route path='/admin/users' element={<PrivateRoute><UsersView/></PrivateRoute>}/>
                 <Route path='/admin' element={<PrivateRoute><AdminMainPage/></PrivateRoute>}/>
             </Routes>
+            <Footer fixed="bottom"/>
         </>
     );
 }

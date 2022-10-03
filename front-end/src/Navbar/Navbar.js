@@ -66,7 +66,7 @@ function BasicExample(props) {
     function createAdvert() {
         ajax("/api/adverts", "POST", user.jwt).then((advert) => {
             if (user.jwt && usersName !== null ){
-            navigate(`/adverts/${advert.id}`);
+            navigate(`/adverts/new/${advert.id}`);
             } else handleShow();
 
         })

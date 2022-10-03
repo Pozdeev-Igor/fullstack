@@ -15,27 +15,27 @@ const AdminMainPage = () => {
                 <th>#</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Usage</th>
+                {/*<th>Usage</th>*/}
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr  style={{cursor:"pointer"}} onClick={() => navigate("/admin/categories")}>
                 <td>1</td>
                 <td>Категории</td>
                 <td>Редактировать категории</td>
-                <td><Button onClick={() => navigate("/admin/categories")}>Edit</Button></td>
+                {/*<td><Button onClick={() => navigate("/admin/categories")}>Edit</Button></td>*/}
             </tr>
-            <tr>
+            {/*<tr style={{cursor:"pointer"}} onClick={() => navigate("/admin/subcategories")}>*/}
+            {/*    <td>2</td>*/}
+            {/*    <td>Подкатегории</td>*/}
+            {/*    <td>Редактировать подкатегории</td>*/}
+            {/*    /!*<td><Button onClick={() => navigate("/admin/subcategories")}>Edit</Button></td>*!/*/}
+            {/*</tr>*/}
+            <tr  style={{cursor:"pointer"}} onClick={() => navigate("/admin/users")}>
                 <td>2</td>
-                <td>Подкатегории</td>
-                <td>Редактировать подкатегории</td>
-                <td><Button onClick={() => navigate("/admin/subcategories")}>Edit</Button></td>
-            </tr>
-            <tr>
-                <td>3</td>
                 <td>Пользователи</td>
                 <td>Редактировать пользователей</td>
-                <td><Button onClick={() => navigate("/admin/users")}>Edit</Button></td>
+                {/*<td><Button onClick={() => navigate("/admin/users")}>Edit</Button></td>*/}
             </tr>
 
             </tbody>

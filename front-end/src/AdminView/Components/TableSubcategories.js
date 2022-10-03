@@ -38,7 +38,7 @@ const TableSubcategories = () => {
             }
         );
 
-    }, [subCategoryName]);
+    }, [subCategory]);
 
 
     return (

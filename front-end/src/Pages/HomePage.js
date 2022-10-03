@@ -29,7 +29,7 @@ const HomePage = () => {
     useEffect(() => {
         getAdverts();
 
-    }, []);
+    }, [adverts]);
 
     return (
         <div>
