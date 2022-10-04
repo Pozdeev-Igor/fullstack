@@ -3,7 +3,10 @@ import {Container} from "react-bootstrap";
 import {useUser} from "../UserProvider/UserProvider";
 import ImageUploader from "../services/ImageUploader";
 import {
-    MDBInput, MDBTable,
+    MDBBtn,
+    MDBCheckbox, MDBCollapse,
+    MDBInput, MDBRadio,
+    MDBTable,
     MDBTableBody,
     MDBTabs,
     MDBTabsContent,
@@ -13,7 +16,6 @@ import {
     MDBTextArea
 } from "mdb-react-ui-kit";
 import ajax from "../services/fetchServise";
-import SubcategoriesList from "./Components/SubcategoriesList";
 
 const NewAdvertView = () => {
     const user = useUser();
@@ -22,6 +24,14 @@ const NewAdvertView = () => {
     const [subCategory, setSubCategory] = useState([]);
     const [category, setCategory] = useState([]);
     const [values, setValues] = useState([]);
+
+    const [showShow, setShowShow] = useState(false);
+
+    function toggleShow() {
+
+
+        setShowShow(!showShow);
+    }
 
 
     const [basicActive, setBasicActive] = useState('tab1');
@@ -32,20 +42,14 @@ const NewAdvertView = () => {
         }
         setBasicActive(value);
         setValues(category.map((cat) => cat.id))
-        console.log(value.toString());
 
 
-    // console.log(category.map((cat) => cat.id))
-            ajax(`/api/admin/categories/${value}`, "GET", user.jwt).then((response) => {
-                    let subcategoryData = response;
-                    setSubCategory(subcategoryData);
-                console.log(subCategory)
-                }
-            );
-
-
-
-        };
+        ajax(`/api/admin/categories/${value}`, "GET", user.jwt).then((response) => {
+                let subcategoryData = response;
+                setSubCategory(subcategoryData);
+            }
+        );
+    };
 
     useEffect(() => {
         ajax(`/api/admin/categories`, "GET", user.jwt).then((response) => {
@@ -72,18 +76,20 @@ const NewAdvertView = () => {
                         ))}
                     </MDBTabs>
                     <MDBTabsContent>
-                        {/*{category.map((cat) => (*/}
-
-                        {/*<MDBTabsPane key={cat.id} show={basicActive === `${cat.id}`}>{cat.name}</MDBTabsPane>*/}
-                        {/*))}*/}
                         <MDBTable>
-                                {subCategory.map((sub) => (
-                            <MDBTableBody  key={sub.id}>
+                            {subCategory.map((sub) => (
+                                <MDBTableBody key={sub.id}>
 
-                                    <td>{sub.name}</td>
+                                    <td>
+                                        <MDBRadio
+                                            name='flexRadioDefault'
+                                            value=''
+                                            id='flexRadioDefault1'
+                                            label={`${sub.name}`}/>
+                                    </td>
 
-                            </MDBTableBody>
-                                ))}
+                                </MDBTableBody>
+                            ))}
                         </MDBTable>
                         <MDBTabsPane show={basicActive === 'tab2'}>Tab 2 content</MDBTabsPane>
                         <MDBTabsPane show={basicActive === 'tab3'}>Tab 3 content</MDBTabsPane>
@@ -103,8 +109,10 @@ const NewAdvertView = () => {
                     rows={4}
                     style={{marginTop: "30px", marginBottom: "30px"}}
                     onChange={(e) => setDescription(e.target.value)}/>
-
-                <ImageUploader title={title} description={description}/>
+                    <MDBBtn className="btn-lg" style={{marginBottom:"30px", marginLeft:"40%"}} onClick={toggleShow}>Continue</MDBBtn>
+                    <MDBCollapse show={showShow}>
+                        <ImageUploader title={title} description={description}/>
+                    </MDBCollapse>
             </Container>
         </div>
     );
