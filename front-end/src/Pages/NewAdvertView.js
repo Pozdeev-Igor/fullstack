@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {Container} from "react-bootstrap";
+import {Container, FormCheck} from "react-bootstrap";
 import {useUser} from "../UserProvider/UserProvider";
 import ImageUploader from "../services/ImageUploader";
 import {
     MDBBtn,
-    MDBCheckbox, MDBCollapse,
-    MDBInput, MDBRadio,
+    MDBCollapse,
+    MDBInput,
+    MDBRadio,
     MDBTable,
     MDBTableBody,
     MDBTabs,
     MDBTabsContent,
     MDBTabsItem,
-    MDBTabsLink,
-    MDBTabsPane,
+    MDBTabsLink, MDBTabsPane,
     MDBTextArea
 } from "mdb-react-ui-kit";
 import ajax from "../services/fetchServise";
@@ -23,27 +23,32 @@ const NewAdvertView = () => {
     const [description, setDescription] = useState("");
     const [subCategory, setSubCategory] = useState([]);
     const [category, setCategory] = useState([]);
-    const [values, setValues] = useState([]);
+    // const [values, setValues] = useState([]);
+    const [subCategoryId, setSubCategoryId] = useState(null);
 
     const [showShow, setShowShow] = useState(false);
 
+    const [item, setItem] = useState({ kindOfStand: "", another: "another" });
+    const { kindOfStand } = item;
+    const handleChange = e => {
+        e.persist();
+        setItem(prevState => ({...prevState, kindOfStand: e.target.value}));
+        setSubCategoryId(e.target.value);
+    };
+
     function toggleShow() {
-
-
         setShowShow(!showShow);
     }
 
+    const [basicActive, setBasicActive] = useState('');
 
-    const [basicActive, setBasicActive] = useState('tab1');
-
-    const handleBasicClick = (value: String) => {
+    const handleBasicClick = (value: any) => {
         if (value === basicActive) {
             return;
         }
         setBasicActive(value);
-        setValues(category.map((cat) => cat.id))
-
-
+        // setValues(category.map((cat) => cat.id))
+        // console.log(values, value)
         ajax(`/api/admin/categories/${value}`, "GET", user.jwt).then((response) => {
                 let subcategoryData = response;
                 setSubCategory(subcategoryData);
@@ -56,8 +61,7 @@ const NewAdvertView = () => {
                 setCategory(response);
             }
         );
-    }, [category]);
-
+    }, []);
 
     return (
         <div className="w-75">
@@ -79,20 +83,22 @@ const NewAdvertView = () => {
                         <MDBTable>
                             {subCategory.map((sub) => (
                                 <MDBTableBody key={sub.id}>
-
-                                    <td>
-                                        <MDBRadio
-                                            name='flexRadioDefault'
-                                            value=''
-                                            id='flexRadioDefault1'
-                                            label={`${sub.name}`}/>
-                                    </td>
-
+                                    <tr>
+                                        <td>
+                                            <FormCheck
+                                                type="radio"
+                                                name='SubcategorySelection'
+                                                id='flexRadioDefault1'
+                                                label={`${sub.name}`}
+                                                value={`${sub.id}`}
+                                                onChange={handleChange}
+                                                // checked={kindOfStand === `${sub.name[0]}`}
+                                            />
+                                        </td>
+                                    </tr>
                                 </MDBTableBody>
                             ))}
                         </MDBTable>
-                        <MDBTabsPane show={basicActive === 'tab2'}>Tab 2 content</MDBTabsPane>
-                        <MDBTabsPane show={basicActive === 'tab3'}>Tab 3 content</MDBTabsPane>
                     </MDBTabsContent>
                 </>
 
@@ -109,10 +115,11 @@ const NewAdvertView = () => {
                     rows={4}
                     style={{marginTop: "30px", marginBottom: "30px"}}
                     onChange={(e) => setDescription(e.target.value)}/>
-                    <MDBBtn className="btn-lg" style={{marginBottom:"30px", marginLeft:"40%"}} onClick={toggleShow}>Continue</MDBBtn>
-                    <MDBCollapse show={showShow}>
-                        <ImageUploader title={title} description={description}/>
-                    </MDBCollapse>
+                <MDBBtn className="btn-lg" style={{marginBottom: "30px", marginLeft: "40%"}}
+                        onClick={toggleShow}>Continue</MDBBtn>
+                <MDBCollapse show={showShow}>
+                    <ImageUploader title={title} description={description} subCategoryId={subCategoryId}/>
+                </MDBCollapse>
             </Container>
         </div>
     );

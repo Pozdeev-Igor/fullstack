@@ -12,7 +12,7 @@ public class AdvertResponseDTO {
     private String title;
     private String description;
     private SubCategory userId;
-    private SubCategory subCategoryId;
+    private Long subCategoryId;
     private List<String> images;
     private AdvertStatusEnum[] statusEnum = AdvertStatusEnum.values();
 
@@ -48,13 +48,13 @@ public class AdvertResponseDTO {
         this.userId = userId;
     }
 
-    public SubCategory getSubCategoryId() {
+    public Long getSubCategoryId() {
         return subCategoryId;
     }
 
-    public void setSubCategory(SubCategory subCategoryId) {
-        this.subCategoryId = subCategoryId;
-    }
+//    public void setSubCategory(Long subCategoryId) {
+//        this.subCategoryId = subCategoryId;
+//    }
 
     public List<String> getImages() {
         return images;

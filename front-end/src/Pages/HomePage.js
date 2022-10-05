@@ -28,8 +28,8 @@ const HomePage = () => {
 
     useEffect(() => {
         getAdverts();
-
-    }, [adverts]);
+        console.log(adverts)
+    }, []);
 
     return (
         <div>

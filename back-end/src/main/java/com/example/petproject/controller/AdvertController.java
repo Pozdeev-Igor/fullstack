@@ -3,7 +3,9 @@ package com.example.petproject.controller;
 import com.example.petproject.DTO.AdvertResponseDTO;
 import com.example.petproject.domain.Advert;
 import com.example.petproject.domain.ImageName;
+import com.example.petproject.domain.SubCategory;
 import com.example.petproject.domain.User;
+import com.example.petproject.repos.SubCategoryRepository;
 import com.example.petproject.service.AdvertService;
 import com.example.petproject.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class AdvertController {
     private AdvertService advertService;
     @Autowired
     private ImageService imageService;
+    @Autowired
+    private SubCategoryRepository subCategoryRepository;
 
     @PostMapping()
     public ResponseEntity<?> createAdvert(@AuthenticationPrincipal User user) {
@@ -36,21 +40,21 @@ public class AdvertController {
         return ResponseEntity.ok(allAdverts);
     }
 
-    @PutMapping("{advertId}")
+    @PutMapping("/{advertId}")
     public ResponseEntity<?> updateAdvert(
             @AuthenticationPrincipal User user,
             @PathVariable Long advertId,
             @RequestBody AdvertResponseDTO advertResponseDTO) {
-        Advert advertFromDB = advertService.findById(advertId).orElse(null);
+        Advert advertFromDB = advertService.findById(advertId).get();
         List<String> fileNames = advertResponseDTO.getImages();
-//        advertResponseDTO.
         for(String imgs : fileNames) {
         ImageName imageName = new ImageName();
             imageName.setName(imgs);
             imageName.setAdvert(advertFromDB);
             imageService.save(imageName);
         }
-        advertFromDB.setSubCategory(advertResponseDTO.getSubCategoryId());
+        SubCategory subCategoryFromDB = subCategoryRepository.findById(advertResponseDTO.getSubCategoryId()).get();
+        advertFromDB.setSubCategory(subCategoryFromDB);
         advertFromDB.setDescription(advertResponseDTO.getDescription());
         advertFromDB.setTitle(advertResponseDTO.getTitle());
         advertService.save(user, advertFromDB);

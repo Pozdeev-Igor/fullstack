@@ -7,7 +7,7 @@ public class ImageName {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(length = 15000)
+    @Column(columnDefinition = "TEXT")
     private String name;
     @ManyToOne
     @JoinColumn(name = "advert_id")

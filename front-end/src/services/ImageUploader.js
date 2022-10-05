@@ -13,11 +13,9 @@ const ImageUploader = (props) => {
         maxNumber = 10,
         acceptType = ["jpeg", "jpg", "png"],
         maxFileSize = 5000000,
-        title, description
+        title, description, subCategoryId
     } = props;
     const [images, setImages] = useState([]);
-    const [subCategoryId, setSubCategoryId] = useState(null);
-    const [userId, setUserId] = useState(null);
 
     const onChange = (imageList, addUpdateIndex) => {
         setImages(imageList);
@@ -35,17 +33,15 @@ const ImageUploader = (props) => {
         // });
 
         // console.log(images);
-        console.log(title, description);
+        console.log(subCategoryId);
 
         const reqBody = {
             title: title,
             description: description,
-            subCategoryId: subCategoryId,
-            // userId: userId,
-            images: images.map((img) => img.file.name),
+            subCategoryId: parseInt(subCategoryId),
+            images: images.map((img) => img.data_url),
         }
         ajax(`/api/adverts/${advertId}`, "PUT", user.jwt, reqBody)
-        console.log(images);
 navigate("/");
     };
     return (
