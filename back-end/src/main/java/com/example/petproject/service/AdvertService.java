@@ -33,4 +33,5 @@ public class AdvertService {
     public List<Advert> findAll() {
         return advertRepo.findAll();
     }
+
 }

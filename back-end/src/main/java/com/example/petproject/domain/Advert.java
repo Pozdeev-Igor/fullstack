@@ -17,8 +17,11 @@ public class Advert {
     @ManyToOne
     @JoinColumn(name = "sub_category_id")
     private SubCategory subCategory;
-//    @Column(length = 5000)
-//    private String filename;
+
+//    @OneToMany(mappedBy = "advert", targetEntity = ImageName.class)
+//    private List<ImageName> images;
+    @Transient
+    private String image;
 
     private String Status;
 
@@ -70,5 +73,21 @@ public class Advert {
         this.user = createdBy;
     }
 
+//    public JSONArray getImages() {
+//        return images;
+//    }
+//
+//    public void setImages(JSONArray images) {
+//        this.images = images;
+//    }
+
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
 }

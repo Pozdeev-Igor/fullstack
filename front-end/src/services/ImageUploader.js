@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ImageUploading from "react-images-uploading";
 import {Alert, Button, ButtonGroup} from "react-bootstrap";
 import ajax from "./fetchServise";
 import {useNavigate, useParams} from "react-router-dom";
 import {useUser} from "../UserProvider/UserProvider";
+import loginPage from "../Pages/LoginPage";
 
 const ImageUploader = (props) => {
     const navigate = useNavigate();
@@ -44,6 +45,7 @@ const ImageUploader = (props) => {
         ajax(`/api/adverts/${advertId}`, "PUT", user.jwt, reqBody)
 navigate("/");
     };
+
     return (
         <div className="App">
             <ImageUploading

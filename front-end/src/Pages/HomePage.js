@@ -4,7 +4,6 @@ import {useNavigate} from "react-router-dom";
 import {useUser} from "../UserProvider/UserProvider";
 import LoginModal from "../Modal/LoginModal";
 import ajax from "../services/fetchServise";
-import testPicture from "../static/img/testPicture.jpg";
 import jwt_decode from "jwt-decode";
 
 const HomePage = () => {
@@ -13,6 +12,7 @@ const HomePage = () => {
     let decodedJwt = null;
 
     const [adverts, setAdverts] = useState([]);
+    const [images, setImages] = useState([]);
 
     const [show, setShow] = useState(() => false);
     const handleClose = () => setShow(false);
@@ -22,20 +22,23 @@ const HomePage = () => {
     async function getAdverts() {
         const advertsData = await ajax(`/api/adverts`, "GET", user.jwt).then((advertsData) => advertsData)
         setAdverts(advertsData);
-
-
     };
+
+    async function getImages() {
+        const imageData = await ajax("/api/images", "GET", user.jwt).then((imageData) => imageData)
+        setImages(imageData);
+    }
 
     useEffect(() => {
         getAdverts();
-        console.log(adverts)
-    }, []);
+        getImages();
+    }, [adverts]);
 
     return (
         <div>
             <Container className="row-cols-lg-1">
                 <Row>
-                    {adverts && adverts.map((advert) => (
+                    {adverts.map((advert) => (
                         <Col className="" key={advert.id}>
                             <Card style={{width: '18rem', marginTop: '30px', cursor: "pointer"}} onClick={() => {
                                 (user.jwt && advert.user.username === jwt_decode(user.jwt).sub) ?
@@ -43,7 +46,8 @@ const HomePage = () => {
                                     :
                                     handleShow();
                             }}>
-                                <Card.Img variant="top" src={testPicture}/>
+
+                                <Card.Img key={advert.id} variant="top" src={advert.image}/>
                                 <Card.Body>
                                     <Card.Title>{advert.title}</Card.Title>
                                     <Card.Text>

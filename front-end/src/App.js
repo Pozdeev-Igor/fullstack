@@ -13,7 +13,6 @@ import {useUser} from "./UserProvider/UserProvider";
 import AdminMainPage from "./AdminView/Pages/AdminMainPage";
 import UsersView from "./AdminView/Pages/UsersView";
 import EditCategoryView from "./AdminView/Pages/EditCategoryView";
-import EditSubCategoryView from "./AdminView/Pages/EditSubCategoryView";
 import SubCategoryView from "./AdminView/Pages/SubCategoryView";
 import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Footer";
