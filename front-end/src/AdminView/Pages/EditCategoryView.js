@@ -30,13 +30,6 @@ const EditCategoryView = () => {
         setCategory(newCategory);
     }
 
-    // function updateSubCategory(prop, value) {
-    //     const newSubCategoryName = {...[subCategory.map((sub) => sub.name)]};
-    //     newSubCategoryName[prop] = value;
-    //     console.log(newSubCategoryName)
-    //     setSubCategory(subCategory.map((sub) => sub.name === newSubCategoryName));
-    // }
-
     function saveCategory() {
         if (previousCategoryValue.current.name !== category.name) {
             updateCategory("name", category.name);
@@ -63,29 +56,12 @@ const EditCategoryView = () => {
             });
     };
 
-    // function subPersist(subId) {
-    //     ajax(`/api/admin/categories/${categoryId}/${subId}`, "PUT", user.jwt, subCategory[0])
-    //         .then((subCategoryData) => {
-    //             setSubCategory(subCategoryData);
-    //         });
-    // };
-
-
     useEffect(() => {
         if (previousCategoryValue.current.name !== "") {
             persist();
         }
         previousCategoryValue.current = category;
     }, []);
-
-
-    // useEffect(() => {
-    //     if (previousSubCategoryValue.current.name !== "") {
-    //         subPersist();
-    //     }
-    //     previousSubCategoryValue.current = subCategory.map((sub) => sub.name);
-    // }, []);
-
 
     useEffect(() => {
         ajax(`/api/admin/categories/${categoryId}`, "GET", user.jwt).then((response) => {

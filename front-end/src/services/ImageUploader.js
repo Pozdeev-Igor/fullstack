@@ -25,16 +25,7 @@ const ImageUploader = (props) => {
         setImages([]);
     };
     const uploadFiles = () => {
-        // document.getElementById("jsonprint").innerHTML = JSON.stringify(
-        //     images,
-        //     null,
-        //     6
-        // ).replace(/\n( *)/g, function (match, p1) {
-        //     return "<br>" + "&nbsp;".repeat(p1.length);
-        // });
 
-        // console.log(images);
-        console.log(subCategoryId);
 
         const reqBody = {
             title: title,

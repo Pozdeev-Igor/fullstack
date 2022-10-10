@@ -57,34 +57,26 @@ public class AdvertController {
         return ResponseEntity.ok(allAdverts);
     }
 
-    @PutMapping("/{advertId}")
+    @PostMapping("/{advertId}")
     @ResponseBody
-    public ResponseEntity<?> updateAdvert(
+    public ResponseEntity<?> totalCreateAdvert(
             @AuthenticationPrincipal User user,
             @PathVariable Long advertId,
             @RequestBody AdvertResponseDTO advertResponseDTO) {
         Advert advertFromDB = advertService.findById(advertId).get();
         List<String> fileNames = advertResponseDTO.getImages();
+
         for (String imgs : fileNames) {
             ImageName imageName = new ImageName();
             imageName.setName(imgs);
             imageName.setAdvert(advertFromDB);
             imageService.save(imageName);
         }
+
         SubCategory subCategoryFromDB = subCategoryRepository.findById(advertResponseDTO.getSubCategoryId()).get();
         advertFromDB.setSubCategory(subCategoryFromDB);
         advertFromDB.setDescription(advertResponseDTO.getDescription());
         advertFromDB.setTitle(advertResponseDTO.getTitle());
-
-//        List<ImageName> imageNames = imageService.getByAdvertId(advertFromDB.getId());
-//            List<ImageName> images = new ArrayList<>();
-//        JSONArray jsonArray = new JSONArray();
-        //            images.add(image.getName());
-        //            String str = image.getName();
-//        jsonArray.addAll(imageNames);
-//        System.out.println(jsonArray);
-//            advertFromDB.setImages(jsonArray);
-//        advertFromDB.setImages(imageService.getByAdvertId(advertFromDB.getId()));
 
         advertService.save(user, advertFromDB);
         return ResponseEntity.ok(advertFromDB);
@@ -96,5 +88,16 @@ public class AdvertController {
         Optional<Advert> optionalAdvert = advertService.findById(advertId);
 //        AdvertResponseDTO response = new AdvertResponseDTO(optionalAdvert.orElse(new Advert()));
         return ResponseEntity.ok(optionalAdvert);
+    }
+
+    @PutMapping("{advertId}")
+    public ResponseEntity<?> updateAdvert(@AuthenticationPrincipal User user,
+                                          @PathVariable Long advertId,
+                                          @RequestBody AdvertResponseDTO advert) {
+        Advert advertFromDB = advertService.findById(advertId).get();
+        advertFromDB.setTitle(advert.getTitle());
+        advertFromDB.setDescription(advert.getDescription());
+        advertService.save(user, advertFromDB);
+        return ResponseEntity.ok(advertFromDB);
     }
 }

@@ -47,8 +47,6 @@ const NewAdvertView = () => {
             return;
         }
         setBasicActive(value);
-        // setValues(category.map((cat) => cat.id))
-        // console.log(values, value)
         ajax(`/api/admin/categories/${value}`, "GET", user.jwt).then((response) => {
                 let subcategoryData = response;
                 setSubCategory(subcategoryData);

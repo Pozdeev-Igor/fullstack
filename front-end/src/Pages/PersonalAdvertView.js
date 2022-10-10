@@ -10,8 +10,6 @@ const PersonalAdvertView = () => {
     const {advertId} = useParams();
     const [imageList, setImageList] = useState([]);
     const [show, setShow] = useState(false);
-    const [showShow, setShowShow] = useState(false);
-    const divRef = useRef(null);
     const [advert, setAdvert] = useState({
         title: "",
         description: "",
@@ -29,12 +27,35 @@ const PersonalAdvertView = () => {
         setAdvert(newAdvert);
     }
 
+    function saveTitle() {
+        if (previousAdvertValue.current.title !== advert.title) {
+            updateAdvert("title", advert.title);
+        }
+        persist();
+    }
 
+    function saveDescription() {
+        if (previousAdvertValue.current.description !== advert.description) {
+            updateAdvert("description", advert.description);
+        }
+        persist();
+    }
     useEffect(() => {
         ajax(`/api/adverts/${advertId}`, "GET", user.jwt).then((response) => {
             setAdvert(response);
         })
     }, [advertId, user.jwt]);
+
+    const persist = () => {
+        const reqBody = {
+            title: advert.title,
+            description: advert.description,
+        }
+        console.log(reqBody)
+        ajax(`/api/adverts/${advertId}`, "PUT", user.jwt, reqBody)
+        // window.location.reload();
+    };
+
 
     useEffect(() => {
         ajax(`/api/images/${advertId}`, "GET", user.jwt).then((imagesData) => {
@@ -46,7 +67,7 @@ const PersonalAdvertView = () => {
         <Container className="personal-advert-view">
             <Row>
                 <Col>
-                    <MDBTypography tag='div' className='display-5 pb-3 mb-3 border-bottom' style={{marginLeft:"5%"}}>
+                    <MDBTypography tag='div' className='display-5 pb-3 mb-3 border-bottom' style={{marginLeft: "5%"}}>
                         {advert.title}
                     </MDBTypography>
                 </Col>
@@ -74,19 +95,38 @@ const PersonalAdvertView = () => {
 
             <Row>
                 <Col md="10" sm="6" xs="6">
-                    <h5 className='pb-3 mb-3 border-bottom' style={{marginLeft:"5%"}}>
+                    <h5 className='pb-3 mb-3 border-bottom' style={{marginLeft: "5%"}}>
                         {advert.description}
                     </h5>
-                    <MDBCollapse show={show} style={{marginTop: "50px"}} >
+                    <MDBCollapse show={show} style={{marginTop: "50px"}}>
+                        <Row>
+                            <Col className="justify-content-start">
+                                <MDBInput
+                                    label='Title'
+                                    id='form1'
+                                    type='text'
+                                    value={advert.title}
+                                    onChange={(e) => updateAdvert("title", e.target.value)}/>
+                            </Col>
+                            <Col md="2" sm="2" xs="1" className="justify-content-end">
+                                <MDBBtn rounded onClick={() => saveTitle()}>Edit</MDBBtn>
+                            </Col>
+                        </Row>
                         <Row>
                             <Col>
-                                <MDBInput label='Title' id='form1' type='text' value={advert.title}/>
-                                <MDBTextArea rows={4} label='Description' id='form1' type='text'
-                                             value={advert.description} style={{marginTop: "20px"}}/>
+                                <MDBTextArea
+                                    rows={4}
+                                    label='Description'
+                                    id='form1'
+                                    type='text'
+                                    value={advert.description}
+                                    style={{marginTop: "20px", marginBottom: "30px"}}
+                                    onChange={(e) => updateAdvert("description", e.target.value)}/>
                             </Col>
-                            <Col>
-                                <MDBBtn rounded>Edit</MDBBtn>
+                            <Col md="2" sm="2" xs="1" className="justify-content-end" style={{marginTop:"50px"}}>
+                                <MDBBtn rounded onClick={() => saveDescription()}>Edit</MDBBtn>
                             </Col>
+
                         </Row>
                     </MDBCollapse>
                 </Col>
