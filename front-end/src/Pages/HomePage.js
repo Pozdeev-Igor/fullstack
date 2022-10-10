@@ -39,8 +39,11 @@ const HomePage = () => {
             <Container className="row-cols-lg-1">
                 <Row>
                     {adverts.map((advert) => (
-                        <Col className="" key={advert.id}>
-                            <Card style={{width: '18rem', marginTop: '30px', cursor: "pointer"}} onClick={() => {
+                        advert.status === "Объявление на проверке" ?
+                            <></>
+                            :
+                        <Col >
+                            <Card key={advert.id} style={{width: '18rem', marginTop: '30px', cursor: "pointer"}} onClick={() => {
                                 (user.jwt && advert.user.username === jwt_decode(user.jwt).sub) ?
                                     navigate(`/adverts/${advert.user.id}/${advert.id}`)
                                     :

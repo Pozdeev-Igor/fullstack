@@ -1,6 +1,7 @@
 package com.example.petproject.controller;
 
 import com.example.petproject.DTO.AdvertResponseDTO;
+import com.example.petproject.Enums.AdvertStatusEnum;
 import com.example.petproject.domain.Advert;
 import com.example.petproject.domain.ImageName;
 import com.example.petproject.domain.SubCategory;
@@ -43,8 +44,13 @@ public class AdvertController {
         List<Advert> allAdverts = advertService.findAll();
         for (Advert advert : allAdverts) {
             images = imageService.getByAdvertId(advert.getId());
-            for (int i = 0; i < 1; i++) {
-                advert.setImage(images.get(i).getName());
+            if ((!images.isEmpty()) && (advert.getId() == images.get(0).getAdvert().getId())) {
+                for (int i = 0; i < 1; i++) {
+                    advert.setImage(images.get(i).getName());
+                }
+            } else {
+                advert.setImage(null);
+                advert.setStatus(AdvertStatusEnum.AWAITING_CONFIRMATION.getStatus());
             }
         }
         return ResponseEntity.ok(allAdverts);
