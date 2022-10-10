@@ -18,7 +18,7 @@ const PersonalDashboard = (props) => {
 
 
     async function getAdverts() {
-        const advertsData = await ajax(`/api/users/adverts`, "GET", user.jwt).then((advertsData) => advertsData)
+        const advertsData = await ajax(`/api/adverts`, "GET", user.jwt).then((advertsData) => advertsData)
         setAdverts(advertsData);
 
         // console.log(advertsData)
@@ -31,18 +31,16 @@ const PersonalDashboard = (props) => {
                 <Row>
                     {adverts && adverts.map((advert) => (
                         <Col className="" key={advert.id}>
-                            <a href={`/adverts/${advert.id}`}>
-                                <Card style={{width: '18rem'}} >
-                                    <Card.Img variant="top" src={testPicture}/>
-                                    <Card.Body>
-                                        <Card.Title>{advert.title}</Card.Title>
-                                        <Card.Text>
-                                            {advert.description}
-                                        </Card.Text>
-                                        <Button variant="primary">Go somewhere</Button>
-                                    </Card.Body>
-                                </Card>
-                            </a>
+                            <Card style={{width: '18rem', cursor: "pointer"}} onClick={() => navigate(`/adverts/personal/${advert.id}`)}>
+                                <Card.Img variant="top" key={advert.id} src={advert.image}/>
+                                <Card.Body>
+                                    <Card.Title>{advert.title}</Card.Title>
+                                    <Card.Text>
+                                        {advert.description}
+                                    </Card.Text>
+                                    <Button variant="primary">Go somewhere</Button>
+                                </Card.Body>
+                            </Card>
                         </Col>
                     ))}
                 </Row>
