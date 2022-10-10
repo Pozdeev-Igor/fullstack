@@ -5,6 +5,7 @@ import ajax from "./fetchServise";
 import {useNavigate, useParams} from "react-router-dom";
 import {useUser} from "../UserProvider/UserProvider";
 import loginPage from "../Pages/LoginPage";
+import {MDBIcon} from "mdb-react-ui-kit";
 
 const ImageUploader = (props) => {
     const navigate = useNavigate();
@@ -33,7 +34,7 @@ const ImageUploader = (props) => {
             subCategoryId: parseInt(subCategoryId),
             images: images.map((img) => img.data_url),
         }
-        ajax(`/api/adverts/${advertId}`, "PUT", user.jwt, reqBody)
+        ajax(`/api/adverts/${advertId}`, "POST", user.jwt, reqBody)
 navigate("/");
     };
 
@@ -87,7 +88,8 @@ navigate("/");
                                         : undefined
                                 }
                             >
-                                Choose a file or Drag it here
+                                {/*Choose a file or Drag it here*/}
+                                <MDBIcon far icon="file-image" />
                             </div>
 
                             <div className="p-2" style={{ textAlign: "left" }}>

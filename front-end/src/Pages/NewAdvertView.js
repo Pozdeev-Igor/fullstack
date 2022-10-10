@@ -13,7 +13,7 @@ import {
     MDBTabsContent,
     MDBTabsItem,
     MDBTabsLink, MDBTabsPane,
-    MDBTextArea
+    MDBTextArea, MDBTypography
 } from "mdb-react-ui-kit";
 import ajax from "../services/fetchServise";
 
@@ -64,7 +64,9 @@ const NewAdvertView = () => {
     return (
         <div className="w-75">
             <Container className="justify-content-lg-center">
-                <h1 style={{textAlign: "center"}}>Add new advert</h1>
+                <MDBTypography tag='div' className='display-3 pb-3 mb-3' style={{marginLeft: "40%"}}>
+                    Add new advert
+                </MDBTypography>
 
                 <>
                     <MDBTabs pills className='mb-3'>
@@ -113,11 +115,11 @@ const NewAdvertView = () => {
                     rows={4}
                     style={{marginTop: "30px", marginBottom: "30px"}}
                     onChange={(e) => setDescription(e.target.value)}/>
-                <MDBBtn className="btn-lg" style={{marginBottom: "30px", marginLeft: "40%"}}
-                        onClick={toggleShow}>Continue</MDBBtn>
-                <MDBCollapse show={showShow}>
+                {/*<MDBBtn className="btn-lg" style={{marginBottom: "30px", marginLeft: "40%"}}*/}
+                {/*        onClick={toggleShow}>Continue</MDBBtn>*/}
+                {/*<MDBCollapse show={showShow}>*/}
                     <ImageUploader title={title} description={description} subCategoryId={subCategoryId}/>
-                </MDBCollapse>
+                {/*</MDBCollapse>*/}
             </Container>
         </div>
     );
