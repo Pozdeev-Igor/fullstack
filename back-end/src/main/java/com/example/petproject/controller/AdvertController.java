@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/adverts")
@@ -90,10 +91,10 @@ public class AdvertController {
     }
 
 
-//    @GetMapping("/{advertId}")
-//    public ResponseEntity<?> getAdvertById(@PathVariable Long advertId, @AuthenticationPrincipal User user) {
-//        Optional<Advert> optionalAdvert = advertService.findById(advertId);
+    @GetMapping("/{advertId}")
+    public ResponseEntity<?> getAdvertById(@PathVariable Long advertId, @AuthenticationPrincipal User user) {
+        Optional<Advert> optionalAdvert = advertService.findById(advertId);
 //        AdvertResponseDTO response = new AdvertResponseDTO(optionalAdvert.orElse(new Advert()));
-//        return ResponseEntity.ok(response);
-//    }
+        return ResponseEntity.ok(optionalAdvert);
+    }
 }

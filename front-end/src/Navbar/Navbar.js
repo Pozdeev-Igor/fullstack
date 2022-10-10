@@ -33,8 +33,8 @@ function BasicExample(props) {
     };
 
     function getUsersData() {
-        if (user.jwt) {
-            ajax("api/users", "GET", user.jwt).then(usersData => {
+        if (user.jwt != null) {
+            ajax("/api/users", "GET", user.jwt).then(usersData => {
                 setUsersName(usersData.name);
                 setId(usersData.id);
             })

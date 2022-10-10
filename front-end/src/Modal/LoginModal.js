@@ -12,9 +12,9 @@ const LoginModal = (props) => {
 
     const {show, handleClose, handleShow} = props
 
-    useEffect(() => {
-        if (user.jwt) navigate("/");
-    }, [user]);
+    // useEffect(() => {
+    //     if (user.jwt) navigate("/");
+    // }, [user]);
 
     function handleSignUp () {
         navigate("/registration");
