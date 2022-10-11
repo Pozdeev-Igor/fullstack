@@ -41,20 +41,10 @@ public class AdvertController {
     @GetMapping()
     public ResponseEntity<?> getAllAdverts(@AuthenticationPrincipal User user) {
         String imageBase64 = new String();
-        List<ImageName> images;
+        List<ImageName> images = new ArrayList<>();
         List<Advert> allAdverts = advertService.findAll();
-        for (Advert advert : allAdverts) {
-            images = imageService.getByAdvertId(advert.getId());
-            if ((!images.isEmpty()) && (advert.getId() == images.get(0).getAdvert().getId())) {
-                for (int i = 0; i < 1; i++) {
-                    advert.setImage(images.get(i).getName());
-                }
-            } else {
-                advert.setImage(null);
-                advert.setStatus(AdvertStatusEnum.AWAITING_CONFIRMATION.getStatus());
-            }
-        }
-        return ResponseEntity.ok(allAdverts);
+        List<Advert> adverts = advertService.getAllAdverts(images, imageBase64, allAdverts);
+        return ResponseEntity.ok(adverts);
     }
 
     @PostMapping("/{advertId}")
