@@ -59,6 +59,7 @@ public class AdvertController {
         Advert advertFromDB = advertService.findById(advertId).get();
         advertFromDB.setTitle(advert.getTitle());
         advertFromDB.setDescription(advert.getDescription());
+        advertFromDB.setPrice(advert.getPrice());
         advertService.save(user, advertFromDB);
         return ResponseEntity.ok(advertFromDB);
     }

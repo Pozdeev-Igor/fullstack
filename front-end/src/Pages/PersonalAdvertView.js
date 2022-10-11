@@ -4,20 +4,26 @@ import {useParams} from "react-router-dom";
 import ajax from "../services/fetchServise";
 import {Carousel, Col, Container, Row} from "react-bootstrap";
 import {MDBBtn, MDBCollapse, MDBIcon, MDBInput, MDBTextArea, MDBTypography} from "mdb-react-ui-kit";
+import CurrencyInput from "react-currency-input-field";
+import {NumericFormat} from "react-number-format";
 
 const PersonalAdvertView = () => {
     const user = useUser();
     const {advertId} = useParams();
     const [imageList, setImageList] = useState([]);
-    const [show, setShow] = useState(false);
+    const [price, setPrice] = useState("");
     const [advert, setAdvert] = useState({
         title: "",
         description: "",
+        price: "",
     });
 
-    function handleShow() {
-        return setShow(!show);
-    }
+    const [showShow, setShowShow] = useState(true);
+
+    const toggleShow = () => {
+        setShowShow(!showShow)
+        console.log(showShow)
+    };
 
     const previousAdvertValue = useRef(advert);
 
@@ -25,6 +31,7 @@ const PersonalAdvertView = () => {
         const newAdvert = {...advert};
         newAdvert[prop] = value;
         setAdvert(newAdvert);
+        console.log(value)
     }
 
     function saveTitle() {
@@ -40,6 +47,16 @@ const PersonalAdvertView = () => {
         }
         persist();
     }
+
+    const handlePriceChange = (e) => {
+        e.preventDefault();
+        const { value = "" } = e.target;
+        const parsedValue = value.replace(/[^\d.]/gi, "");
+        setPrice(parsedValue);
+    };
+
+    const handleOnBlur = () => setPrice(Number(price).toFixed(2));
+
     useEffect(() => {
         ajax(`/api/adverts/${advertId}`, "GET", user.jwt).then((response) => {
             setAdvert(response);
@@ -50,10 +67,11 @@ const PersonalAdvertView = () => {
         const reqBody = {
             title: advert.title,
             description: advert.description,
+            price: price,
         }
         console.log(reqBody)
         ajax(`/api/adverts/${advertId}`, "PUT", user.jwt, reqBody)
-        // window.location.reload();
+        window.location.reload();
     };
 
 
@@ -71,13 +89,6 @@ const PersonalAdvertView = () => {
                         {advert.title}
                     </MDBTypography>
                 </Col>
-                <Col md="2" sm="2" xs="1" className="justify-content-end">
-                    <span style={{cursor: "pointer"}}
-                          onClick={handleShow}
-                    >
-                    <MDBIcon fas icon="pen" size={"lg"} style={{marginTop: "20px"}}/>
-                        </span>
-                </Col>
             </Row>
             <Carousel className="advert-carousel">
                 {imageList.map((image) => (
@@ -94,88 +105,89 @@ const PersonalAdvertView = () => {
 
 
             <Row>
-                <Col md="10" sm="6" xs="6">
-                    <h5 className='pb-3 mb-3 border-bottom' style={{marginLeft: "5%"}}>
+                <Col md="10" sm="6" xs="6" style={{marginLeft: "5%"}}>
+                    <h5 className='pb-3 mb-3 border-bottom' >
                         {advert.description}
                     </h5>
-                    <MDBCollapse show={show} style={{marginTop: "50px"}}>
-                        <Row>
-                            <Col className="justify-content-start">
-                                <MDBInput
-                                    label='Title'
-                                    id='form1'
-                                    type='text'
-                                    value={advert.title}
-                                    onChange={(e) => updateAdvert("title", e.target.value)}/>
-                            </Col>
-                            <Col md="2" sm="2" xs="1" className="justify-content-end">
-                                <MDBBtn rounded onClick={() => saveTitle()}>Edit</MDBBtn>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <MDBTextArea
-                                    rows={4}
-                                    label='Description'
-                                    id='form1'
-                                    type='text'
-                                    value={advert.description}
-                                    style={{marginTop: "20px", marginBottom: "30px"}}
-                                    onChange={(e) => updateAdvert("description", e.target.value)}/>
-                            </Col>
-                            <Col md="2" sm="2" xs="1" className="justify-content-end" style={{marginTop:"50px"}}>
-                                <MDBBtn rounded onClick={() => saveDescription()}>Edit</MDBBtn>
-                            </Col>
+                    <span style={{cursor:"pointer"}} onClick={toggleShow}>
 
-                        </Row>
+                    <NumericFormat
+                        suffix=" ₽"
+                        type="text"
+                        value={advert.price}
+                        style={{
+                            borderRadius: "15px",
+                            backgroundColor: "#1266F1",
+                            color: "white",
+                            borderColor: "#1266F1",
+                            textAlign: "center",
+                            cursor:"pointer",
+                            marginBottom:"10px"
+                        }}
+                        thousandSeparator=" "
+                    />
+                        </span>
+                    <MDBCollapse show={showShow}>
+                    <Row >
+                        <Col >
+                            <CurrencyInput
+                                style={{
+                                    borderRadius: "5px",
+                                    borderBottomColor: "lightgrey",
+                                    borderLeftColor: "white",
+                                    borderTopColor: "white",
+                                    borderRightColor: "lightgrey",
+                                    marginBottom: "30px",
+                                    color: "grey",
+                                }}
+                                prefix="₽ "
+                                name="currencyInput"
+                                id="currencyInput"
+                                data-number-to-fixed="2"
+                                data-number-stepfactor="100"
+                                value={price}
+                                placeholder=""
+                                onChange={handlePriceChange}
+                                onBlur={handleOnBlur}
+                                allowDecimals
+                                decimalsLimit="2"
+                                disableAbbreviations
+                            />
+                        </Col>
+                    </Row>
                     </MDBCollapse>
-                </Col>
-
-                <Col md="10" sm="6" xs="6">
-                    {/*<MDBCollapse show={show}>*/}
-                    {/*    <Row>*/}
-                    {/*        <Col>*/}
-                    {/*        </Col>*/}
-                    {/*        <Col>*/}
-                    {/*        </Col>*/}
-                    {/*    </Row>*/}
-                    {/*</MDBCollapse>*/}
+                    <Row>
+                        <Col className="justify-content-start">
+                            <MDBInput
+                                label='Title'
+                                id='form1'
+                                type='text'
+                                value={advert.title}
+                                onChange={(e) => updateAdvert("title", e.target.value)}/>
+                        </Col>
+                        <Col md="2" sm="2" xs="1" className="justify-content-end">
+                            <MDBBtn rounded onClick={() => saveTitle()}>Edit</MDBBtn>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <MDBTextArea
+                                rows={4}
+                                label='Description'
+                                id='form1'
+                                type='text'
+                                value={advert.description}
+                                style={{marginTop: "30px", marginBottom: "30px"}}
+                                onChange={(e) => updateAdvert("description", e.target.value)}/>
+                        </Col>
+                        <Col md="2" sm="2" xs="1" className="justify-content-end" style={{marginTop: "50px"}}>
+                            <MDBBtn rounded onClick={() => saveDescription()}>Edit</MDBBtn>
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </Container>
-
-        // {/*<MDBInput*/
-        // }
-        // {/*    label='Заголовок объявления'*/
-        // }
-        // {/*    id='formControlLg'*/
-        // }
-        // {/*    type='text'*/
-        // }
-        // {/*    size='lg'*/
-        // }
-        // {/*    value={advert.title}*/
-        // }
-        // {/*    onChange={(e) => updateAdvert("title", e.target.value)}/>*/
-        // }
-        //
-        // {/*<MDBTextArea*/
-        // }
-        // {/*    label='Описание'*/
-        // }
-        // {/*    id='textAreaExample'*/
-        // }
-        // {/*    rows={4}*/
-        // }
-        // {/*    style={{marginTop: "30px", marginBottom: "30px"}}*/
-        // }
-        // {/*    value={advert.description}*/
-        // }
-        // {/*    onChange={(e) => updateAdvert("description", e.target.value)}/>*/
-        // }
-
-    )
-        ;
+    );
 };
 
 export default PersonalAdvertView;

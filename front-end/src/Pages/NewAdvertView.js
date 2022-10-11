@@ -66,9 +66,9 @@ const NewAdvertView = () => {
     }, []);
 
     return (
-        <div className="w-75">
+        <div className="w-75" style={{marginLeft:"12%"}}>
             <Container className="justify-content-lg-center">
-                <MDBTypography tag='div' className='display-3 pb-3 mb-3' style={{marginLeft: "40%"}}>
+                <MDBTypography tag='div' className='display-3 pb-3 mb-3' style={{marginLeft: "25%"}}>
                     Add new advert
                 </MDBTypography>
 
@@ -120,6 +120,15 @@ const NewAdvertView = () => {
                     onChange={(e) => setDescription(e.target.value)}/>
 
                 <CurrencyInput
+                    style={{
+                        borderRadius:"5px",
+                        borderBottomColor:"lightgrey",
+                        borderLeftColor:"white",
+                        borderTopColor:"white",
+                        borderRightColor:"lightgrey",
+                        marginBottom:"30px",
+                        color:"grey",
+                    }}
                     prefix={prefix}
                     name="currencyInput"
                     id="currencyInput"
