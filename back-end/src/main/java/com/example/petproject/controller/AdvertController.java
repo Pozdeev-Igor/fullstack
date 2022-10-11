@@ -63,21 +63,8 @@ public class AdvertController {
             @AuthenticationPrincipal User user,
             @PathVariable Long advertId,
             @RequestBody AdvertResponseDTO advertResponseDTO) {
-        Advert advertFromDB = advertService.findById(advertId).get();
-        List<String> fileNames = advertResponseDTO.getImages();
 
-        for (String imgs : fileNames) {
-            ImageName imageName = new ImageName();
-            imageName.setName(imgs);
-            imageName.setAdvert(advertFromDB);
-            imageService.save(imageName);
-        }
-
-        SubCategory subCategoryFromDB = subCategoryRepository.findById(advertResponseDTO.getSubCategoryId()).get();
-        advertFromDB.setSubCategory(subCategoryFromDB);
-        advertFromDB.setDescription(advertResponseDTO.getDescription());
-        advertFromDB.setTitle(advertResponseDTO.getTitle());
-
+        Advert advertFromDB = advertService.totalCreateAdvert(advertId, advertResponseDTO);
         advertService.save(user, advertFromDB);
         return ResponseEntity.ok(advertFromDB);
     }
@@ -86,7 +73,6 @@ public class AdvertController {
     @GetMapping("/{advertId}")
     public ResponseEntity<?> getAdvertById(@PathVariable Long advertId, @AuthenticationPrincipal User user) {
         Optional<Advert> optionalAdvert = advertService.findById(advertId);
-//        AdvertResponseDTO response = new AdvertResponseDTO(optionalAdvert.orElse(new Advert()));
         return ResponseEntity.ok(optionalAdvert);
     }
 
