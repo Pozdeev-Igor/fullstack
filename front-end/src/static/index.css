@@ -25,3 +25,33 @@
     margin-bottom: 50px;
     margin-top: 30px;
 }
+
+.numericFormat {
+    border-radius: 15px;
+    background-color: #1266F1;
+    color: white;
+    border-color: #1266F1;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom:10px;
+}
+
+.currencyInput {
+    border-radius: 5px;
+    border-bottom-color: lightgrey;
+    border-left-color: white;
+    border-top-color: white;
+    border-right-color: lightgrey;
+    margin-bottom: 30px;
+    color: grey;
+}
+
+.signUpContainer {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    box-shadow: 2px 3px 4px rgba(0,0,0,.5);
+    border-radius: 25px;
+    width: 600px;
+    background-color: whitesmoke;
+}
+

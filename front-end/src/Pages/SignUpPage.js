@@ -43,15 +43,9 @@ const SignUpPage = () => {
     }
 
     return (
-        <div
-            style={{backgroundImage: "url(https://images.wallpaperscraft.com/image/single/clouds_sky_porous_133455_1920x1080.jpg)"}}>
-            <Container style={{
-                marginTop: "30px",
-                boxShadow: "2px 3px 4px rgba(0,0,0,.5)",
-                borderRadius: "25px",
-                width: "600px",
-                backgroundColor: "white"
-            }}>
+        <div style={{backgroundImage: "url(https://images.wallpaperscraft.com/image/single/clouds_sky_porous_133455_1920x1080.jpg)"}}>
+            <Container
+                className="signUpContainer">
                 <Form>
                     <Row className="justify-content-center">
                         <Col md="8" lg="6">

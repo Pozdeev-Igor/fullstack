@@ -74,7 +74,6 @@ const PersonalAdvertView = () => {
         window.location.reload();
     };
 
-
     useEffect(() => {
         ajax(`/api/images/${advertId}`, "GET", user.jwt).then((imagesData) => {
             setImageList(imagesData);
@@ -92,7 +91,6 @@ const PersonalAdvertView = () => {
             </Row>
             <Carousel className="advert-carousel">
                 {imageList.map((image) => (
-
                     <Carousel.Item interval={3000} key={image.id}>
                         <img
                             className="d-block w-100"
@@ -102,8 +100,6 @@ const PersonalAdvertView = () => {
                     </Carousel.Item>
                 ))}
             </Carousel>
-
-
             <Row>
                 <Col md="10" sm="6" xs="6" style={{marginLeft: "5%"}}>
                     <h5 className='pb-3 mb-3 border-bottom' >
@@ -112,18 +108,10 @@ const PersonalAdvertView = () => {
                     <span style={{cursor:"pointer"}} onClick={toggleShow}>
 
                     <NumericFormat
+                        className="numericFormat"
                         suffix=" ₽"
                         type="text"
                         value={advert.price}
-                        style={{
-                            borderRadius: "15px",
-                            backgroundColor: "#1266F1",
-                            color: "white",
-                            borderColor: "#1266F1",
-                            textAlign: "center",
-                            cursor:"pointer",
-                            marginBottom:"10px"
-                        }}
                         thousandSeparator=" "
                     />
                         </span>
@@ -131,15 +119,7 @@ const PersonalAdvertView = () => {
                     <Row >
                         <Col >
                             <CurrencyInput
-                                style={{
-                                    borderRadius: "5px",
-                                    borderBottomColor: "lightgrey",
-                                    borderLeftColor: "white",
-                                    borderTopColor: "white",
-                                    borderRightColor: "lightgrey",
-                                    marginBottom: "30px",
-                                    color: "grey",
-                                }}
+                                className="currencyInput"
                                 prefix="₽ "
                                 name="currencyInput"
                                 id="currencyInput"
