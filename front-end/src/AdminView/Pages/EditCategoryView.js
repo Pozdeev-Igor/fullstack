@@ -10,19 +10,13 @@ const EditCategoryView = () => {
     const user = useUser();
     const navigate = useNavigate();
     const {categoryId} = useParams();
-    const {subId} = useParams();
+    // const {subId} = useParams();
 
     const [category, setCategory] = useState({
         name: "",
     });
 
-    // const [subCategoryName, setSubCategoryName] = useState("");
-    //
-    // const [subCategory, setSubCategory] = useState([]);
-
     const previousCategoryValue = useRef(category);
-
-    // const previousSubCategoryValue = useRef(subCategory);
 
     function updateCategory(prop, value) {
         const newCategory = {...category};
@@ -42,12 +36,6 @@ const EditCategoryView = () => {
             .then(() => setCategory(null))
         navigate("/admin/categories");
     }
-
-    // function deleteSubCategory(subId) {
-    //     ajax(`/api/admin/categories/${categoryId}/${subId}`, "DELETE", user.jwt)
-    //     // .then(() => setSubCategory(null))
-    //
-    // }
 
     function persist() {
         ajax(`/api/admin/categories/${categoryId}`, "PUT", user.jwt, category)

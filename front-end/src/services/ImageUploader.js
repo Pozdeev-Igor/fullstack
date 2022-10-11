@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import ImageUploading from "react-images-uploading";
 import {Alert, Button, ButtonGroup} from "react-bootstrap";
 import ajax from "./fetchServise";
 import {useNavigate, useParams} from "react-router-dom";
 import {useUser} from "../UserProvider/UserProvider";
-import loginPage from "../Pages/LoginPage";
 import {MDBIcon} from "mdb-react-ui-kit";
 
 const ImageUploader = (props) => {
@@ -35,7 +34,7 @@ const ImageUploader = (props) => {
             images: images.map((img) => img.data_url),
         }
         ajax(`/api/adverts/${advertId}`, "POST", user.jwt, reqBody)
-navigate("/");
+        navigate("/");
     };
 
     return (
@@ -84,15 +83,15 @@ navigate("/");
                                 onClick={onImageUpload}
                                 style={
                                     isDragging
-                                        ? { backgroundColor: "#afafaf", color: "white" }
+                                        ? {backgroundColor: "#afafaf", color: "white"}
                                         : undefined
                                 }
                             >
                                 {/*Choose a file or Drag it here*/}
-                                <MDBIcon far icon="file-image" />
+                                <MDBIcon far icon="file-image"/>
                             </div>
 
-                            <div className="p-2" style={{ textAlign: "left" }}>
+                            <div className="p-2" style={{textAlign: "left"}}>
                                 {imageList.map((image, index) => (
                                     <div
                                         key={index}
@@ -106,10 +105,10 @@ navigate("/");
                                         <img
                                             src={image["data_url"]}
                                             alt=""
-                                            style={{ width: "100%" }}
+                                            style={{width: "100%"}}
                                         />
                                         <div className="image-item__btn-wrapper mt-1">
-                                            <ButtonGroup size="sm" style={{ width: "100%" }}>
+                                            <ButtonGroup size="sm" style={{width: "100%"}}>
                                                 <Button
                                                     variant="primary"
                                                     onClick={() => onImageUpdate(index)}
@@ -129,7 +128,7 @@ navigate("/");
                             </div>
                             {images.length > 0 && (
                                 <>
-                                    <hr />
+                                    <hr/>
                                     <div className="text-start p-2">
                                         <Button onClick={uploadFiles} variant="success">
                                             Upload

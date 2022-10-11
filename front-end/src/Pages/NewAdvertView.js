@@ -3,17 +3,15 @@ import {Container, FormCheck} from "react-bootstrap";
 import {useUser} from "../UserProvider/UserProvider";
 import ImageUploader from "../services/ImageUploader";
 import {
-    MDBBtn,
-    MDBCollapse,
     MDBInput,
-    MDBRadio,
     MDBTable,
     MDBTableBody,
     MDBTabs,
     MDBTabsContent,
     MDBTabsItem,
-    MDBTabsLink, MDBTabsPane,
-    MDBTextArea, MDBTypography
+    MDBTabsLink,
+    MDBTextArea,
+    MDBTypography
 } from "mdb-react-ui-kit";
 import ajax from "../services/fetchServise";
 
@@ -23,22 +21,15 @@ const NewAdvertView = () => {
     const [description, setDescription] = useState("");
     const [subCategory, setSubCategory] = useState([]);
     const [category, setCategory] = useState([]);
-    // const [values, setValues] = useState([]);
     const [subCategoryId, setSubCategoryId] = useState(null);
 
-    const [showShow, setShowShow] = useState(false);
-
-    const [item, setItem] = useState({ kindOfStand: "", another: "another" });
-    const { kindOfStand } = item;
+    const [item, setItem] = useState({kindOfStand: "", another: "another"});
+    const {kindOfStand} = item;
     const handleChange = e => {
         e.persist();
         setItem(prevState => ({...prevState, kindOfStand: e.target.value}));
         setSubCategoryId(e.target.value);
     };
-
-    function toggleShow() {
-        setShowShow(!showShow);
-    }
 
     const [basicActive, setBasicActive] = useState('');
 
@@ -115,11 +106,7 @@ const NewAdvertView = () => {
                     rows={4}
                     style={{marginTop: "30px", marginBottom: "30px"}}
                     onChange={(e) => setDescription(e.target.value)}/>
-                {/*<MDBBtn className="btn-lg" style={{marginBottom: "30px", marginLeft: "40%"}}*/}
-                {/*        onClick={toggleShow}>Continue</MDBBtn>*/}
-                {/*<MDBCollapse show={showShow}>*/}
-                    <ImageUploader title={title} description={description} subCategoryId={subCategoryId}/>
-                {/*</MDBCollapse>*/}
+                <ImageUploader title={title} description={description} subCategoryId={subCategoryId}/>
             </Container>
         </div>
     );

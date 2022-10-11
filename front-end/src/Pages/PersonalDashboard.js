@@ -14,11 +14,7 @@ const PersonalDashboard = (props) => {
 
     useEffect(() => {
         getAdverts();
-        adverts.map((advert) => {
-            console.log(advert.user.name !== jwt_decode(user.jwt).sub)
-            console.log(advert.user.username)
-        })
-    }, [])
+    }, [adverts])
 
 
     async function getAdverts() {

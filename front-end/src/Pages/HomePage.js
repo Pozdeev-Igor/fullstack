@@ -42,29 +42,28 @@ const HomePage = () => {
                         advert.status === "Объявление на проверке" ?
                             <></>
                             :
-                        <Col >
-                            <Card key={advert.id} style={{width: '18rem', marginTop: '30px', cursor: "pointer"}} onClick={() => {
-                                (user.jwt && advert.user.username === jwt_decode(user.jwt).sub) ?
-                                    navigate(`/adverts/${advert.user.id}/${advert.id}`)
-                                    :
-                                    handleShow();
-                            }}>
+                            <Col>
+                                <Card key={advert.id} style={{width: '18rem', marginTop: '30px', cursor: "pointer"}}
+                                      onClick={() => {
+                                          (user.jwt && advert.user.username === jwt_decode(user.jwt).sub) ?
+                                              navigate(`/adverts/${advert.user.id}/${advert.id}`)
+                                              :
+                                              handleShow();
+                                      }}>
 
-                                <Card.Img key={advert.id} variant="top" src={advert.image}/>
-                                <Card.Body>
-                                    <Card.Title>{advert.title}</Card.Title>
-                                    <Card.Text>
-                                        {advert.description}
-                                    </Card.Text>
-                                    <Button variant="primary">Go somewhere</Button>
-                                </Card.Body>
-                            </Card>
-                        </Col>
+                                    <Card.Img key={advert.id} variant="top" src={advert.image}/>
+                                    <Card.Body>
+                                        <Card.Title>{advert.title}</Card.Title>
+                                        <Card.Text>
+                                            {advert.description}
+                                        </Card.Text>
+                                        <Button variant="primary">Go somewhere</Button>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
                     ))}
                 </Row>
             </Container>
-
-            {/*<Button variant="link" onClick={() => user.jwt ? (navigate("/adverts")) : (handleShow())}>ADVERTS</Button>*/}
             <LoginModal show={show} handleClose={handleClose} handleShow={handleShow}/>
         </div>
     );

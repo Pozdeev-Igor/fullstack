@@ -1,6 +1,6 @@
 import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import logo from "../static/img/logo.png"
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import ajax from "../services/fetchServise";
 import {useUser} from "../UserProvider/UserProvider";

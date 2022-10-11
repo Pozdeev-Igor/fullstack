@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Button, Col, Form, Modal, Row} from "react-bootstrap";
 import {useUser} from "../UserProvider/UserProvider";
 import {useNavigate} from "react-router-dom";
@@ -11,10 +11,6 @@ const LoginModal = (props) => {
     const [password, setPassword] = useState("");
 
     const {show, handleClose, handleShow} = props
-
-    // useEffect(() => {
-    //     if (user.jwt) navigate("/");
-    // }, [user]);
 
     function handleSignUp () {
         navigate("/registration");
