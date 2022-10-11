@@ -54,6 +54,7 @@ public class AdvertService {
         advertFromDB.setSubCategory(subCategoryFromDB);
         advertFromDB.setDescription(advertResponseDTO.getDescription());
         advertFromDB.setTitle(advertResponseDTO.getTitle());
+        advertFromDB.setPrice(advertResponseDTO.getPrice());
         return advertFromDB;
     }
 

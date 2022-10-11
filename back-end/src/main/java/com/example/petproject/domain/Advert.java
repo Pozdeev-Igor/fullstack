@@ -24,6 +24,7 @@ public class Advert {
     private String image;
 
     private String Status;
+    private String price;
 
     public SubCategory getSubCategory() {
         return subCategory;
@@ -73,14 +74,13 @@ public class Advert {
         this.user = createdBy;
     }
 
-//    public JSONArray getImages() {
-//        return images;
-//    }
-//
-//    public void setImages(JSONArray images) {
-//        this.images = images;
-//    }
+    public String getPrice() {
+        return price;
+    }
 
+    public void setPrice(String price) {
+        this.price = price;
+    }
 
     public String getImage() {
         return image;

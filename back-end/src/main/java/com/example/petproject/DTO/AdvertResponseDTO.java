@@ -13,6 +13,8 @@ public class AdvertResponseDTO {
     private String description;
     private SubCategory userId;
     private Long subCategoryId;
+
+    private String price;
     private List<String> images;
     private AdvertStatusEnum[] statusEnum = AdvertStatusEnum.values();
 
@@ -52,9 +54,6 @@ public class AdvertResponseDTO {
         return subCategoryId;
     }
 
-//    public void setSubCategory(Long subCategoryId) {
-//        this.subCategoryId = subCategoryId;
-//    }
 
     public List<String> getImages() {
         return images;
@@ -76,9 +75,13 @@ public class AdvertResponseDTO {
         this.advert = advert;
     }
 
-//    public AssignmentEnum[] getAssignmentEnums() {
-//        return assignmentEnums;
-//    }
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
 
     public AdvertStatusEnum[] getStatusEnum() {
         return statusEnum;

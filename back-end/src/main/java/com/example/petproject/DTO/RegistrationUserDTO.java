@@ -4,6 +4,7 @@ public class RegistrationUserDTO {
     private String name;
     private String username;
     private String email;
+    private String phoneNumber;
     private String password;
     private String confirmPassword;
 
@@ -45,5 +46,13 @@ public class RegistrationUserDTO {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

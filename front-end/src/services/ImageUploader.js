@@ -14,7 +14,7 @@ const ImageUploader = (props) => {
         maxNumber = 10,
         acceptType = ["jpeg", "jpg", "png"],
         maxFileSize = 5000000,
-        title, description, subCategoryId
+        title, description, subCategoryId, price
     } = props;
     const [images, setImages] = useState([]);
 
@@ -30,11 +30,13 @@ const ImageUploader = (props) => {
         const reqBody = {
             title: title,
             description: description,
+            price: price,
             subCategoryId: parseInt(subCategoryId),
             images: images.map((img) => img.data_url),
         }
         ajax(`/api/adverts/${advertId}`, "POST", user.jwt, reqBody)
-        navigate("/");
+        // navigate("/");
+        window.location.href="/";
     };
 
     return (

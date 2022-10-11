@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Card, Col, Container, Row} from "react-bootstrap";
+import {Card, Col, Container, Row} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import {useUser} from "../UserProvider/UserProvider";
 import LoginModal from "../Modal/LoginModal";
 import ajax from "../services/fetchServise";
 import jwt_decode from "jwt-decode";
+import {NumericFormat} from 'react-number-format';
 
 const HomePage = () => {
     const navigate = useNavigate();
     const user = useUser();
-    let decodedJwt = null;
 
     const [adverts, setAdverts] = useState([]);
     const [images, setImages] = useState([]);
@@ -19,24 +19,32 @@ const HomePage = () => {
     const handleShow = () => setShow(true);
 
 
-    async function getAdverts() {
-        const advertsData = await ajax(`/api/adverts`, "GET", user.jwt).then((advertsData) => advertsData)
-        setAdverts(advertsData);
-    };
+    // async function getAdverts() {
+    //     const advertsData = await ajax(`/api/adverts`, "GET", user.jwt).then((advertsData) => advertsData)
+    //     setAdverts(advertsData);
+    // };
 
-    async function getImages() {
-        const imageData = await ajax("/api/images", "GET", user.jwt).then((imageData) => imageData)
-        setImages(imageData);
-    }
+    // async function getImages() {
+    //     const imageData = await ajax("/api/images", "GET", user.jwt).then((imageData) => imageData)
+    //     setImages(imageData);
+    // }
 
     useEffect(() => {
-        getAdverts();
-        getImages();
-    }, [adverts]);
+        ajax(`/api/adverts`, "GET", user.jwt).then((advertsData) => setAdverts(advertsData));
+        // getAdverts();
+        // getImages();
+
+    }, [user.jwt]);
+
+    useEffect(() => {
+        ajax("/api/images", "GET", user.jwt).then((imageData) => setImages(imageData));
+
+    }, [user.jwt]);
+
 
     return (
         <div>
-            <Container className="row-cols-lg-1">
+            <Container className="row-cols-lg-1" style={{marginBottom: "30px"}}>
                 <Row>
                     {adverts.map((advert) => (
                         advert.status === "Объявление на проверке" ?
@@ -54,10 +62,27 @@ const HomePage = () => {
                                     <Card.Img key={advert.id} variant="top" src={advert.image}/>
                                     <Card.Body>
                                         <Card.Title>{advert.title}</Card.Title>
-                                        <Card.Text>
-                                            {advert.description}
-                                        </Card.Text>
-                                        <Button variant="primary">Go somewhere</Button>
+                                        {advert.price !== null ?
+                                            <Card.Text>
+                                                {/*<MDBBadge pill color="primary" className='ms-lg-1'>*/}
+                                                {/*    <h7 style={{marginTop: "7px"}}>*/}
+
+                                                        <NumericFormat
+                                                            prefix="₽ "
+                                                            type="text"
+                                                            value={advert.price}
+                                                            style={{borderRadius:"15px", backgroundColor:"rgb(2, 117, 216)", color:"white", borderColor:"rgb(2, 117, 216)", textAlign:"center"}}
+                                                            thousandSeparator=" "
+                                                            // decimalSeparator=","
+                                                        />
+                                                    {/*</h7>*/}
+                                                {/*</MDBBadge>*/}
+                                            </Card.Text>
+                                            :
+                                            <Card.Text>
+                                                Цена не указана
+                                            </Card.Text>
+                                        }
                                     </Card.Body>
                                 </Card>
                             </Col>

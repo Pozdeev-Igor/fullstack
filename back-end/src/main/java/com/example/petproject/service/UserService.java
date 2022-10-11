@@ -36,6 +36,7 @@ public class UserService {
         user.setName(registrationUserDTO.getName());
         user.setUsername(registrationUserDTO.getUsername());
         user.setEmail(registrationUserDTO.getEmail());
+        user.setPhoneNumber(registrationUserDTO.getPhoneNumber());
         user.setPassword(passwordEncoder.getPasswordEncoder().encode(registrationUserDTO.getPassword()));
         user.setActivationCode(UUID.randomUUID().toString());
         user.setCohortStartDate(LocalDate.now());

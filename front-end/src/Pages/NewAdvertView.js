@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Container, FormCheck} from "react-bootstrap";
 import {useUser} from "../UserProvider/UserProvider";
 import ImageUploader from "../services/ImageUploader";
+import CurrencyInput from "react-currency-input-field";
 import {
     MDBInput,
     MDBTable,
@@ -19,12 +20,24 @@ const NewAdvertView = () => {
     const user = useUser();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [price, setPrice] = useState("");
+    const prefix = "₽ ";
     const [subCategory, setSubCategory] = useState([]);
     const [category, setCategory] = useState([]);
     const [subCategoryId, setSubCategoryId] = useState(null);
 
     const [item, setItem] = useState({kindOfStand: "", another: "another"});
     const {kindOfStand} = item;
+
+    const handlePriceChange = (e) => {
+        e.preventDefault();
+        const { value = "" } = e.target;
+        const parsedValue = value.replace(/[^\d.]/gi, "");
+        setPrice(parsedValue);
+    };
+
+    const handleOnBlur = () => setPrice(Number(price).toFixed(2));
+
     const handleChange = e => {
         e.persist();
         setItem(prevState => ({...prevState, kindOfStand: e.target.value}));
@@ -83,7 +96,6 @@ const NewAdvertView = () => {
                                                 label={`${sub.name}`}
                                                 value={`${sub.id}`}
                                                 onChange={handleChange}
-                                                // checked={kindOfStand === `${sub.name[0]}`}
                                             />
                                         </td>
                                     </tr>
@@ -106,7 +118,27 @@ const NewAdvertView = () => {
                     rows={4}
                     style={{marginTop: "30px", marginBottom: "30px"}}
                     onChange={(e) => setDescription(e.target.value)}/>
-                <ImageUploader title={title} description={description} subCategoryId={subCategoryId}/>
+
+                <CurrencyInput
+                    prefix={prefix}
+                    name="currencyInput"
+                    id="currencyInput"
+                    data-number-to-fixed="2"
+                    data-number-stepfactor="100"
+                    value={price}
+                    placeholder=""
+                    onChange={handlePriceChange}
+                    onBlur={handleOnBlur}
+                    allowDecimals
+                    decimalsLimit="2"
+                    disableAbbreviations
+                />
+
+                <ImageUploader
+                    title={title}
+                    description={description}
+                    subCategoryId={subCategoryId}
+                    price={price}/>
             </Container>
         </div>
     );

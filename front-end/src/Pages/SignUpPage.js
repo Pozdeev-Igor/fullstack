@@ -2,15 +2,16 @@ import React, {useState} from 'react';
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import LoginModal from "../Modal/LoginModal";
+import { PatternFormat } from 'react-number-format';
 
 const SignUpPage = () => {
 
-    // const user = useUser();
     const navigate = useNavigate();
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
     const [show, setShow] = useState(() => false);
@@ -24,6 +25,7 @@ const SignUpPage = () => {
             username: username,
             email: email,
             password: password,
+            phoneNumber: phoneNumber,
             confirmPassword: confirmPassword,
         };
 
@@ -38,7 +40,6 @@ const SignUpPage = () => {
         alert("check your mailbox");
 
         navigate("/");
-        // handleShow();
     }
 
     return (
@@ -94,6 +95,25 @@ const SignUpPage = () => {
                                     type="email"
                                     placeholder="Enter email"
                                     onChange={(e) => setEmail(e.target.value)}/>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+
+                    <Row className="justify-content-center">
+                        <Col md="8" lg="6">
+                            <Form.Group className="mb-3" controlId="formBasicPhone">
+                                <Form.Label>Phone number</Form.Label>
+
+                                <PatternFormat
+                                    format="+7 (###) ### ## ##"
+                                    allowEmptyFormatting mask="*"
+                                    value={phoneNumber}
+                                    onChange={(e) => setPhoneNumber(e.target.value)}/>
+                                {/*<Form.Control*/}
+                                {/*    value={phoneNumber}*/}
+                                {/*    type="text"*/}
+                                {/*    placeholder="+71234567890"*/}
+                                {/*    onChange={(e) => setPhoneNumber(e.target.value)}/>*/}
                             </Form.Group>
                         </Col>
                     </Row>
