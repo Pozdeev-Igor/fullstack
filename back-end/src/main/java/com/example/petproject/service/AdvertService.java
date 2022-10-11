@@ -57,9 +57,9 @@ public class AdvertService {
         return advertFromDB;
     }
 
-    public List<Advert> getAllAdverts(List<ImageName> images, String imageBase64, List<Advert> allAdverts) {
+    public List<Advert> getAllAdverts(List<Advert> allAdverts) {
         for (Advert advert : allAdverts) {
-            images = imageService.getByAdvertId(advert.getId());
+            List<ImageName> images = imageService.getByAdvertId(advert.getId());
             if ((!images.isEmpty()) && (advert.getId() == images.get(0).getAdvert().getId())) {
                 for (int i = 0; i < 1; i++) {
                     advert.setImage(images.get(i).getName());

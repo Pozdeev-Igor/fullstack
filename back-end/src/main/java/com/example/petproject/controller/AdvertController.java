@@ -2,17 +2,13 @@ package com.example.petproject.controller;
 
 import com.example.petproject.DTO.AdvertResponseDTO;
 import com.example.petproject.domain.Advert;
-import com.example.petproject.domain.ImageName;
 import com.example.petproject.domain.User;
-import com.example.petproject.repos.SubCategoryRepository;
 import com.example.petproject.service.AdvertService;
-import com.example.petproject.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,10 +28,8 @@ public class AdvertController {
 
     @GetMapping()
     public ResponseEntity<?> getAllAdverts(@AuthenticationPrincipal User user) {
-        String imageBase64 = new String();
-        List<ImageName> images = new ArrayList<>();
         List<Advert> allAdverts = advertService.findAll();
-        List<Advert> adverts = advertService.getAllAdverts(images, imageBase64, allAdverts);
+        List<Advert> adverts = advertService.getAllAdverts(allAdverts);
         return ResponseEntity.ok(adverts);
     }
 
