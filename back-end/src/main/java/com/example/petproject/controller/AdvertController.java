@@ -1,16 +1,12 @@
 package com.example.petproject.controller;
 
 import com.example.petproject.DTO.AdvertResponseDTO;
-import com.example.petproject.Enums.AdvertStatusEnum;
 import com.example.petproject.domain.Advert;
 import com.example.petproject.domain.ImageName;
-import com.example.petproject.domain.SubCategory;
 import com.example.petproject.domain.User;
-import com.example.petproject.repos.ImageRepo;
 import com.example.petproject.repos.SubCategoryRepository;
 import com.example.petproject.service.AdvertService;
 import com.example.petproject.service.ImageService;
-import net.minidev.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,10 +22,6 @@ public class AdvertController {
 
     @Autowired
     private AdvertService advertService;
-    @Autowired
-    private ImageService imageService;
-    @Autowired
-    private SubCategoryRepository subCategoryRepository;
 
     @PostMapping()
     public ResponseEntity<?> createAdvert(@AuthenticationPrincipal User user) {
