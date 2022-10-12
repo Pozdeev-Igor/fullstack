@@ -4,7 +4,6 @@ import LoginPage from "./Pages/LoginPage";
 import HomePage from "./Pages/HomePage";
 import PrivateRoute from "./customRoutes/PrivateRoute";
 import NewAdvertView from "./Pages/NewAdvertView";
-import Dashboard from "./Pages/Dashboard";
 import SignUpPage from "./Pages/SignUpPage";
 import CategoryView from "./AdminView/Pages/CategoryView";
 import PersonalDashboard from "./Pages/PersonalDashboard";
@@ -17,6 +16,7 @@ import SubCategoryView from "./AdminView/Pages/SubCategoryView";
 import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Footer";
 import PersonalAdvertView from "./Pages/PersonalAdvertView";
+import AdvertView from "./Pages/AdvertView";
 
 function App() {
     const user = useUser();
@@ -32,7 +32,7 @@ function App() {
                 <Route path='/activate/*' element={<LoginPage/>}/>
                 <Route path='/registration' element={<SignUpPage/>}/>
                 <Route path='/adverts/new/:advertId' element={<PrivateRoute><NewAdvertView/></PrivateRoute>}/>
-                <Route path='/adverts' element={<PrivateRoute><Dashboard/></PrivateRoute>}/>
+                <Route path='/adverts/:userId/:advertId' element={<PrivateRoute><AdvertView/></PrivateRoute>}/>
                 <Route path='/adverts/personal/:advertId' element={<PrivateRoute><PersonalAdvertView/></PrivateRoute>}/>
                 <Route path='/users/adverts' element={<PrivateRoute><PersonalDashboard/></PrivateRoute>}/>
                 <Route path='/admin/categories' element={<PrivateRoute><CategoryView/></PrivateRoute>}/>

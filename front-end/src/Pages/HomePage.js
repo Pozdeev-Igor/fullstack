@@ -57,9 +57,9 @@ const HomePage = () => {
                                     style={{width: '18rem', marginTop: '30px', cursor: "pointer"}}
                                     onClick={() => {
                                         (user.jwt && advert.user.username === jwt_decode(user.jwt).sub) ?
-                                            navigate(`/adverts/${advert.user.id}/${advert.id}`)
+                                            navigate(`/adverts/personal/${advert.id}`)
                                             :
-                                            handleShow();
+                                            navigate(`/adverts/${advert.user.id}/${advert.id}`);
                                     }}>
                                     <Card.Img key={advert.id} variant="top" src={advert.image}/>
                                     <Card.Body>

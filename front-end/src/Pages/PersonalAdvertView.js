@@ -69,7 +69,6 @@ const PersonalAdvertView = () => {
             description: advert.description,
             price: price,
         }
-        console.log(reqBody)
         ajax(`/api/adverts/${advertId}`, "PUT", user.jwt, reqBody)
         window.location.reload();
     };

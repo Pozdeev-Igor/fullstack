@@ -14,20 +14,18 @@ const PersonalDashboard = (props) => {
 
     const [currentPage, setCurrentPage] = useState(0);
     const [fetching, setFetching] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
 
 
     useEffect(() => {
         if (fetching) {
-            setIsLoading(!isLoading);
             ajax(`/api/adverts?page=${currentPage}&limit=16`, "GET", user.jwt).then((advertsData) => {
                 setAdverts([...adverts, ...advertsData])
                 setCurrentPage(prevState => prevState + 1);
             }).finally(() => {
                 setFetching(false);
-                setIsLoading(false);
             });
         }
+        console.log(adverts)
 
     }, [fetching]);
 
@@ -42,6 +40,7 @@ const PersonalDashboard = (props) => {
         if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100)
             setFetching(true);
     };
+
 
     return (
         <div>
