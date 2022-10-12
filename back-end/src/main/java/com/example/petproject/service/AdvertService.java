@@ -9,6 +9,8 @@ import com.example.petproject.domain.User;
 import com.example.petproject.repos.AdvertRepo;
 import com.example.petproject.repos.SubCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +39,7 @@ public class AdvertService {
         return advertRepo.findByUser(user);
     }
 
-    public List<Advert> findAll() {
+    public Iterable<Advert> findAll() {
         return advertRepo.findAll();
     }
 
@@ -58,7 +60,7 @@ public class AdvertService {
         return advertFromDB;
     }
 
-    public List<Advert> getAllAdverts(List<Advert> allAdverts) {
+    public Iterable<Advert> getAllAdverts(Iterable<Advert> allAdverts) {
         for (Advert advert : allAdverts) {
             List<ImageName> images = imageService.getByAdvertId(advert.getId());
             if ((!images.isEmpty()) && (advert.getId() == images.get(0).getAdvert().getId())) {
@@ -71,5 +73,11 @@ public class AdvertService {
             }
         }
         return allAdverts;
+    }
+
+    public List<Advert> getAdvertsByPagination(Integer page, Integer limit) {
+        PageRequest pageRequest = PageRequest.of(page, limit);
+        Page<Advert> pagingAdvert = advertRepo.findAll(pageRequest);
+        return pagingAdvert.getContent();
     }
 }

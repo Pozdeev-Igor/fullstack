@@ -27,10 +27,13 @@ public class AdvertController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> getAllAdverts(@AuthenticationPrincipal User user) {
-        List<Advert> allAdverts = advertService.findAll();
-        List<Advert> adverts = advertService.getAllAdverts(allAdverts);
-        return ResponseEntity.ok(adverts);
+    public ResponseEntity<?> getAllAdverts(@AuthenticationPrincipal User user,
+                                           @RequestParam Integer page,
+                                           @RequestParam Integer limit) {
+
+        List<Advert> allAdverts = advertService.getAdvertsByPagination(page, limit);
+        Iterable<Advert> adverts = advertService.getAllAdverts(allAdverts);
+        return ResponseEntity.ok(allAdverts);
     }
 
     @PostMapping("/{advertId}")

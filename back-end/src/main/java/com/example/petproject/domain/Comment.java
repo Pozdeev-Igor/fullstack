@@ -2,6 +2,7 @@ package com.example.petproject.domain;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 
 @Entity
 @Table(name = "comments")
@@ -49,7 +50,7 @@ public class Comment {
         return advert;
     }
 
-    public void setAdvert(Advert assignment) {
+    public void setAdvert(Optional<Advert> assignment) {
         this.advert = advert;
     }
 

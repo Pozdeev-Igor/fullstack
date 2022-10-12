@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -24,8 +25,7 @@ public class CommentService {
     public Comment save(CommentDTO commentDTO, User user) {
 
         Comment comment = new Comment();
-        Advert advert = advertRepo.getById(commentDTO.getAssignmentId());
-
+        Optional<Advert> advert = advertRepo.findById(commentDTO.getAssignmentId());
         comment.setId(commentDTO.getId());
         comment.setText(commentDTO.getText());
         comment.setCreatedBy(user);
