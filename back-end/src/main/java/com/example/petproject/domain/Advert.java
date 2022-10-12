@@ -18,9 +18,10 @@ public class Advert {
     @JoinColumn(name = "sub_category_id")
     private SubCategory subCategory;
 
-//    @OneToMany(mappedBy = "advert", targetEntity = ImageName.class)
+    //    @OneToMany(mappedBy = "advert", targetEntity = ImageName.class)
 //    private List<ImageName> images;
-    @Transient
+//    @Transient
+    @Column(columnDefinition = "TEXT")
     private String image;
 
     private String Status;

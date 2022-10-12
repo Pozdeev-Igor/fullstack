@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AdvertService {
@@ -43,7 +44,7 @@ public class AdvertService {
         return advertRepo.findAll();
     }
 
-    public Advert totalCreateAdvert(Long advertId,  AdvertResponseDTO advertResponseDTO) {
+    public Advert totalCreateAdvert(Long advertId, AdvertResponseDTO advertResponseDTO) {
         Advert advertFromDB = advertRepo.findById(advertId).get();
         List<String> fileNames = advertResponseDTO.getImages();
         for (String imgs : fileNames) {
@@ -52,6 +53,7 @@ public class AdvertService {
             imageName.setAdvert(advertFromDB);
             imageService.save(imageName);
         }
+        advertFromDB.setImage(fileNames.get(0));
         SubCategory subCategoryFromDB = subCategoryRepository.findById(advertResponseDTO.getSubCategoryId()).get();
         advertFromDB.setSubCategory(subCategoryFromDB);
         advertFromDB.setDescription(advertResponseDTO.getDescription());
@@ -60,24 +62,32 @@ public class AdvertService {
         return advertFromDB;
     }
 
-    public Iterable<Advert> getAllAdverts(Iterable<Advert> allAdverts) {
-        for (Advert advert : allAdverts) {
-            List<ImageName> images = imageService.getByAdvertId(advert.getId());
-            if ((!images.isEmpty()) && (advert.getId() == images.get(0).getAdvert().getId())) {
-                for (int i = 0; i < 1; i++) {
-                    advert.setImage(images.get(i).getName());
-                }
-            } else {
-                advert.setImage(null);
+    public Iterable<Advert> getAllAdverts(Iterable<Advert> advertList) {
+        for (Advert advert : advertList) {
+//            List<ImageName> images = imageService.getByAdvertId(advert.getId());
+            if (advert.getImage().isEmpty()) {
+//                for (int i = 0; i < 1; i++) {
+//                    advert.setImage(images.get(i).getName());
+//                    advertRepo.save(advert);
+//                }
+//            } else {
+//                advert.setImage(null);
                 advert.setStatus(AdvertStatusEnum.AWAITING_CONFIRMATION.getStatus());
             }
         }
-        return allAdverts;
+        return advertList;
     }
 
     public List<Advert> getAdvertsByPagination(Integer page, Integer limit) {
         PageRequest pageRequest = PageRequest.of(page, limit);
-        Page<Advert> pagingAdvert = advertRepo.findAll(pageRequest);
+        Page<Advert> pagingAdvert = advertRepo.findAllByImage(pageRequest);
+
         return pagingAdvert.getContent();
+    }
+
+    public List<Advert> getAdvertsByPaginationByUser(Integer page, Integer limit, Long userId) {
+        PageRequest pageRequest = PageRequest.of(page, limit);
+        Page<Advert> pagingAdvertByUser = advertRepo.pagingFindByUser(pageRequest, userId);
+        return pagingAdvertByUser.getContent();
     }
 }

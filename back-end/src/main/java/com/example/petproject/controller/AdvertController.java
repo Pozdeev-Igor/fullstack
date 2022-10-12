@@ -30,9 +30,21 @@ public class AdvertController {
     public ResponseEntity<?> getAllAdverts(@AuthenticationPrincipal User user,
                                            @RequestParam Integer page,
                                            @RequestParam Integer limit) {
-
+        Iterable<Advert> advertList = advertService.findAll();
+        Iterable<Advert> adverts = advertService.getAllAdverts(advertList);
         List<Advert> allAdverts = advertService.getAdvertsByPagination(page, limit);
+//
+        return ResponseEntity.ok(allAdverts);
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<?> getAllAdvertsByUser(@AuthenticationPrincipal User user,
+                                                 @RequestParam Integer page,
+                                                 @RequestParam Integer limit) {
+
+        List<Advert> allAdverts = advertService.getAdvertsByPaginationByUser(page, limit, user.getId());
         Iterable<Advert> adverts = advertService.getAllAdverts(allAdverts);
+//
         return ResponseEntity.ok(allAdverts);
     }
 

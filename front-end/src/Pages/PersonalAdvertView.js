@@ -124,7 +124,7 @@ const PersonalAdvertView = () => {
                                 id="currencyInput"
                                 data-number-to-fixed="2"
                                 data-number-stepfactor="100"
-                                value={price}
+                                value={price === "" ? "" : price}
                                 placeholder=""
                                 onChange={handlePriceChange}
                                 onBlur={handleOnBlur}
@@ -141,7 +141,7 @@ const PersonalAdvertView = () => {
                                 label='Title'
                                 id='form1'
                                 type='text'
-                                value={advert.title}
+                                value={advert.title === null ? "" : advert.title}
                                 onChange={(e) => updateAdvert("title", e.target.value)}/>
                         </Col>
                         <Col md="2" sm="2" xs="1" className="justify-content-end">
@@ -155,7 +155,7 @@ const PersonalAdvertView = () => {
                                 label='Description'
                                 id='form1'
                                 type='text'
-                                value={advert.description}
+                                value={advert.description === null ? "" : advert.description}
                                 style={{marginTop: "30px", marginBottom: "30px"}}
                                 onChange={(e) => updateAdvert("description", e.target.value)}/>
                         </Col>

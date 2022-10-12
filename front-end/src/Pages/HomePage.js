@@ -23,11 +23,12 @@ const HomePage = () => {
 
     useEffect(() => {
         if (fetching) {
-            ajax(`/api/adverts?page=${currentPage}&limit=16`, "GET", user.jwt).then((advertsData) => {
+            ajax(`/api/adverts?page=${currentPage}&limit=12`, "GET", user.jwt).then((advertsData) => {
                 setAdverts([...adverts, ...advertsData])
                 setCurrentPage(prevState => prevState + 1);
             }).finally(() => setFetching(false));
         }
+        console.log(adverts)
 
     }, [fetching]);
 

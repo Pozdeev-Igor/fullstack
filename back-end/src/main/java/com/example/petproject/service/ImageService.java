@@ -24,7 +24,7 @@ public class ImageService {
         return imageRepo.findAll();
     }
 
-    public String findFirstByAdvertId(Long advertId) {
-        return imageRepo.findFirstByAdvertId(advertId);
-    }
+//    public String findFirstByAdvertId(Long advertId) {
+//        return imageRepo.findFirstByAdvertId(advertId);
+//    }
 }

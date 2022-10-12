@@ -10,6 +10,6 @@ public interface ImageRepo extends JpaRepository<ImageName, Long> {
     @Query("select i from ImageName i where i.advert.id = :advertId")
     List<ImageName> findAllByAdvertId(Long advertId);
 
-    @Query("select i from ImageName i where i.advert.id = :advertId ")
-    String findFirstByAdvertId(Long advertId);
+//    @Query("select i from ImageName i where i.advert.id = :advertId ")
+//    String findFirstByAdvertId(Long advertId);
 }
