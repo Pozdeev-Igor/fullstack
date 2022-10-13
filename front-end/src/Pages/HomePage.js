@@ -6,6 +6,7 @@ import LoginModal from "../Modal/LoginModal";
 import ajax from "../services/fetchServise";
 import jwt_decode from "jwt-decode";
 import {MDBBadge} from "mdb-react-ui-kit";
+import CommentsContainer from "../Offcanvas/CommentsContainer";
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -74,10 +75,8 @@ const HomePage = () => {
                                     }}>
                                     <Card.Img key={advert.id} variant="top" src={advert.image}/>
                                     <Card.Body>
-                                        <Card.Title>{advert.title}</Card.Title>
+                                        <Card.Title style={{borderBottom:"#0D47A1"}}>{advert.title}</Card.Title>
                                         {advert.price !== null ?
-
-
                                             <Card.Text>
                                                 <h4>
                                                     <MDBBadge pill className='me-2 text-dark' color='light' light>
@@ -101,6 +100,7 @@ const HomePage = () => {
                 </Row>
             </Container>
             <LoginModal show={show} handleClose={handleClose} handleShow={handleShow}/>
+
         </div>
     );
 };

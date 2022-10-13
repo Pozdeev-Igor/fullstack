@@ -48,7 +48,7 @@ const LoginModal = (props) => {
     return (
         <Modal show={show} onHide={handleClose} style={{backdropFilter: "blur(5px)"}}>
             <Modal.Header closeButton>
-                <Modal.Title><p style={{}}>Login</p></Modal.Title>
+                <Modal.Title><p>Login</p></Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>

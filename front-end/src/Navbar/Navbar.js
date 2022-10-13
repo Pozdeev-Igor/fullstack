@@ -47,14 +47,6 @@ function BasicExample(props) {
 
 
 
-    // useEffect(() => {
-    //     ajax(`api/adverts`, "GET", user.jwt).then(advertsData => {
-    //         console.log(advertsData)
-    //             setAdvertsId(advertsData.id)
-    //         console.log(advertsId)
-    //     })
-    // }, []);
-
     function toLogOut() {
         localStorage.removeItem("jwt");
         navigate("/");

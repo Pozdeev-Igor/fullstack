@@ -3,8 +3,9 @@ import {useUser} from "../UserProvider/UserProvider";
 import {useParams} from "react-router-dom";
 import ajax from "../services/fetchServise";
 import {Carousel, Col, Container, Row} from "react-bootstrap";
-import {MDBBadge, MDBBtn, MDBIcon, MDBTypography} from "mdb-react-ui-kit";
+import {MDBBadge, MDBBtn, MDBIcon, MDBPopover, MDBPopoverBody, MDBPopoverHeader, MDBTypography} from "mdb-react-ui-kit";
 import {NumericFormat} from "react-number-format";
+import CommentsContainer from "../Offcanvas/CommentsContainer";
 
 const AdvertView = () => {
     const user = useUser();
@@ -20,6 +21,12 @@ const AdvertView = () => {
     });
     const [categoryName, setCategoryName] = useState("");
     const [subCategoryName, setSubCategoryName] = useState("");
+    const [authorName, setAuthorName] = useState("");
+    const [authorPhone, setAuthorPhone] = useState("");
+
+    const [show, setShow] = useState(() => false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     function currencyFormat(num) {
         if (!num) {
@@ -35,6 +42,8 @@ const AdvertView = () => {
             setAdvert(response);
             setCategoryName(response.subCategory.category.name);
             setSubCategoryName(response.subCategory.name);
+            setAuthorName(response.user.name);
+            setAuthorPhone(response.user.phoneNumber)
             // console.log(response)
         })
     }, [advertId, user.jwt]);
@@ -52,6 +61,7 @@ const AdvertView = () => {
 
 
     return (
+        <div>
         <Container>
             <Row>
                 <Col>
@@ -68,10 +78,18 @@ const AdvertView = () => {
                                     </MDBTypography>
                                 )
                             }
-                            <figcaption className='blockquote-footer mb-3 mt-0'>
-                                {categoryName} • <cite
-                                title='Source Title'>{subCategoryName}</cite>
-                            </figcaption>
+                            {subCategoryName ? (
+                                <figcaption className='blockquote-footer mb-3 mt-0'>
+                                    {categoryName} • <cite
+                                    title='Source Title'>{subCategoryName}</cite>
+                                </figcaption>
+                            ) : (
+                                <figcaption className='blockquote-footer mb-3 mt-0'>
+                                    Категория объявления не определена
+                                </figcaption>
+                            )
+
+                            }
 
                             <MDBBtn className='text-dark mb-3' style={{width: "40%"}} color='light'
                                     onClick={favoriteClick}>
@@ -117,7 +135,7 @@ const AdvertView = () => {
                         </Row>
                     </Container>
                 </Col>
-                <Col>
+                <Col className="bg-fixed">
                     {
                         (advert.price !== "" && advert.price !== null) ? (
 
@@ -135,19 +153,41 @@ const AdvertView = () => {
                         )
 
                     }
-                    <div style={{marginTop: "95px"}}>
-                        <MDBBtn rounded className='lg mt-5 text-black' style={{backgroundColor: "#A5D6A7"}}>
-                            <MDBIcon fas icon="phone"/><h6>позвонить</h6>
-                        </MDBBtn>
+                    <div className="d-flex justify-content-start" style={{marginTop: "150px"}}>
+
+                        <MDBPopover className='mt-3 mb-5 mx-2' rounded size='lg'
+                                    style={{backgroundColor: "#33691E", width: "100px"}}
+                                    btnChildren={<MDBIcon fas icon="phone" size="2x" color="white"/>}>
+                            <MDBPopoverHeader>{authorName}</MDBPopoverHeader>
+                            <MDBPopoverBody>{authorPhone}</MDBPopoverBody>
+                        </MDBPopover>
+
+                        <MDBPopover
+                            onClick={handleShow}
+                            className=' mt-3 mb-5 mx-2'
+                            rounded
+                            size='lg'
+                            style={{backgroundColor: "#0D47A1", width: "100px", marginLeft: "30px"}}
+                            btnChildren=
+                                {
+                                    <MDBIcon fas icon="comment" size="2x"/>
+                                }
+                        >
+                        </MDBPopover>
                     </div>
-                        <MDBBtn rounded className='mt-3 mx-2' color='primary'>
-                            <Col><MDBIcon fas icon="comment"/></Col><Col><h6>написать</h6></Col>
-                        </MDBBtn>
+
+                    <figcaption>
+                        Пользователь •
+                        <cite> {authorName}</cite>
+                    </figcaption>
 
                 </Col>
             </Row>
         </Container>
 
+
+    <CommentsContainer show={show} handleClose={handleClose} handleShow={handleShow}/>
+        </div>
         // <Container className="personal-advert-view">
         //
         //
