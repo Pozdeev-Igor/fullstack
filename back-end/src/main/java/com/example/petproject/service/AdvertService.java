@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class AdvertService {
@@ -64,13 +63,7 @@ public class AdvertService {
 
     public Iterable<Advert> getAllAdverts(Iterable<Advert> advertList) {
         for (Advert advert : advertList) {
-//            List<ImageName> images = imageService.getByAdvertId(advert.getId());
-            if (advert.getImage().isEmpty()) {
-//                for (int i = 0; i < 1; i++) {
-//                    advert.setImage(images.get(i).getName());
-//                    advertRepo.save(advert);
-//                }
-//            } else {
+            if (advert.getImage() == null) {
 //                advert.setImage(null);
                 advert.setStatus(AdvertStatusEnum.AWAITING_CONFIRMATION.getStatus());
             }

@@ -14,7 +14,7 @@ public class AdvertResponseDTO {
     private SubCategory userId;
     private Long subCategoryId;
 
-    private String price;
+    private Long price;
     private List<String> images;
     private AdvertStatusEnum[] statusEnum = AdvertStatusEnum.values();
 
@@ -75,11 +75,11 @@ public class AdvertResponseDTO {
         this.advert = advert;
     }
 
-    public String getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 

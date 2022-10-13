@@ -25,7 +25,7 @@ public class Advert {
     private String image;
 
     private String Status;
-    private String price;
+    private Long price;
 
     public SubCategory getSubCategory() {
         return subCategory;
@@ -75,11 +75,11 @@ public class Advert {
         this.user = createdBy;
     }
 
-    public String getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 

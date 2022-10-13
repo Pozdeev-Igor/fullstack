@@ -14,14 +14,14 @@
     margin-top: 30px;
     box-shadow: 2px 3px 4px rgba(0,0,0,.5);
     border-radius: 25px;
-    width: 90%;
-    background-color: white;
+    /*width: 20px;*/
     margin-bottom:30px;
+    background-color: whitesmoke;
 }
 
 .advert-carousel {
-    width: 70%;
-    margin-left: 15%;
+    width: 50%;
+    margin-left: 25%;
     margin-bottom: 50px;
     margin-top: 30px;
 }

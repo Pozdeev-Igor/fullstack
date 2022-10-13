@@ -20,7 +20,7 @@ const NewAdvertView = () => {
     const user = useUser();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [price, setPrice] = useState("");
+    const [price, setPrice] = useState(null);
     const prefix = "₽ ";
     const [subCategory, setSubCategory] = useState([]);
     const [category, setCategory] = useState([]);
@@ -119,29 +119,38 @@ const NewAdvertView = () => {
                     style={{marginTop: "30px", marginBottom: "30px"}}
                     onChange={(e) => setDescription(e.target.value)}/>
 
-                <CurrencyInput
-                    style={{
-                        borderRadius:"5px",
-                        borderBottomColor:"lightgrey",
-                        borderLeftColor:"white",
-                        borderTopColor:"white",
-                        borderRightColor:"lightgrey",
-                        marginBottom:"30px",
-                        color:"grey",
-                    }}
-                    prefix={prefix}
-                    name="currencyInput"
-                    id="currencyInput"
-                    data-number-to-fixed="2"
-                    data-number-stepfactor="100"
-                    value={price}
-                    placeholder=""
-                    onChange={handlePriceChange}
-                    onBlur={handleOnBlur}
-                    allowDecimals
-                    decimalsLimit="2"
-                    disableAbbreviations
-                />
+
+                <MDBInput
+                    label='Укажите цену'
+                    id='formControlLg'
+                    type='number'
+                    size='lg'
+                    onChange={(e) => setPrice(e.target.value)}/>
+
+
+                {/*<CurrencyInput*/}
+                {/*    style={{*/}
+                {/*        borderRadius:"5px",*/}
+                {/*        borderBottomColor:"lightgrey",*/}
+                {/*        borderLeftColor:"white",*/}
+                {/*        borderTopColor:"white",*/}
+                {/*        borderRightColor:"lightgrey",*/}
+                {/*        marginBottom:"30px",*/}
+                {/*        color:"grey",*/}
+                {/*    }}*/}
+                {/*    prefix={prefix}*/}
+                {/*    name="currencyInput"*/}
+                {/*    id="currencyInput"*/}
+                {/*    data-number-to-fixed="2"*/}
+                {/*    data-number-stepfactor="100"*/}
+                {/*    value={price}*/}
+                {/*    placeholder=""*/}
+                {/*    onChange={handlePriceChange}*/}
+                {/*    onBlur={handleOnBlur}*/}
+                {/*    allowDecimals*/}
+                {/*    decimalsLimit="2"*/}
+                {/*    disableAbbreviations*/}
+                {/*/>*/}
 
                 <ImageUploader
                     title={title}

@@ -17,6 +17,7 @@ import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Footer";
 import PersonalAdvertView from "./Pages/PersonalAdvertView";
 import AdvertView from "./Pages/AdvertView";
+import Test from "./Pages/Test";
 
 function App() {
     const user = useUser();
@@ -28,12 +29,14 @@ function App() {
             <Routes>
 
                 <Route path='/' element={<HomePage/>}/>
+                {/*<Route path='/' element={<Test/>}/>*/}
                 <Route path='/login' element={<LoginPage/>}/>
                 <Route path='/activate/*' element={<LoginPage/>}/>
                 <Route path='/registration' element={<SignUpPage/>}/>
                 <Route path='/adverts/new/:advertId' element={<PrivateRoute><NewAdvertView/></PrivateRoute>}/>
                 <Route path='/adverts/:userId/:advertId' element={<PrivateRoute><AdvertView/></PrivateRoute>}/>
                 <Route path='/adverts/personal/:advertId' element={<PrivateRoute><PersonalAdvertView/></PrivateRoute>}/>
+                {/*<Route path='/adverts/personal/:advertId' element={<PrivateRoute><Test/></PrivateRoute>}/>*/}
                 <Route path='/users/adverts' element={<PrivateRoute><PersonalDashboard/></PrivateRoute>}/>
                 <Route path='/admin/categories' element={<PrivateRoute><CategoryView/></PrivateRoute>}/>
                 <Route path='/admin/subcategories' element={<PrivateRoute><SubCategoryView/></PrivateRoute>}/>

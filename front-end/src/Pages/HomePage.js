@@ -6,6 +6,7 @@ import LoginModal from "../Modal/LoginModal";
 import ajax from "../services/fetchServise";
 import jwt_decode from "jwt-decode";
 import {NumericFormat} from 'react-number-format';
+import {MDBBadge} from "mdb-react-ui-kit";
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -20,15 +21,25 @@ const HomePage = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    function currencyFormat(num) {
+        if (!num) {
+            return 0;
+        } else {
+            let bum = '' + num;
+            return bum.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ') + '   ₽'
+        }
+    }
+
 
     useEffect(() => {
         if (fetching) {
             ajax(`/api/adverts?page=${currentPage}&limit=12`, "GET", user.jwt).then((advertsData) => {
+                console.log(advertsData)
                 setAdverts([...adverts, ...advertsData])
                 setCurrentPage(prevState => prevState + 1);
             }).finally(() => setFetching(false));
         }
-        console.log(adverts)
+        // console.log(adverts)
 
     }, [fetching]);
 
@@ -66,19 +77,25 @@ const HomePage = () => {
                                     <Card.Body>
                                         <Card.Title>{advert.title}</Card.Title>
                                         {advert.price !== null ?
+
+
                                             <Card.Text>
-                                                <NumericFormat
-                                                    className="numericFormat"
-                                                    prefix="₽ "
-                                                    type="text"
-                                                    value={advert.price}
-                                                    thousandSeparator=" "
-                                                />
+                                                <h4>
+                                                    <MDBBadge pill className='me-2 text-dark' color='light' light>
+                                                        {currencyFormat(advert.price)}
+                                                    </MDBBadge>
+                                                </h4>
                                             </Card.Text>
                                             :
                                             <Card.Text>
-                                                Цена не указана
+                                                <h4>
+                                                    <MDBBadge pill className='me-2 text-dark' color='light' light>
+                                                        Цена не указана
+                                                    </MDBBadge>
+                                                </h4>
                                             </Card.Text>
+
+
                                         }
                                     </Card.Body>
                                 </Card>

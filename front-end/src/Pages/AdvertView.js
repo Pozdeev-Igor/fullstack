@@ -34,20 +34,7 @@ const AdvertView = () => {
     return (
 
         <Container className="personal-advert-view">
-            <Row>
-                <Col> {
-                    advert.title ? (
-                    <MDBTypography tag='div' className='display-5 pb-3 mb-3 border-bottom' style={{marginLeft: "5%"}}>
-                        {advert.title}
-                    </MDBTypography>
-                    ) : (
-                        <MDBTypography tag='div' className='display-5 pb-3 mb-3 border-bottom' style={{marginLeft: "5%"}}>
-                            Автор не указал заголовок
-                        </MDBTypography>
-                    )
-                }
-                </Col>
-            </Row>
+
             <Carousel className="advert-carousel">
                 {imageList.map((image) => (
                     <Carousel.Item interval={3000} key={image.id}>
@@ -59,22 +46,28 @@ const AdvertView = () => {
                     </Carousel.Item>
                 ))}
             </Carousel>
-            <Row>
-                <Col lg="8" md="8" sm="6" xs="4" style={{marginLeft: "5%"}}>
-                    {
-                        advert.description ? (
-                    <h5 className='pb-3 mb-3 border-bottom'>
-                        {advert.description}
-                    </h5>
-                        ) : (
-                            <h5 className='pb-3 mb-3 border-bottom'>
-                                автор не составил описание объявлению
-                            </h5>
-                        )
-                    }
 
-                    {
-                        (advert.price !== "" && advert.price !== null) ? (
+
+            <Row>
+                <Col> {
+                    advert.title ? (
+                        <MDBTypography tag='div' className='display-5 pb-3 mb-3 border-bottom'
+                                       style={{marginLeft: "5%"}}>
+                            {advert.title}
+                        </MDBTypography>
+                    ) : (
+                        <MDBTypography tag='div' className='display-5 pb-3 mb-3 border-bottom'
+                                       style={{marginLeft: "5%"}}>
+                            Автор не указал заголовок
+                        </MDBTypography>
+                    )
+                }
+                </Col>
+            </Row>
+
+            {
+                (advert.price !== "" && advert.price !== null) ? (
+
                     <NumericFormat
                         className="numericFormat"
                         suffix=" ₽"
@@ -82,42 +75,48 @@ const AdvertView = () => {
                         value={advert.price}
                         thousandSeparator=" "
                     />
+                ) : (
+                    <h5 className='pb-3 mb-3 border-bottom'>
+                        Цена не указана
+                    </h5>
+                )
+
+            }
+            <Row>
+                    <h5 style={{marginTop:"30px"}}>связаться с автором:</h5>
+                <Col className="d-grid gap-2 d-md-block">
+
+
+                        <MDBBtn rounded className='lg' color='success'>
+                        <MDBIcon fas icon="phone"/><h6>позвонить</h6>
+                        </MDBBtn>
+
+
+                </Col>
+                <Col className="d-grid gap-2 d-md-block">
+                        <MDBBtn rounded className='mx-2' color='secondary'>
+                            <Col><MDBIcon fas icon="comment"/></Col><Col><h6>написать</h6></Col>
+                        </MDBBtn>
+
+                        {/*<MDBIcon far icon=""/>*/}
+                    {/*</MDBBtn>*/}
+                </Col>
+            </Row>
+            <Row>
+                <Col lg="8" md="8" sm="6" xs="4" style={{marginLeft: "5%"}}>
+                    {
+                        advert.description ? (
+                            <h5 className='pb-3 mb-3 border-bottom'>
+                                {advert.description}
+                            </h5>
                         ) : (
-                            <h5 className='pb-3 mb-3 border-bottom' >
-                                Цена не указана
+                            <h5 className='pb-3 mb-3 border-bottom'>
+                                автор не составил описание объявлению
                             </h5>
                         )
-
                     }
+                </Col>
 
-
-
-                </Col>
-                <Col lg="2" md="4" sm="6">
-                    <h5>связаться с автором:</h5>
-                </Col>
-                <Col>
-                    <MDBBtn
-                        floating
-                        className='m-1'
-                        style={{ backgroundColor: '#5cb85c' }}
-                        href='#!'
-                        role='button'
-                    >
-                        <MDBIcon fas icon="phone" />
-                    </MDBBtn>
-                </Col>
-                <Col>
-                    <MDBBtn
-                        floating
-                        className='m-1'
-                        style={{ backgroundColor: '#3b5998' }}
-                        href='#!'
-                        role='button'
-                    >
-                        <MDBIcon far icon="comment" />
-                    </MDBBtn>
-                </Col>
             </Row>
         </Container>
     );

@@ -3,7 +3,16 @@ import {useUser} from "../UserProvider/UserProvider";
 import {useParams} from "react-router-dom";
 import ajax from "../services/fetchServise";
 import {Carousel, Col, Container, Row} from "react-bootstrap";
-import {MDBBtn, MDBCollapse, MDBIcon, MDBInput, MDBTextArea, MDBTypography} from "mdb-react-ui-kit";
+import {
+    MDBBtn,
+    MDBCollapse,
+    MDBIcon,
+    MDBInput,
+    MDBPopover, MDBPopoverBody,
+    MDBPopoverHeader,
+    MDBTextArea,
+    MDBTypography
+} from "mdb-react-ui-kit";
 import CurrencyInput from "react-currency-input-field";
 import {NumericFormat} from "react-number-format";
 
@@ -11,19 +20,19 @@ const PersonalAdvertView = () => {
     const user = useUser();
     const {advertId} = useParams();
     const [imageList, setImageList] = useState([]);
-    const [price, setPrice] = useState("");
+    const [price, setPrice] = useState(null);
     const [advert, setAdvert] = useState({
         title: "",
         description: "",
-        price: "",
+        price: null,
     });
 
     const [showShow, setShowShow] = useState(true);
 
-    const toggleShow = () => {
-        setShowShow(!showShow)
-        console.log(showShow)
-    };
+    // const toggleShow = () => {
+    //     setShowShow(!showShow)
+    //     console.log(showShow)
+    // };
 
     const previousAdvertValue = useRef(advert);
 
@@ -31,7 +40,15 @@ const PersonalAdvertView = () => {
         const newAdvert = {...advert};
         newAdvert[prop] = value;
         setAdvert(newAdvert);
-        console.log(value)
+    }
+
+    function currencyFormat(num) {
+        if (!num) {
+            return  0;
+        } else {
+            let bum = '' + num;
+        return  bum.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ') + '   ₽'
+        }
     }
 
     function saveTitle() {
@@ -39,6 +56,7 @@ const PersonalAdvertView = () => {
             updateAdvert("title", advert.title);
         }
         persist();
+        window.location.reload();
     }
 
     function saveDescription() {
@@ -46,16 +64,33 @@ const PersonalAdvertView = () => {
             updateAdvert("description", advert.description);
         }
         persist();
+        window.location.reload();
     }
 
-    const handlePriceChange = (e) => {
-        e.preventDefault();
-        const { value = "" } = e.target;
-        const parsedValue = value.replace(/[^\d.]/gi, "");
-        setPrice(parsedValue);
-    };
+    function savePrice() {
+        if (previousAdvertValue.current.price !== advert.price) {
+            updateAdvert("price", parseInt(advert.price));
+        }
+        persist();
+        window.location.reload();
+    }
 
-    const handleOnBlur = () => setPrice(Number(price).toFixed(2));
+    const persist = () => {
+        const reqBody = {
+            title: advert.title,
+            description: advert.description,
+            price: advert.price,
+        }
+        ajax(`/api/adverts/${advertId}`, "PUT", user.jwt, reqBody)
+    };
+    // const handlePriceChange = (e) => {
+    //     e.preventDefault();
+    //     const {value = ""} = e.target;
+    //     const parsedValue = value.replace(/[^\d.]/gi, "");
+    //     setPrice(parsedValue);
+    // };
+
+    // const handleOnBlur = () => setPrice(Number(price).toFixed(2));
 
     useEffect(() => {
         ajax(`/api/adverts/${advertId}`, "GET", user.jwt).then((response) => {
@@ -63,15 +98,6 @@ const PersonalAdvertView = () => {
         })
     }, [advertId, user.jwt]);
 
-    const persist = () => {
-        const reqBody = {
-            title: advert.title,
-            description: advert.description,
-            price: price,
-        }
-        ajax(`/api/adverts/${advertId}`, "PUT", user.jwt, reqBody)
-        window.location.reload();
-    };
 
     useEffect(() => {
         ajax(`/api/images/${advertId}`, "GET", user.jwt).then((imagesData) => {
@@ -101,39 +127,63 @@ const PersonalAdvertView = () => {
             </Carousel>
             <Row>
                 <Col md="10" sm="6" xs="6" style={{marginLeft: "5%"}}>
-                    <h5 className='pb-3 mb-3 border-bottom' >
+                    <h5 className='pb-3 mb-3 border-bottom'>
                         {advert.description}
-                    </h5>
-                    <span style={{cursor:"pointer"}} onClick={toggleShow}>
 
-                    <NumericFormat
-                        className="numericFormat"
-                        suffix=" ₽"
-                        type="text"
-                        value={advert.price}
-                        thousandSeparator=" "
-                    />
-                        </span>
+                    </h5>
+                    {/*<span style={{cursor: "pointer"}} onClick={toggleShow}>*/}
+
+                    {/*<NumericFormat*/}
+                    {/*    className="numericFormat"*/}
+                    {/*    suffix=" ₽"*/}
+                    {/*    type="text"*/}
+                    {/*    value={advert.price}*/}
+                    {/*    thousandSeparator=" "*/}
+                    {/*/>*/}
+                    {/*    </span>*/}
+
+
+                    <MDBPopover size='lg' color='primary' btnChildren={currencyFormat(advert.price)}>
+                        <MDBPopoverHeader>
+                            {currencyFormat(advert.price)}
+                        </MDBPopoverHeader>
+                        <MDBPopoverBody>
+                            <Row>
+                                <Col className="justify-content-start">
+                                    <MDBInput
+                                        label='price'
+                                        id='form1'
+                                        type='number'
+                                        value={advert.price === null ? 0 : (advert.price)}
+                                        onChange={(e) => updateAdvert("price", e.target.value)}/>
+                                </Col>
+                                <Col className="justify-content-start" >
+                                    <MDBBtn rounded onClick={() => savePrice()}>Edit</MDBBtn>
+                                </Col>
+                            </Row>
+                        </MDBPopoverBody>
+                    </MDBPopover>
+
                     <MDBCollapse show={showShow}>
-                    <Row >
-                        <Col >
-                            <CurrencyInput
-                                className="currencyInput"
-                                prefix="₽ "
-                                name="currencyInput"
-                                id="currencyInput"
-                                data-number-to-fixed="2"
-                                data-number-stepfactor="100"
-                                value={price === "" ? "" : price}
-                                placeholder=""
-                                onChange={handlePriceChange}
-                                onBlur={handleOnBlur}
-                                allowDecimals
-                                decimalsLimit="2"
-                                disableAbbreviations
-                            />
-                        </Col>
-                    </Row>
+                        <Row>
+                            <Col>
+                                {/*<CurrencyInput*/}
+                                {/*    className="currencyInput"*/}
+                                {/*    prefix="₽ "*/}
+                                {/*    name="currencyInput"*/}
+                                {/*    id="currencyInput"*/}
+                                {/*    data-number-to-fixed="2"*/}
+                                {/*    data-number-stepfactor="100"*/}
+                                {/*    value={price === "" ? "" : price}*/}
+                                {/*    placeholder=""*/}
+                                {/*    onChange={handlePriceChange}*/}
+                                {/*    onBlur={handleOnBlur}*/}
+                                {/*    allowDecimals*/}
+                                {/*    decimalsLimit="2"*/}
+                                {/*    disableAbbreviations*/}
+                                {/*/>*/}
+                            </Col>
+                        </Row>
                     </MDBCollapse>
                     <Row>
                         <Col className="justify-content-start">
