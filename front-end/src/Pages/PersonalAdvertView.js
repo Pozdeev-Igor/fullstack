@@ -83,14 +83,6 @@ const PersonalAdvertView = () => {
         }
         ajax(`/api/adverts/${advertId}`, "PUT", user.jwt, reqBody)
     };
-    // const handlePriceChange = (e) => {
-    //     e.preventDefault();
-    //     const {value = ""} = e.target;
-    //     const parsedValue = value.replace(/[^\d.]/gi, "");
-    //     setPrice(parsedValue);
-    // };
-
-    // const handleOnBlur = () => setPrice(Number(price).toFixed(2));
 
     useEffect(() => {
         ajax(`/api/adverts/${advertId}`, "GET", user.jwt).then((response) => {
@@ -131,16 +123,6 @@ const PersonalAdvertView = () => {
                         {advert.description}
 
                     </h5>
-                    {/*<span style={{cursor: "pointer"}} onClick={toggleShow}>*/}
-
-                    {/*<NumericFormat*/}
-                    {/*    className="numericFormat"*/}
-                    {/*    suffix=" ₽"*/}
-                    {/*    type="text"*/}
-                    {/*    value={advert.price}*/}
-                    {/*    thousandSeparator=" "*/}
-                    {/*/>*/}
-                    {/*    </span>*/}
 
 
                     <MDBPopover size='lg' color='primary' btnChildren={currencyFormat(advert.price)}>

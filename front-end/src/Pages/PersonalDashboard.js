@@ -54,13 +54,13 @@ const PersonalDashboard = (props) => {
 
     return (
         <div>
-            <Container className="justify-content-start" style={{marginBottom: "30px"}}>
+            <Container style={{marginBottom: "30px"}}>
                 <Row>
                     {adverts.map((advert) => (
                         <Col key={advert.id}>
                             {
                                 (advert.user.username) === (jwt_decode(user.jwt).sub) ?
-                                    <Card style={{
+                                    <Card className="justify-content-lg-start " style={{
                                         width: '18rem',
                                         cursor: "pointer",
                                         marginTop: "30px",

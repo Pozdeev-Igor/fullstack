@@ -5,7 +5,6 @@ import {useUser} from "../UserProvider/UserProvider";
 import LoginModal from "../Modal/LoginModal";
 import ajax from "../services/fetchServise";
 import jwt_decode from "jwt-decode";
-import {NumericFormat} from 'react-number-format';
 import {MDBBadge} from "mdb-react-ui-kit";
 
 const HomePage = () => {
@@ -94,8 +93,6 @@ const HomePage = () => {
                                                     </MDBBadge>
                                                 </h4>
                                             </Card.Text>
-
-
                                         }
                                     </Card.Body>
                                 </Card>
