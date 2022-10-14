@@ -5,17 +5,17 @@ import java.time.ZonedDateTime;
 public class CommentDTO {
 
     private Long id;
-    private Long assignmentId;
+    private Long advertId;
     private String text;
     private String user;
     private ZonedDateTime createdDate;
 
-    public Long getAssignmentId() {
-        return assignmentId;
+    public Long getAdvertId() {
+        return advertId;
     }
 
-    public void setAssignmentId(Long assignmentId) {
-        this.assignmentId = assignmentId;
+    public void setAdvertId(Long advertId) {
+        this.advertId = advertId;
     }
 
     public String getText() {
@@ -54,7 +54,7 @@ public class CommentDTO {
     public String toString() {
         return "CommentDTO{" +
                 "id=" + id +
-                ", assignmentId=" + assignmentId +
+                ", advertId=" + advertId +
                 ", text='" + text + '\'' +
                 ", user='" + user + '\'' +
                 ", createdDate=" + createdDate +

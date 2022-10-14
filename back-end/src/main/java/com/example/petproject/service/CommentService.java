@@ -25,7 +25,7 @@ public class CommentService {
     public Comment save(CommentDTO commentDTO, User user) {
 
         Comment comment = new Comment();
-        Optional<Advert> advert = advertRepo.findById(commentDTO.getAssignmentId());
+        Advert advert = advertRepo.findById(commentDTO.getAdvertId()).get();
         comment.setId(commentDTO.getId());
         comment.setText(commentDTO.getText());
         comment.setCreatedBy(user);

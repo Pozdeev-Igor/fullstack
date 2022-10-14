@@ -1,237 +1,111 @@
-import React from 'react';
-import {
-    MDBCard,
-    MDBCardBody,
-    MDBCardImage,
-    MDBCol,
-    MDBContainer,
-    MDBIcon,
-    MDBRow,
-    MDBTypography
-} from "mdb-react-ui-kit";
+import React, {useEffect, useState} from 'react';
+import {MDBCol, MDBIcon, MDBRow} from "mdb-react-ui-kit";
+import jwt_decode from "jwt-decode";
+import {useUser} from "../UserProvider/UserProvider";
+import CommentsAnswer from "./CommentsAnswer";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime"
 
-const Comment = () => {
+const Comment = (props) => {
+    const user = useUser();
+    const decodedJwt = jwt_decode(user.jwt);
+    const {id, createdDate, createdBy, text} = props.commentData;
+    const {emitEditComment, emitDeleteComment} = props;
+    const [commentRelativeTime, setCommentRelativeTime] = useState("");
+    const [showAnswer, setShowAnswer] = useState(false);
+
+    const handleShowAnswer = () => {
+        setShowAnswer(!showAnswer);
+    }
+
+    useEffect(() => {
+        updateCommentRelativeTime();
+    }, [createdDate]);
+
+    function updateCommentRelativeTime() {
+        if (createdDate) {
+            dayjs.extend(relativeTime);
+            if (typeof createdDate === "string")
+                setCommentRelativeTime(dayjs(createdDate).fromNow());
+            else {
+                console.log(createdDate);
+                console.log(createdDate.fromNow());
+                setCommentRelativeTime(createdDate.fromNow());
+            }
+        }
+    }
+
     return (
+        <MDBRow>
+            <MDBCol>
+                <div className="d-flex flex-start">
+                    <div className="flex-grow-1 flex-shrink-1">
+                        <div className="shadow-4-strong p-2">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <p className="mb-1 text-primary">
+                                    {`${createdBy.name}`}
+                                </p>
+                                <cite>
+                                    <span className="small text-muted">
+                                        • {commentRelativeTime ? `${commentRelativeTime}` : ""} •</span>
+                                </cite>
+                            </div>
+                            <p className="small mb-2">
+                                {text}
+                            </p>
+                            <div className="d-flex justify-content-evenly" style={{backgroundColor:"whitesmoke"}}>
+                                <span className="text-muted">
+                                    <MDBIcon fas icon="reply fa-xs"/>
+                                    <span className="small"> reply</span>
+                                </span>
+                                {showAnswer === false ?
+                                <span className="text-primary" style={{cursor:"pointer"}}
+                                        onClick={handleShowAnswer}>
+                                    <MDBIcon far icon="caret-square-down fa-xs"/>
+                                    <span className="small"> open</span>
+                                </span>
+                                    :
+                                    <span className="text-muted" style={{cursor:"pointer"}}
+                                          onClick={handleShowAnswer}>
+                                    <MDBIcon far icon="caret-square-up fa-xs"/>
+                                    <span className="small"> close</span>
+                                </span>
+                                }
 
-                // <MDBContainer className="py-5" style={{ maxWidth: "1000px" }}>
-                //     <MDBRow className="justify-content-center">
-                //         <MDBCol md="12" lg="10" xl="8">
-                //             <MDBCard>
-                //                 <MDBCardBody className="p-4">
-                //                     <MDBTypography tag="h4" className="text-center mb-4 pb-2">
-                //                         Nested comments section
-                //                     </MDBTypography>
-
-                                    <MDBRow>
-                                        <MDBCol>
-                                            <div className="d-flex flex-start">
-                                                <MDBCardImage
-                                                    className="rounded-circle shadow-1-strong me-3"
-                                                    src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp"
-                                                    alt="avatar"
-                                                    width="65"
-                                                    height="65"
-                                                />
-
-                                                <div className="flex-grow-1 flex-shrink-1">
-                                                    <div>
-                                                        <div className="d-flex justify-content-between align-items-center">
-                                                            <p className="mb-1">
-                                                                Maria Smantha{" "}
-                                                                <span className="small">- 2 hours ago</span>
-                                                            </p>
-                                                            <a href="#!">
-                                                                <MDBIcon fas icon="reply fa-xs" />
-                                                                <span className="small"> reply</span>
-                                                            </a>
-                                                        </div>
-                                                        <p className="small mb-0">
-                                                            It is a long established fact that a reader will be
-                                                            distracted by the readable content of a page.
-                                                        </p>
-                                                    </div>
-
-                                                    <div className="d-flex flex-start mt-4">
-                                                        <a className="me-3" href="#">
-                                                            <MDBCardImage
-                                                                className="rounded-circle shadow-1-strong me-3"
-                                                                src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(11).webp"
-                                                                alt="avatar"
-                                                                width="65"
-                                                                height="65"
-                                                            />
-                                                        </a>
-
-                                                        <div className="flex-grow-1 flex-shrink-1">
-                                                            <div>
-                                                                <div className="d-flex justify-content-between align-items-center">
-                                                                    <p className="mb-1">
-                                                                        Simona Disa{" "}
-                                                                        <span className="small">- 3 hours ago</span>
-                                                                    </p>
-                                                                </div>
-                                                                <p className="small mb-0">
-                                                                    letters, as opposed to using 'Content here,
-                                                                    content here', making it look like readable
-                                                                    English.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="d-flex flex-start mt-4">
-                                                        <a className="me-3" href="#">
-                                                            <MDBCardImage
-                                                                className="rounded-circle shadow-1-strong me-3"
-                                                                src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp"
-                                                                alt="avatar"
-                                                                width="65"
-                                                                height="65"
-                                                            />
-                                                        </a>
-
-                                                        <div className="flex-grow-1 flex-shrink-1">
-                                                            <div>
-                                                                <div className="d-flex justify-content-between align-items-center">
-                                                                    <p className="mb-1">
-                                                                        John Smith{" "}
-                                                                        <span className="small">- 4 hours ago</span>
-                                                                    </p>
-                                                                </div>
-                                                                <p className="small mb-0">
-                                                                    the majority have suffered alteration in some
-                                                                    form, by injected humour, or randomised words.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="d-flex flex-start mt-4">
-                                                <MDBCardImage
-                                                    className="rounded-circle shadow-1-strong me-3"
-                                                    src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(12).webp"
-                                                    alt="avatar"
-                                                    width="65"
-                                                    height="65"
-                                                />
-
-                                                <div className="flex-grow-1 flex-shrink-1">
-                                                    <div>
-                                                        <div className="d-flex justify-content-between align-items-center">
-                                                            <p className="mb-1">
-                                                                Natalie Smith{" "}
-                                                                <span className="small">- 2 hours ago</span>
-                                                            </p>
-                                                            <a href="#!">
-                                                                <MDBIcon fas icon="reply fa-xs" />
-                                                                <span className="small"> reply</span>
-                                                            </a>
-                                                        </div>
-                                                        <p className="small mb-0">
-                                                            The standard chunk of Lorem Ipsum used since the
-                                                            1500s is reproduced below for those interested.
-                                                            Sections 1.10.32 and 1.10.33.
-                                                        </p>
-                                                    </div>
-
-                                                    <div className="d-flex flex-start mt-4">
-                                                        <a className="me-3" href="#">
-                                                            <MDBCardImage
-                                                                className="rounded-circle shadow-1-strong me-3"
-                                                                src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(31).webp"
-                                                                alt="avatar"
-                                                                width="65"
-                                                                height="65"
-                                                            />
-                                                        </a>
-
-                                                        <div className="flex-grow-1 flex-shrink-1">
-                                                            <div>
-                                                                <div className="d-flex justify-content-between align-items-center">
-                                                                    <p className="mb-1">
-                                                                        Lisa Cudrow{" "}
-                                                                        <span className="small">- 4 hours ago</span>
-                                                                    </p>
-                                                                </div>
-                                                                <p className="small mb-0">
-                                                                    Cras sit amet nibh libero, in gravida nulla.
-                                                                    Nulla vel metus scelerisque ante sollicitudin
-                                                                    commodo. Cras purus odio, vestibulum in
-                                                                    vulputate at, tempus viverra turpis.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="d-flex flex-start mt-4">
-                                                        <a className="me-3" href="#">
-                                                            <MDBCardImage
-                                                                className="rounded-circle shadow-1-strong me-3"
-                                                                src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(29).webp"
-                                                                alt="avatar"
-                                                                width="65"
-                                                                height="65"
-                                                            />
-                                                        </a>
-
-                                                        <div className="flex-grow-1 flex-shrink-1">
-                                                            <div>
-                                                                <div className="d-flex justify-content-between align-items-center">
-                                                                    <p className="mb-1">
-                                                                        Maggie McLoan{" "}
-                                                                        <span className="small">- 5 hours ago</span>
-                                                                    </p>
-                                                                </div>
-                                                                <p className="small mb-0">
-                                                                    a Latin professor at Hampden-Sydney College in
-                                                                    Virginia, looked up one of the more obscure
-                                                                    Latin words, consectetur
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="d-flex flex-start mt-4">
-                                                        <a className="me-3" href="#">
-                                                            <MDBCardImage
-                                                                className="rounded-circle shadow-1-strong me-3"
-                                                                src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp"
-                                                                alt="avatar"
-                                                                width="65"
-                                                                height="65"
-                                                            />
-                                                        </a>
-
-                                                        <div className="flex-grow-1 flex-shrink-1">
-                                                            <div>
-                                                                <div className="d-flex justify-content-between align-items-center">
-                                                                    <p className="mb-1">
-                                                                        John Smith{" "}
-                                                                        <span className="small">- 6 hours ago</span>
-                                                                    </p>
-                                                                </div>
-                                                                <p className="small mb-0">
-                                                                    Autem, totam debitis suscipit saepe sapiente
-                                                                    magnam officiis quaerat necessitatibus odio
-                                                                    assumenda, perferendis quae iusto labore
-                                                                    laboriosam minima numquam impedit quam dolorem!
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </MDBCol>
-                                    {/*</MDBRow>*/}
-                                {/*</MDBCardBody>*/}
-                            {/*</MDBCard>*/}
-                        {/*</MDBCol>*/}
-                    </MDBRow>
-                // </MDBContainer>
-
-
+                                {decodedJwt.sub === createdBy.username ?
+                                    (
+                                        <><span className="text-muted"
+                                      style={{cursor:"pointer"}}
+                                      onClick={() => emitEditComment(id)}>
+                                    <MDBIcon fas icon="pen fa-xs"/>
+                                    <span className="small"> edit</span>
+                                </span>
+                                <span className="text-muted"
+                                      style={{cursor:"pointer"}}
+                                      onClick={() => emitDeleteComment(id)}
+                                >
+                                    <MDBIcon fas icon="trash-alt fa-xs"/>
+                                    <span className="small"> delete</span>
+                                </span>
+                                        </>
+                                    ):
+                                    null
+                                }
+                            </div>
+                        </div>
+                        {showAnswer ?
+                        <CommentsAnswer/>
+                            :
+                            null
+                        }
+                        <div className="d-flex flex-start mt-4">
+                            <a className="me-5" href="#">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </MDBCol>
+        </MDBRow>
     );
 };
 

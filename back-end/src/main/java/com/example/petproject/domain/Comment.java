@@ -2,7 +2,9 @@ package com.example.petproject.domain;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Entity
 @Table(name = "comments")
@@ -20,6 +22,9 @@ public class Comment {
     private ZonedDateTime createdDate;
     @Column(length = 5000)
     private String text;
+
+    @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, targetEntity = CommentsAnswer.class)
+    private Set<CommentsAnswer> answers;
 
 
     public ZonedDateTime getCreatedDate() {
@@ -50,7 +55,7 @@ public class Comment {
         return advert;
     }
 
-    public void setAdvert(Optional<Advert> assignment) {
+    public void setAdvert(Advert advert) {
         this.advert = advert;
     }
 
@@ -60,5 +65,13 @@ public class Comment {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Set<CommentsAnswer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Set<CommentsAnswer> answers) {
+        this.answers = answers;
     }
 }
