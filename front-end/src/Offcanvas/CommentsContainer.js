@@ -10,7 +10,7 @@ const CommentsContainer = (props) => {
                 <Offcanvas.Title>Комментарии</Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-                
+
             </Offcanvas.Body>
         </Offcanvas>
     );
