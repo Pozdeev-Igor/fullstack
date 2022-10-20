@@ -88,7 +88,7 @@ const CommentsContainer = (props) => {
 
     useEffect(() => {
         ajax(
-            `/api/comments?assignmentId=${advertId}`,
+            `/api/comments?advertId=${advertId}`,
             "get",
             user.jwt,
             null

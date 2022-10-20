@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -38,7 +37,7 @@ public class CommentService {
         return commentRepo.save(comment);
     }
 
-    public Set<Comment> getCommentsByAssignmentId(Long advertId) {
+    public Set<Comment> getCommentsByAdvertId(Long advertId) {
         Set<Comment> comments = commentRepo.findByAdvertId(advertId);
 
         return comments;

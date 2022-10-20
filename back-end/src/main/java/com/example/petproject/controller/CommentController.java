@@ -33,8 +33,8 @@ public class CommentController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Set<Comment>> getCommentsByAssignment(@RequestParam Long assignmentId) {
-        Set<Comment> comments = commentService.getCommentsByAssignmentId(assignmentId);
+    public ResponseEntity<Set<Comment>> getCommentsByAdvert(@RequestParam Long advertId) {
+        Set<Comment> comments = commentService.getCommentsByAdvertId(advertId);
 
         return ResponseEntity.ok(comments);
     }
