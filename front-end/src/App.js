@@ -17,7 +17,6 @@ import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Footer";
 import PersonalAdvertView from "./Pages/PersonalAdvertView";
 import AdvertView from "./Pages/AdvertView";
-import Test from "./Pages/Test";
 
 function App() {
     const user = useUser();

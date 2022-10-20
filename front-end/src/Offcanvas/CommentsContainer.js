@@ -95,7 +95,7 @@ const CommentsContainer = (props) => {
         ).then((commentsData) => {
             formatComments(commentsData);
         });
-    }, [comment]);
+    }, []);
 
     function updateComment(value) {
         const commentCopy = {...comment}
