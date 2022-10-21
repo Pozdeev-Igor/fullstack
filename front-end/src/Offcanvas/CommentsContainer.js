@@ -1,41 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import Comment from "../Comment/Comment";
-import {
-    MDBBtn,
-    MDBCardImage,
-    MDBModal,
-    MDBModalBody,
-    MDBModalContent,
-    MDBModalDialog,
-    MDBModalHeader,
-    MDBModalTitle,
-    MDBTextArea, MDBTypography
-} from "mdb-react-ui-kit";
-import {ModalFooter, Row} from "react-bootstrap";
+import {MDBBtn, MDBTextArea, MDBTypography} from "mdb-react-ui-kit";
+import {Row} from "react-bootstrap";
 import {useUser} from "../UserProvider/UserProvider";
 import {useInterval} from "../util/useInterval";
 import dayjs from "dayjs";
 import ajax from "../services/fetchServise";
 
 const CommentsContainer = (props) => {
+
     const user = useUser();
-    const {
-        // show, handleClose, handleShow,
-        advertId
-    } = props
+    const {advertId} = props
 
     const childToParent = (commentFromChild) => {
-        // console.log(childData.username)
         setData((prevState) => (!{prevState}))
         setCommentFromChild(commentFromChild)
         console.log(commentFromChild)
-        // const i = comments.findIndex((comment) => comment.id === childData.id);
         const answersCopy = {
-            // id: null,
             text: `${commentFromChild.createdBy.name}, `,
             commentId: commentFromChild.id != null ? parseInt(commentFromChild.id) : null,
             user: user.jwt,
-            // createdDate: null,
         };
         setAnswer(answersCopy);
     }
@@ -46,7 +30,6 @@ const CommentsContainer = (props) => {
         advertId: advertId != null ? parseInt(advertId) : null,
         user: user.jwt,
         createdDate: null,
-        // answers: answers,
     };
 
     const emptyAnswer = {
@@ -58,16 +41,14 @@ const CommentsContainer = (props) => {
     };
 
     const [commentFromChild, setCommentFromChild] = useState(null);
-
-
     const [comment, setComment] = useState(emptyComment);
+
     const [answer, setAnswer] = useState({
         id: null,
-        // text: `${commentFromChild.createdBy.name}, `,
-        // commentId: commentFromChild.id != null ? commentFromChild.id : null,
         user: user.jwt,
         createdDate: null,
     });
+
     const [comments, setComments] = useState([]);
     const [answers, setAnswers] = useState([]);
     const [data, setData] = useState(false);
@@ -98,7 +79,6 @@ const CommentsContainer = (props) => {
     }
 
     function handleDeleteComment(commentId) {
-        // TODO: send DELETE request to server
         ajax(`/api/comments/${commentId}`, "delete", user.jwt).then((msg) => {
             const commentsCopy = [...comments];
             const i = commentsCopy.findIndex((comment) => comment.id === commentId);
@@ -140,7 +120,6 @@ const CommentsContainer = (props) => {
         const answerCopy = {...answer};
         answerCopy.text = value;
         setAnswer(answerCopy);
-
     }
 
     function updateComment(value) {
@@ -170,7 +149,6 @@ const CommentsContainer = (props) => {
         }
     }
 
-
     function submitAnswer() {
         ajax("/api/comments/answer", "post", user.jwt, answer).then((d) => {
             const answersCopy = [...answers];
@@ -183,7 +161,6 @@ const CommentsContainer = (props) => {
 
     return (
         <>
-
             <MDBTypography tag='div' className='display-5 pb-3 mt-5 mb-3 border-bottom'>
                 Comments {comments.length + answers.length}
             </MDBTypography>
@@ -198,7 +175,6 @@ const CommentsContainer = (props) => {
                         formatAnswers={formatAnswers}
                         answers={answers}
                         comments={comments}/>
-
                 ))}
             </Row>
             <Row className="py-3 border-0" style={{backgroundColor: "#f8f9fa"}}>
@@ -215,7 +191,6 @@ const CommentsContainer = (props) => {
                                     updateAnswer(e.target.value)
                                     :
                                     updateComment(e.target.value)
-                                // console.log(e.target.value)
                             }}
                         value={
                             commentFromChild ?
@@ -234,8 +209,6 @@ const CommentsContainer = (props) => {
                 </div>
             </Row>
         </>
-
-
     );
 };
 

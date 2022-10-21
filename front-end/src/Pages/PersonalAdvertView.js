@@ -6,15 +6,14 @@ import {Carousel, Col, Container, Row} from "react-bootstrap";
 import {
     MDBBtn,
     MDBCollapse,
-    MDBIcon,
     MDBInput,
-    MDBPopover, MDBPopoverBody,
+    MDBPopover,
+    MDBPopoverBody,
     MDBPopoverHeader,
     MDBTextArea,
     MDBTypography
 } from "mdb-react-ui-kit";
-import CurrencyInput from "react-currency-input-field";
-import {NumericFormat} from "react-number-format";
+import CommentsContainer from "../Offcanvas/CommentsContainer";
 
 const PersonalAdvertView = () => {
     const user = useUser();
@@ -44,10 +43,10 @@ const PersonalAdvertView = () => {
 
     function currencyFormat(num) {
         if (!num) {
-            return  0;
+            return 0;
         } else {
             let bum = '' + num;
-        return  bum.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ') + '   ₽'
+            return bum.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ') + '   ₽'
         }
     }
 
@@ -101,103 +100,121 @@ const PersonalAdvertView = () => {
         <Container className="personal-advert-view">
             <Row>
                 <Col>
-                    <MDBTypography tag='div' className='display-5 pb-3 mb-3 border-bottom' style={{marginLeft: "5%"}}>
-                        {advert.title}
-                    </MDBTypography>
-                </Col>
-            </Row>
-            <Carousel className="advert-carousel">
-                {imageList.map((image) => (
-                    <Carousel.Item interval={3000} key={image.id}>
-                        <img
-                            className="d-block w-100"
-                            src={image.name}
-                            alt={image.id}
-                        />
-                    </Carousel.Item>
-                ))}
-            </Carousel>
-            <Row>
-                <Col md="10" sm="6" xs="6" style={{marginLeft: "5%"}}>
-                    <h5 className='pb-3 mb-3 border-bottom'>
-                        {advert.description}
-
-                    </h5>
-
-
-                    <MDBPopover size='lg' color='primary' btnChildren={currencyFormat(advert.price)}>
-                        <MDBPopoverHeader>
-                            {currencyFormat(advert.price)}
-                        </MDBPopoverHeader>
-                        <MDBPopoverBody>
-                            <Row>
-                                <Col className="justify-content-start">
-                                    <MDBInput
-                                        label='price'
-                                        id='form1'
-                                        type='number'
-                                        value={advert.price === null ? 0 : (advert.price)}
-                                        onChange={(e) => updateAdvert("price", e.target.value)}/>
-                                </Col>
-                                <Col className="justify-content-start" >
-                                    <MDBBtn rounded onClick={() => savePrice()}>Edit</MDBBtn>
-                                </Col>
-                            </Row>
-                        </MDBPopoverBody>
-                    </MDBPopover>
-
-                    <MDBCollapse show={showShow}>
+                    <Container >
                         <Row>
                             <Col>
-                                {/*<CurrencyInput*/}
-                                {/*    className="currencyInput"*/}
-                                {/*    prefix="₽ "*/}
-                                {/*    name="currencyInput"*/}
-                                {/*    id="currencyInput"*/}
-                                {/*    data-number-to-fixed="2"*/}
-                                {/*    data-number-stepfactor="100"*/}
-                                {/*    value={price === "" ? "" : price}*/}
-                                {/*    placeholder=""*/}
-                                {/*    onChange={handlePriceChange}*/}
-                                {/*    onBlur={handleOnBlur}*/}
-                                {/*    allowDecimals*/}
-                                {/*    decimalsLimit="2"*/}
-                                {/*    disableAbbreviations*/}
-                                {/*/>*/}
+                                <MDBTypography tag='div' className='display-5 pb-3 mb-3 border-bottom'
+                                               style={{marginLeft: "5%"}}>
+                                    {advert.title}
+                                </MDBTypography>
                             </Col>
                         </Row>
-                    </MDBCollapse>
-                    <Row>
-                        <Col className="justify-content-start">
-                            <MDBInput
-                                label='Title'
-                                id='form1'
-                                type='text'
-                                value={advert.title === null ? "" : advert.title}
-                                onChange={(e) => updateAdvert("title", e.target.value)}/>
-                        </Col>
-                        <Col md="2" sm="2" xs="1" className="justify-content-end">
-                            <MDBBtn rounded onClick={() => saveTitle()}>Edit</MDBBtn>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <MDBTextArea
-                                rows={4}
-                                label='Description'
-                                id='form1'
-                                type='text'
-                                value={advert.description === null ? "" : advert.description}
-                                style={{marginTop: "30px", marginBottom: "30px"}}
-                                onChange={(e) => updateAdvert("description", e.target.value)}/>
-                        </Col>
-                        <Col md="2" sm="2" xs="1" className="justify-content-end" style={{marginTop: "50px"}}>
-                            <MDBBtn rounded onClick={() => saveDescription()}>Edit</MDBBtn>
-                        </Col>
-                    </Row>
+                        <Carousel >
+                            {imageList.map((image) => (
+                                <Carousel.Item interval={3000} key={image.id}>
+                                    <img
+                                        className="d-block w-100"
+                                        src={image.name}
+                                        alt={image.id}
+                                    />
+                                </Carousel.Item>
+                            ))}
+                        </Carousel>
+                        <Row>
+                            <Col md="10" sm="6" xs="6" style={{marginLeft: "5%", marginTop:"30px"}}>
+                                <h5 className='pb-3 mb-3 border-bottom'>
+                                    {advert.description}
+
+                                </h5>
+
+                                <MDBPopover
+                                    rounded
+                                    style={{marginBottom:"30px"}}
+                                    size='lg'
+                                    color='primary'
+                                    btnChildren={currencyFormat(advert.price)}>
+                                    <MDBPopoverHeader>
+                                        {currencyFormat(advert.price)}
+                                    </MDBPopoverHeader>
+                                    <MDBPopoverBody>
+                                        <Row>
+                                            <Col className="justify-content-start">
+                                                <MDBInput
+                                                    style={{marginTop:"30px"}}
+                                                    label='price'
+                                                    id='form1'
+                                                    type='number'
+                                                    value={advert.price === null ? 0 : (advert.price)}
+                                                    onChange={(e) => updateAdvert("price", e.target.value)}/>
+                                            </Col>
+                                            <Col className="justify-content-start">
+                                                <MDBBtn rounded onClick={() => savePrice()}>Edit</MDBBtn>
+                                            </Col>
+                                        </Row>
+                                    </MDBPopoverBody>
+                                </MDBPopover>
+
+                                <MDBCollapse show={showShow}>
+                                    <Row>
+                                        <Col>
+                                            {/*<CurrencyInput*/}
+                                            {/*    className="currencyInput"*/}
+                                            {/*    prefix="₽ "*/}
+                                            {/*    name="currencyInput"*/}
+                                            {/*    id="currencyInput"*/}
+                                            {/*    data-number-to-fixed="2"*/}
+                                            {/*    data-number-stepfactor="100"*/}
+                                            {/*    value={price === "" ? "" : price}*/}
+                                            {/*    placeholder=""*/}
+                                            {/*    onChange={handlePriceChange}*/}
+                                            {/*    onBlur={handleOnBlur}*/}
+                                            {/*    allowDecimals*/}
+                                            {/*    decimalsLimit="2"*/}
+                                            {/*    disableAbbreviations*/}
+                                            {/*/>*/}
+                                        </Col>
+                                    </Row>
+                                </MDBCollapse>
+                                <Row>
+                                    <Col className="justify-content-start">
+                                        <MDBInput
+                                            label='Title'
+                                            id='form1'
+                                            type='text'
+                                            value={advert.title === null ? "" : advert.title}
+                                            onChange={(e) => updateAdvert("title", e.target.value)}/>
+                                    </Col>
+                                    <Col md="2" sm="2" xs="1" className="justify-content-end">
+                                        <MDBBtn rounded onClick={() => saveTitle()}>Edit</MDBBtn>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <MDBTextArea
+                                            rows={4}
+                                            label='Description'
+                                            id='form1'
+                                            type='text'
+                                            value={advert.description === null ? "" : advert.description}
+                                            style={{marginTop: "30px", marginBottom: "30px"}}
+                                            onChange={(e) => updateAdvert("description", e.target.value)}/>
+                                    </Col>
+                                    <Col md="2" sm="2" xs="1" className="justify-content-end"
+                                         style={{marginTop: "50px"}}>
+                                        <MDBBtn rounded onClick={() => saveDescription()}>Edit</MDBBtn>
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </Container>
+                </Col>
+                <Col>
+                    <CommentsContainer advertId={advertId}/>
+
                 </Col>
             </Row>
         </Container>
+
     );
 };
 

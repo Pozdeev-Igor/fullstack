@@ -22,15 +22,8 @@ const Comment = (props) => {
     const [showAnswer, setShowAnswer] = useState(false);
     const [answers, setAnswers] = useState([]);
 
-    // const data = props.commentData;
-
-    // const handleReply = () => {
-    //     setIsReplyClicked(true);
-    // }
-
     const handleShowAnswer = () => {
         setShowAnswer(!showAnswer);
-        // console.log(props.commentData)
     }
 
     useEffect(() => {
@@ -43,8 +36,6 @@ const Comment = (props) => {
             if (typeof createdDate === "string")
                 setCommentRelativeTime(dayjs(createdDate).fromNow());
             else {
-                // console.log(createdDate);
-                // console.log(createdDate.fromNow());
                 setCommentRelativeTime(createdDate.fromNow());
             }
         }
@@ -82,45 +73,46 @@ const Comment = (props) => {
                                 {text}
                             </p>
                             <div className="d-flex justify-content-start " style={{backgroundColor: "whitesmoke"}}>
-                                <span className="text-muted" style={{cursor: "pointer", marginLeft:"30px"}} onClick={() => {
-                                    childToParent(props.commentData)
-                                }}>
+                                <span className="text-muted" style={{cursor: "pointer", marginLeft: "30px"}}
+                                      onClick={() => {
+                                          childToParent(props.commentData)
+                                      }}>
                                     <MDBIcon fas icon="reply fa-xs"/>
                                     <span className="small"> reply</span>
                                 </span>
                                 {showAnswer === false ?
-                                    <span className="text-primary" style={{cursor: "pointer", marginLeft:"30px"}}
+                                    <span className="text-primary" style={{cursor: "pointer", marginLeft: "30px"}}
                                           onClick={handleShowAnswer}>
                                     <MDBIcon far icon="caret-square-down fa-xs"/>
                                     <span className="small"> open</span>
                                 </span>
                                     :
-                                    <span className="text-muted" style={{cursor: "pointer", marginLeft:"30px"}}
+                                    <span className="text-muted" style={{cursor: "pointer", marginLeft: "30px"}}
                                           onClick={handleShowAnswer}>
                                     <MDBIcon far icon="caret-square-up fa-xs"/>
                                     <span className="small"> close</span>
                                 </span>
                                 }
 
-                                {decodedJwt.sub === createdBy.username ?
-                                        (
-                                            <>
+                                {decodedJwt && decodedJwt.sub === createdBy.username ?
+                                    (
+                                        <>
                                                 <span className="text-muted"
-                                                      style={{cursor: "pointer", marginLeft:"30px"}}
+                                                      style={{cursor: "pointer", marginLeft: "30px"}}
                                                       onClick={() => emitEditComment(id)}>
                                         <MDBIcon fas icon="pen fa-xs"/>
                                         <span className="small"> edit</span>
                                     </span>
-                                                <span className="text-muted"
-                                                      style={{cursor: "pointer", marginLeft:"30px"}}
-                                                      onClick={() => emitDeleteComment(id)}
-                                                >
+                                            <span className="text-muted"
+                                                  style={{cursor: "pointer", marginLeft: "30px"}}
+                                                  onClick={() => emitDeleteComment(id)}
+                                            >
                                         <MDBIcon fas icon="trash-alt fa-xs"/>
                                         <span className="small"> delete</span>
                                     </span>
-                                            </>
-                                        ) :
-                                        null
+                                        </>
+                                    ) :
+                                    null
                                 }
                             </div>
                         </div>
@@ -135,13 +127,9 @@ const Comment = (props) => {
                                         :
                                         null
                                 ))
-                                // id === answer.comment.id?
-                                // :
-                                // null
                             ))
                             :
                             null
-
                         }
                         <div className="d-flex flex-start mt-4">
                             <a className="me-5" href="#">

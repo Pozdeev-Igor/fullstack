@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useUser} from "../UserProvider/UserProvider";
 import {useParams} from "react-router-dom";
 import ajax from "../services/fetchServise";
-import {Carousel, Col, Container, Row} from "react-bootstrap";
+import {Alert, Carousel, Col, Container, Row} from "react-bootstrap";
 import {MDBBadge, MDBBtn, MDBIcon, MDBPopover, MDBPopoverBody, MDBPopoverHeader, MDBTypography} from "mdb-react-ui-kit";
 import {NumericFormat} from "react-number-format";
 import CommentsContainer from "../Offcanvas/CommentsContainer";
@@ -155,26 +155,62 @@ const AdvertView = () => {
                         }
                         <div className="d-flex justify-content-start" style={{marginTop: "150px"}}>
 
-                            <MDBPopover className='mt-3 mb-5 mx-2' rounded size='lg'
-                                        style={{backgroundColor: "#33691E", width: "100px"}}
-                                        btnChildren={<MDBIcon fas icon="phone" size="2x" color="white"/>}>
-                                <MDBPopoverHeader>{authorName}</MDBPopoverHeader>
-                                <MDBPopoverBody>{authorPhone}</MDBPopoverBody>
-                            </MDBPopover>
+                            {user.jwt ?
 
-                            <MDBPopover
-                                onClick={handleShow}
-                                className=' mt-3 mb-5 mx-2'
-                                rounded
-                                size='lg'
-                                style={{backgroundColor: "#0D47A1", width: "100px", marginLeft: "30px"}}
-                                btnChildren=
-                                    {
-                                        <MDBIcon fas icon="comment" size="2x"/>
-                                    }
-                                placement="top"
-                            >
-                            </MDBPopover>
+                                <MDBPopover className='mt-3 mb-5 mx-2' rounded size='lg'
+                                            style={{backgroundColor: "#33691E", width: "300px"}}
+                                            btnChildren={
+                                                <>
+                                                    <MDBIcon fas icon="phone" size="1x" color="white"/>
+                                                    <cite> Связаться с автором</cite>
+                                                </>
+                                            }
+                                placement={"right-end"}>
+                                    <MDBPopoverHeader>{authorName}</MDBPopoverHeader>
+                                    <MDBPopoverBody>{authorPhone}</MDBPopoverBody>
+                                </MDBPopover>
+                                :
+                                <MDBPopover className='mt-3 mb-5 mx-2' rounded size='lg'
+
+                                            style={{backgroundColor: "rgba(90,148,66,0.73)", width: "300px"}}
+                                            btnChildren={
+                                                <>
+                                                    <MDBIcon fas icon="phone" size="1x" color="white"/>
+                                                    <cite> Связаться с автором</cite>
+                                                </>
+                                            }
+                                >
+                                    <MDBPopoverBody style={{textAlign: "center"}}>Чтобы связаться с автором объявления,
+                                        необходимо авторизоваться!</MDBPopoverBody>
+                                </MDBPopover>
+
+
+                                // <MDBPopover
+                                //     tag='span'
+                                //     btnClassName='d-inline-block'
+                                //     btnChildren={<MDBBtn disabled>Disabled button</MDBBtn>}
+                                //     placement='right'
+                                //     disabled
+                                // >
+                                //     <MDBPopoverBody>Disabled popover</MDBPopoverBody>
+                                // </MDBPopover>
+
+
+                            }
+
+                            {/*<MDBPopover*/}
+                            {/*    onClick={handleShow}*/}
+                            {/*    className=' mt-3 mb-5 mx-2'*/}
+                            {/*    rounded*/}
+                            {/*    size='lg'*/}
+                            {/*    style={{backgroundColor: "#0D47A1", width: "100px", marginLeft: "30px"}}*/}
+                            {/*    btnChildren=*/}
+                            {/*        {*/}
+                            {/*            <MDBIcon fas icon="comment" size="2x"/>*/}
+                            {/*        }*/}
+                            {/*    placement="top"*/}
+                            {/*>*/}
+                            {/*</MDBPopover>*/}
                         </div>
 
                         <figcaption>
@@ -182,7 +218,13 @@ const AdvertView = () => {
                             <cite> {authorName}</cite>
                         </figcaption>
 
-                        <CommentsContainer advertId={advertId}/>
+                        {user.jwt ?
+                            <CommentsContainer advertId={advertId}/>
+                            :
+                            <Alert variant="danger" style={{textAlign: "center"}}>
+                                Необходимо авторизоваться, чтобы иметь возможность оставлять комментарии!
+                            </Alert>
+                        }
                     </Col>
                 </Row>
             </Container>
