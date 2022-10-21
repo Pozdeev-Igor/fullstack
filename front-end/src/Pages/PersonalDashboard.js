@@ -7,7 +7,7 @@ import jwt_decode from "jwt-decode";
 import {MDBBadge} from "mdb-react-ui-kit";
 
 const PersonalDashboard = (props) => {
-    const {getUsersData} = props;
+    // const {getUsersData} = props;
     const user = useUser();
     const navigate = useNavigate();
     const [adverts, setAdverts] = useState([]);
@@ -35,7 +35,6 @@ const PersonalDashboard = (props) => {
                 setFetching(false);
             });
         }
-        console.log(adverts)
 
     }, [fetching]);
 
@@ -55,7 +54,7 @@ const PersonalDashboard = (props) => {
     return (
         <div>
             <Container style={{marginBottom: "30px"}}>
-                <Row>
+                <Row xs="auto" md="auto" lg="auto">
                     {adverts.map((advert) => (
                         <Col key={advert.id}>
                             {

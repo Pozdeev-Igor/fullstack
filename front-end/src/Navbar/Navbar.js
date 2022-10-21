@@ -35,8 +35,10 @@ function BasicExample(props) {
     function getUsersData() {
         if (user.jwt != null) {
             ajax("/api/users", "GET", user.jwt).then(usersData => {
-                setUsersName(usersData.name);
-                setId(usersData.id);
+                if (usersData) {
+                    setUsersName(usersData.name);
+                    setId(usersData.id);
+                } else return null;
             })
         }
     };
@@ -44,7 +46,6 @@ function BasicExample(props) {
     useEffect(() => {
         getUsersData();
     }, [user.jwt]);
-
 
 
     function toLogOut() {
@@ -55,8 +56,8 @@ function BasicExample(props) {
 
     function createAdvert() {
         ajax("/api/adverts", "POST", user.jwt).then((advert) => {
-            if (user.jwt && usersName !== null ){
-            navigate(`/adverts/new/${advert.id}`);
+            if (user.jwt && usersName !== null) {
+                navigate(`/adverts/new/${advert.id}`);
             } else handleShow();
 
         })
@@ -78,8 +79,9 @@ function BasicExample(props) {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         {roles.find((role) => role === "ROLE_ADMIN") ? (
-                        <Nav.Link onClick={() => {navigate("/admin")
-                        }}>ADMIN</Nav.Link>
+                            <Nav.Link onClick={() => {
+                                navigate("/admin")
+                            }}>ADMIN</Nav.Link>
                         ) : (
                             <Nav.Link onClick={() => createAdvert()}>New Advert</Nav.Link>
                         )

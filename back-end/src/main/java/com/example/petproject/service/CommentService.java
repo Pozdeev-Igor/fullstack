@@ -3,13 +3,16 @@ package com.example.petproject.service;
 import com.example.petproject.DTO.CommentDTO;
 import com.example.petproject.domain.Advert;
 import com.example.petproject.domain.Comment;
+import com.example.petproject.domain.CommentsAnswer;
 import com.example.petproject.domain.User;
 import com.example.petproject.repos.AdvertRepo;
 import com.example.petproject.repos.CommentRepo;
+import com.example.petproject.repos.CommentsAnswerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -20,6 +23,9 @@ public class CommentService {
 
     @Autowired
     private AdvertRepo advertRepo;
+
+    @Autowired
+    private CommentsAnswerRepo commentsAnswerRepo;
 
     public Comment save(CommentDTO commentDTO, User user) {
 
@@ -33,12 +39,19 @@ public class CommentService {
             comment.setCreatedDate(ZonedDateTime.now());
         else
             comment.setCreatedDate(commentDTO.getCreatedDate());
+        comment.setAnswers(commentsAnswerRepo.findByCommentId(comment.getId()));
 
         return commentRepo.save(comment);
     }
 
     public Set<Comment> getCommentsByAdvertId(Long advertId) {
         Set<Comment> comments = commentRepo.findByAdvertId(advertId);
+//        Set<CommentsAnswer> answers = new HashSet<>();
+        for (Comment c : comments) {
+            c.setAnswers(commentsAnswerRepo.findByCommentId(c.getId()));
+        }
+//            c.setAnswers(commentRepo.findAnswersByCommentId(c.getId()));
+//        }
 
         return comments;
     }

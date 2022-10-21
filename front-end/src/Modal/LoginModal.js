@@ -23,7 +23,7 @@ const LoginModal = (props) => {
             password: password
         };
 
-        fetch("api/auth/login", {
+        fetch("/api/auth/login", {
             headers: {
                 "Content-Type": "application/json",
             },

@@ -5,7 +5,7 @@ import {useUser} from "../UserProvider/UserProvider";
 import LoginModal from "../Modal/LoginModal";
 import ajax from "../services/fetchServise";
 import jwt_decode from "jwt-decode";
-import {MDBBadge} from "mdb-react-ui-kit";
+import {MDBBadge, MDBSpinner} from "mdb-react-ui-kit";
 import CommentsContainer from "../Offcanvas/CommentsContainer";
 
 const HomePage = () => {
@@ -34,12 +34,12 @@ const HomePage = () => {
     useEffect(() => {
         if (fetching) {
             ajax(`/api/adverts?page=${currentPage}&limit=12`, "GET", user.jwt).then((advertsData) => {
-                console.log(advertsData)
                 setAdverts([...adverts, ...advertsData])
                 setCurrentPage(prevState => prevState + 1);
+                console.log(advertsData)
+
             }).finally(() => setFetching(false));
         }
-        // console.log(adverts)
 
     }, [fetching]);
 
@@ -58,14 +58,14 @@ const HomePage = () => {
     return (
         <div>
             <Container className="row-cols-lg-1" style={{marginBottom: "30px"}}>
-                <Row>
+                <Row xs="auto" md="auto" lg="auto">
                     {adverts.map((advert) => (
                         advert.status === "Объявление на проверке" ?
                             <></>
                             :
-                            <Col>
+                            <Col key={advert.id}>
                                 <Card
-                                    key={advert.id}
+
                                     style={{width: '18rem', marginTop: '30px', cursor: "pointer"}}
                                     onClick={() => {
                                         (user.jwt && advert.user.username === jwt_decode(user.jwt).sub) ?
@@ -75,23 +75,19 @@ const HomePage = () => {
                                     }}>
                                     <Card.Img key={advert.id} variant="top" src={advert.image}/>
                                     <Card.Body>
-                                        <Card.Title style={{borderBottom:"#0D47A1"}}>{advert.title}</Card.Title>
+                                        <Card.Title style={{borderBottom: "#0D47A1"}}>{advert.title}</Card.Title>
                                         {advert.price !== null ?
-                                            <Card.Text>
-                                                <h4>
-                                                    <MDBBadge pill className='me-2 text-dark' color='light' light>
-                                                        {currencyFormat(advert.price)}
-                                                    </MDBBadge>
-                                                </h4>
-                                            </Card.Text>
+                                            <h4>
+                                                <MDBBadge pill className='me-2 text-dark' color='light' light>
+                                                    {currencyFormat(advert.price)}
+                                                </MDBBadge>
+                                            </h4>
                                             :
-                                            <Card.Text>
-                                                <h4>
-                                                    <MDBBadge pill className='me-2 text-dark' color='light' light>
-                                                        Цена не указана
-                                                    </MDBBadge>
-                                                </h4>
-                                            </Card.Text>
+                                            <h4>
+                                                <MDBBadge pill className='me-2 text-dark' color='light' light>
+                                                    Цена не указана
+                                                </MDBBadge>
+                                            </h4>
                                         }
                                     </Card.Body>
                                 </Card>

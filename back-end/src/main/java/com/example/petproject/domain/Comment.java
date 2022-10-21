@@ -1,5 +1,7 @@
 package com.example.petproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -22,9 +24,9 @@ public class Comment {
     private ZonedDateTime createdDate;
     @Column(length = 5000)
     private String text;
-
-//    @OneToMany(mappedBy = "comment", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, targetEntity = CommentsAnswer.class)
-//    private Set<CommentsAnswer> answers;
+    @Transient
+    @JsonIgnore
+    private Set<CommentsAnswer> answers;
 
 
     public ZonedDateTime getCreatedDate() {
@@ -67,11 +69,11 @@ public class Comment {
         this.id = id;
     }
 
-//    public Set<CommentsAnswer> getAnswers() {
-//        return answers;
-//    }
-//
-//    public void setAnswers(Set<CommentsAnswer> answers) {
-//        this.answers = answers;
-//    }
+    public Set<CommentsAnswer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Set<CommentsAnswer> answers) {
+        this.answers = answers;
+    }
 }

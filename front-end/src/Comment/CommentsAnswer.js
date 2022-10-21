@@ -1,8 +1,34 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {MDBIcon} from "mdb-react-ui-kit";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
-const CommentsAnswer = () => {
+const CommentsAnswer = (props) => {
+    const {id, createdDate, createdBy, text, commentId} = props.answersData
+    const {decodedJwt} = props;
+    const [answerRelativeTime, setAnswerRelativeTime] = useState("");
+
+
+    useEffect(() => {
+        updateAnswerRelativeTime();
+        console.log(props.answersData)
+    }, [createdDate]);
+
+    function updateAnswerRelativeTime() {
+        if (createdDate) {
+            dayjs.extend(relativeTime);
+            if (typeof createdDate === "string")
+                setAnswerRelativeTime(dayjs(createdDate).fromNow());
+            else {
+                // console.log(createdDate);
+                // console.log(createdDate.fromNow());
+                setAnswerRelativeTime(createdDate.fromNow());
+            }
+        }
+    }
+
     return (
+        // {id = props.answersData}
         <div className="d-flex flex-start mt-4">
             <a className="me-5" href="#">
             </a>
@@ -11,30 +37,44 @@ const CommentsAnswer = () => {
                 <div className="shadow-4-strong p-2">
                     <div className="d-flex justify-content-between align-items-center">
                         <p className="mb-1 text-primary">
-                            Simona Disa{" "}
+                            {createdBy.name}
                         </p>
                         <cite>
-                            <span className="small text-muted">• 3 hours ago •</span>
+                            <span
+                                className="small text-muted">• {answerRelativeTime ? `${answerRelativeTime}` : ""} •</span>
                         </cite>
                     </div>
                     <p className="small mb-0">
-                        letters, as opposed to using 'Content here,
-                        content here', making it look like readable
-                        English.
+                        {text}
                     </p>
-                    <div className="d-flex justify-content-evenly">
-                        <a href="#!">
+                    <div className="d-flex justify-content-start" style={{backgroundColor: "whitesmoke"}}>
+                        <span className="text-muted" style={{cursor: "pointer", marginLeft:"30px"}} onClick={() => {
+                        }}>
                             <MDBIcon fas icon="reply fa-xs"/>
                             <span className="small"> reply</span>
-                        </a>
-                        <a href="#!">
-                            <MDBIcon fas icon="pen fa-xs"/>
-                            <span className="small"> edit</span>
-                        </a>
-                        <a href="#!">
-                            <MDBIcon fas icon="trash-alt fa-xs"/>
-                            <span className="small"> delete</span>
-                        </a>
+                        </span>
+                        {decodedJwt.sub === createdBy.username ?
+                            (
+                                <>
+                                    <span className="text-muted"
+                                          style={{cursor: "pointer", marginLeft:"30px"}}
+                                          onClick={() => {}}
+                                    >
+                                    <MDBIcon fas icon="pen fa-xs"/>
+                                    <span className="small"> edit</span>
+                                     </span>
+                                    <span className="text-muted"
+                                          style={{cursor: "pointer", marginLeft:"30px"}}
+                                          onClick={() => {}}
+                                    >
+                                    <MDBIcon fas icon="trash-alt fa-xs"/>
+                                    <span className="small"> delete</span>
+                                </span>
+                                </>
+                            ) :
+                            null
+                        }
+
                     </div>
                 </div>
             </div>

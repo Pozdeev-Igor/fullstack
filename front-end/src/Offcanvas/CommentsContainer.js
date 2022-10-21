@@ -24,16 +24,54 @@ const CommentsContainer = (props) => {
         advertId
     } = props
 
+    const childToParent = (commentFromChild) => {
+        // console.log(childData.username)
+        setData((prevState) => (!{prevState}))
+        setCommentFromChild(commentFromChild)
+        console.log(commentFromChild)
+        // const i = comments.findIndex((comment) => comment.id === childData.id);
+        const answersCopy = {
+            // id: null,
+            text: `${commentFromChild.createdBy.name}, `,
+            commentId: commentFromChild.id != null ? parseInt(commentFromChild.id) : null,
+            user: user.jwt,
+            // createdDate: null,
+        };
+        setAnswer(answersCopy);
+    }
+
     const emptyComment = {
         id: null,
         text: "",
         advertId: advertId != null ? parseInt(advertId) : null,
         user: user.jwt,
         createdDate: null,
+        // answers: answers,
     };
 
+    const emptyAnswer = {
+        id: null,
+        text: "",
+        commentId: null,
+        user: user.jwt,
+        createdDate: null,
+    };
+
+    const [commentFromChild, setCommentFromChild] = useState(null);
+
+
     const [comment, setComment] = useState(emptyComment);
+    const [answer, setAnswer] = useState({
+        id: null,
+        // text: `${commentFromChild.createdBy.name}, `,
+        // commentId: commentFromChild.id != null ? commentFromChild.id : null,
+        user: user.jwt,
+        createdDate: null,
+    });
     const [comments, setComments] = useState([]);
+    const [answers, setAnswers] = useState([]);
+    const [data, setData] = useState(false);
+
 
     useInterval(() => {
         updateCommentTimeDisplay();
@@ -72,18 +110,19 @@ const CommentsContainer = (props) => {
     function formatComments(commentsCopy) {
         commentsCopy.forEach((comment) => {
             if (typeof comment.createDate === "string") {
-                console.log(
-                    "BEFORE Converting string date to dayjs date",
-                    comment.createdDate
-                );
                 comment.createDate = dayjs(comment.createDate);
-                console.log(
-                    "AFTER Converting string date to dayjs date",
-                    comment.createdDate
-                );
             }
         });
         setComments(commentsCopy);
+    };
+
+    function formatAnswers(answersCopy) {
+        answersCopy.forEach((answer) => {
+            if (typeof answer.createDate === "string") {
+                answer.createDate = dayjs(answer.createDate);
+            }
+        });
+        setAnswers(answersCopy);
     };
 
     useEffect(() => {
@@ -96,6 +135,13 @@ const CommentsContainer = (props) => {
             formatComments(commentsData);
         });
     }, []);
+
+    function updateAnswer(value) {
+        const answerCopy = {...answer};
+        answerCopy.text = value;
+        setAnswer(answerCopy);
+
+    }
 
     function updateComment(value) {
         const commentCopy = {...comment}
@@ -124,11 +170,22 @@ const CommentsContainer = (props) => {
         }
     }
 
+
+    function submitAnswer() {
+        ajax("/api/comments/answer", "post", user.jwt, answer).then((d) => {
+            const answersCopy = [...answers];
+            answersCopy.push(d);
+            formatComments(answersCopy);
+            setAnswer(emptyAnswer);
+            window.location.reload();
+        });
+    }
+
     return (
         <>
 
             <MDBTypography tag='div' className='display-5 pb-3 mt-5 mb-3 border-bottom'>
-                Comments
+                Comments {comments.length + answers.length}
             </MDBTypography>
             <Row>
                 {comments.map((comment) => (
@@ -136,7 +193,12 @@ const CommentsContainer = (props) => {
                         key={comment.id}
                         commentData={comment}
                         emitDeleteComment={handleDeleteComment}
-                        emitEditComment={handleEditComment}/>
+                        emitEditComment={handleEditComment}
+                        childToParent={childToParent}
+                        formatAnswers={formatAnswers}
+                        answers={answers}
+                        comments={comments}/>
+
                 ))}
             </Row>
             <Row className="py-3 border-0" style={{backgroundColor: "#f8f9fa"}}>
@@ -147,12 +209,27 @@ const CommentsContainer = (props) => {
                         rows={4}
                         style={{backgroundColor: '#fff'}}
                         wrapperClass="w-100"
-                        onChange={(e) => updateComment(e.target.value)}
-                        value={comment.text}
+                        onChange={
+                            (e) => {
+                                commentFromChild ?
+                                    updateAnswer(e.target.value)
+                                    :
+                                    updateComment(e.target.value)
+                                // console.log(e.target.value)
+                            }}
+                        value={
+                            commentFromChild ?
+                                answer.text
+                                :
+                                comment.text}
                     />
                 </div>
                 <div className="float-end mt-2 pt-1">
-                    <MDBBtn size="sm" className="me-1" onClick={submitComment}>Post comment</MDBBtn>
+                    <MDBBtn size="sm" className="me-1" onClick={
+                        commentFromChild ?
+                            submitAnswer
+                            :
+                            submitComment}>Post comment</MDBBtn>
                     {/*<MDBBtn outline size="sm" onClick={handleClose}>Cancel</MDBBtn>*/}
                 </div>
             </Row>

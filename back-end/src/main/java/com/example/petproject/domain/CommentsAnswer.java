@@ -2,14 +2,16 @@ package com.example.petproject.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Entity
 public class CommentsAnswer {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(length = 5000)
     private String text;
-    private LocalDateTime createdDate;
+    private ZonedDateTime createdDate;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User createdBy;
@@ -33,11 +35,11 @@ public class CommentsAnswer {
         this.text = text;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public ZonedDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
     }
 

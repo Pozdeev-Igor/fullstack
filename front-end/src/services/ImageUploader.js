@@ -2,12 +2,11 @@ import React, {useState} from 'react';
 import ImageUploading from "react-images-uploading";
 import {Alert, Button, ButtonGroup} from "react-bootstrap";
 import ajax from "./fetchServise";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {useUser} from "../UserProvider/UserProvider";
 import {MDBIcon} from "mdb-react-ui-kit";
 
 const ImageUploader = (props) => {
-    const navigate = useNavigate();
     const user = useUser();
     const {advertId} = useParams();
     const {
