@@ -81,7 +81,7 @@ const Comment = (props) => {
                             <p className="small mb-2">
                                 {text}
                             </p>
-                            <div className="d-flex justify-content-start me-5" style={{backgroundColor: "whitesmoke"}}>
+                            <div className="d-flex justify-content-start " style={{backgroundColor: "whitesmoke"}}>
                                 <span className="text-muted" style={{cursor: "pointer", marginLeft:"30px"}} onClick={() => {
                                     childToParent(props.commentData)
                                 }}>

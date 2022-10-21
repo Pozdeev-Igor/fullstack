@@ -33,7 +33,7 @@ function App() {
                 <Route path='/activate/*' element={<LoginPage/>}/>
                 <Route path='/registration' element={<SignUpPage/>}/>
                 <Route path='/adverts/new/:advertId' element={<PrivateRoute><NewAdvertView/></PrivateRoute>}/>
-                <Route path='/adverts/:userId/:advertId' element={<PrivateRoute><AdvertView/></PrivateRoute>}/>
+                <Route path='/adverts/:userId/:advertId' element={<AdvertView/>}/>
                 <Route path='/adverts/personal/:advertId' element={<PrivateRoute><PersonalAdvertView/></PrivateRoute>}/>
                 {/*<Route path='/adverts/personal/:advertId' element={<PrivateRoute><Test/></PrivateRoute>}/>*/}
                 <Route path='/users/adverts' element={<PrivateRoute><PersonalDashboard/></PrivateRoute>}/>

@@ -48,7 +48,7 @@ const CommentsAnswer = (props) => {
                         {text}
                     </p>
                     <div className="d-flex justify-content-start" style={{backgroundColor: "whitesmoke"}}>
-                        <span className="text-muted" style={{cursor: "pointer", marginLeft:"30px"}} onClick={() => {
+                        <span className="text-muted" style={{cursor: "pointer", marginLeft: "30px"}} onClick={() => {
                         }}>
                             <MDBIcon fas icon="reply fa-xs"/>
                             <span className="small"> reply</span>
@@ -57,15 +57,17 @@ const CommentsAnswer = (props) => {
                             (
                                 <>
                                     <span className="text-muted"
-                                          style={{cursor: "pointer", marginLeft:"30px"}}
-                                          onClick={() => {}}
+                                          style={{cursor: "pointer", marginLeft: "30px"}}
+                                          onClick={() => {
+                                          }}
                                     >
                                     <MDBIcon fas icon="pen fa-xs"/>
                                     <span className="small"> edit</span>
                                      </span>
                                     <span className="text-muted"
-                                          style={{cursor: "pointer", marginLeft:"30px"}}
-                                          onClick={() => {}}
+                                          style={{cursor: "pointer", marginLeft: "30px"}}
+                                          onClick={() => {
+                                          }}
                                     >
                                     <MDBIcon fas icon="trash-alt fa-xs"/>
                                     <span className="small"> delete</span>
@@ -74,7 +76,6 @@ const CommentsAnswer = (props) => {
                             ) :
                             null
                         }
-
                     </div>
                 </div>
             </div>

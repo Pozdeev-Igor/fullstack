@@ -46,13 +46,13 @@ const AdvertView = () => {
             setAuthorPhone(response.user.phoneNumber)
             // console.log(response)
         })
-    }, [advertId, user.jwt]);
+    }, [advertId]);
 
     useEffect(() => {
         ajax(`/api/images/${advertId}`, "GET", user.jwt).then((imagesData) => {
             setImageList(imagesData);
         })
-    }, [advertId, user.jwt]);
+    }, [advertId]);
 
     const favoriteClick = () => {
         setPreFavoriteShow(!preFavoriteShow);
@@ -96,12 +96,12 @@ const AdvertView = () => {
                                     {preFavoriteShow ? (
                                         <div>
                                             <MDBIcon far icon="heart" size="1x" style={{color: "#DD4B39FF"}}/>
-                                            <h7 style={{marginLeft: "5px"}}>добавить в избранное</h7>
+                                            <cite style={{marginLeft: "5px"}}>добавить в избранное</cite>
                                         </div>
                                     ) : (
                                         <div>
                                             <MDBIcon fas icon="heart" size="1x" style={{color: "#DD4B39FF"}}/>
-                                            <h7 style={{marginLeft: "5px"}}>добавлено в избранное</h7>
+                                            <cite style={{marginLeft: "5px"}}>добавлено в избранное</cite>
                                         </div>
                                     )}
                                 </MDBBtn>
