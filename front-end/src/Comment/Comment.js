@@ -76,6 +76,7 @@ const Comment = (props) => {
                                 <span className="text-muted" style={{cursor: "pointer", marginLeft: "30px"}}
                                       onClick={() => {
                                           childToParent(props.commentData)
+                                          window.scrollTo(0, 1800)
                                       }}>
                                     <MDBIcon fas icon="reply fa-xs"/>
                                     <span className="small"> reply</span>
@@ -99,7 +100,9 @@ const Comment = (props) => {
                                         <>
                                                 <span className="text-muted"
                                                       style={{cursor: "pointer", marginLeft: "30px"}}
-                                                      onClick={() => emitEditComment(id)}>
+                                                      onClick={() => {
+                                                          emitEditComment(id)
+                                                      }}>
                                         <MDBIcon fas icon="pen fa-xs"/>
                                         <span className="small"> edit</span>
                                     </span>

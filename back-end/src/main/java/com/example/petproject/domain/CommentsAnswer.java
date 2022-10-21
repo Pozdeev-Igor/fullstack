@@ -16,7 +16,7 @@ public class CommentsAnswer {
     @JoinColumn(name = "user_id")
     private User createdBy;
     @ManyToOne
-    @JoinColumn(name = "comment_id")
+    @JoinColumn(name = "comment_id" )
     private Comment comment;
 
     public Long getId() {

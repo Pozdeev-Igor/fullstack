@@ -53,11 +53,17 @@ public class AdvertService {
             imageService.save(imageName);
         }
         advertFromDB.setImage(fileNames.get(0));
-        SubCategory subCategoryFromDB = subCategoryRepository.findById(advertResponseDTO.getSubCategoryId()).get();
-        advertFromDB.setSubCategory(subCategoryFromDB);
+        if (advertFromDB.getImage() != null) {
+            advertFromDB.setStatus(AdvertStatusEnum.PUBLISHED.getStatus());
+        }
+        if (advertResponseDTO.getSubCategoryId() != null) {
+            SubCategory subCategoryFromDB = subCategoryRepository.findById(advertResponseDTO.getSubCategoryId()).get();
+            advertFromDB.setSubCategory(subCategoryFromDB);
+        }
         advertFromDB.setDescription(advertResponseDTO.getDescription());
         advertFromDB.setTitle(advertResponseDTO.getTitle());
         advertFromDB.setPrice(advertResponseDTO.getPrice());
+
         return advertFromDB;
     }
 

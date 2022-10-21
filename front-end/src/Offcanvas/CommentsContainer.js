@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Comment from "../Comment/Comment";
 import {MDBBtn, MDBTextArea, MDBTypography} from "mdb-react-ui-kit";
 import {Row} from "react-bootstrap";
@@ -13,9 +13,9 @@ const CommentsContainer = (props) => {
     const {advertId} = props
 
     const childToParent = (commentFromChild) => {
+
         setData((prevState) => (!{prevState}))
         setCommentFromChild(commentFromChild)
-        console.log(commentFromChild)
         const answersCopy = {
             text: `${commentFromChild.createdBy.name}, `,
             commentId: commentFromChild.id != null ? parseInt(commentFromChild.id) : null,
@@ -76,6 +76,7 @@ const CommentsContainer = (props) => {
             createdDate: comments[i].createdDate,
         };
         setComment(commentCopy);
+
     }
 
     function handleDeleteComment(commentId) {
@@ -162,7 +163,7 @@ const CommentsContainer = (props) => {
     return (
         <>
             <MDBTypography tag='div' className='display-5 pb-3 mt-5 mb-3 border-bottom'>
-                Comments {comments.length + answers.length}
+                Comments
             </MDBTypography>
             <Row>
                 {comments.map((comment) => (

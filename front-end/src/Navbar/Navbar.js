@@ -109,10 +109,17 @@ function BasicExample(props) {
                             <NavDropdown.Item onClick={() => {
                                 navigate(`/users/adverts`)
                             }}>My adverts</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">
-                                Another action
+                            <NavDropdown.Item onClick={() => {
+                                navigate(`/users/${id}`)
+                            }}>
+                                Account
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => {
+                                navigate(`/users/${id}/favorites`)
+                            }} >Favorites</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => {
+                                navigate(`/users/${id}/messages`)
+                            }}>Messages</NavDropdown.Item>
                             <NavDropdown.Divider/>
                             <NavDropdown.Item onClick={() => {
                                 toLogOut()

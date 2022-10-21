@@ -65,7 +65,7 @@ const AdvertView = () => {
             <Container>
                 <Row>
                     <Col>
-                        <Container>
+                        <Container className={"sticky-top"}>
                             <Row>
                                 {
                                     advert.title ? (
@@ -135,84 +135,61 @@ const AdvertView = () => {
                             </Row>
                         </Container>
                     </Col>
-                    <Col className="bg-fixed">
-                        {
-                            (advert.price !== "" && advert.price !== null) ? (
+                    <Col className='mt-5 me-2' >
+                        <Row>
+                            <Col>
+                                {
+                                    (advert.price !== "" && advert.price !== null) ? (
 
-                                <h3>
-                                    <MDBBadge pill className='mt-5 me-2 text-light' color='primary'>
-                                        {currencyFormat(advert.price)}
-                                    </MDBBadge>
-                                </h3>
-                            ) : (
-                                <h3>
-                                    <MDBBadge pill className='mt-5 me-2 text-light' color='primary' light>
-                                        Цена не указана
-                                    </MDBBadge>
-                                </h3>
-                            )
+                                        <h3>
+                                            <MDBBadge pill color='primary'>
+                                                {currencyFormat(advert.price)}
+                                            </MDBBadge>
+                                        </h3>
+                                    ) : (
+                                        <h3>
+                                            <MDBBadge pill className='mt-5 me-2 text-light' color='primary' light>
+                                                Цена не указана
+                                            </MDBBadge>
+                                        </h3>
+                                    )
 
-                        }
-                        <div className="d-flex justify-content-start" style={{marginTop: "150px"}}>
+                                }
+                            </Col>
+                            <Col>
 
-                            {user.jwt ?
+                                {user.jwt ?
 
-                                <MDBPopover className='mt-3 mb-5 mx-2' rounded size='lg'
-                                            style={{backgroundColor: "#33691E", width: "300px"}}
-                                            btnChildren={
-                                                <>
-                                                    <MDBIcon fas icon="phone" size="1x" color="white"/>
-                                                    <cite> Связаться с автором</cite>
-                                                </>
-                                            }
-                                placement={"right-end"}>
-                                    <MDBPopoverHeader>{authorName}</MDBPopoverHeader>
-                                    <MDBPopoverBody>{authorPhone}</MDBPopoverBody>
-                                </MDBPopover>
-                                :
-                                <MDBPopover className='mt-3 mb-5 mx-2' rounded size='lg'
+                                    <MDBPopover className='mt-3 mb-5 mx-2' rounded size='lg'
+                                                style={{backgroundColor: "#33691E", width: "300px"}}
+                                                btnChildren={
+                                                    <>
+                                                        <MDBIcon fas icon="phone" size="1x" color="white"/>
+                                                        <cite> Связаться с автором</cite>
+                                                    </>
+                                                }
+                                                placement={"bottom"}>
+                                        <MDBPopoverHeader>{authorName}</MDBPopoverHeader>
+                                        <MDBPopoverBody>{authorPhone}</MDBPopoverBody>
+                                    </MDBPopover>
+                                    :
+                                    <MDBPopover className='mt-3 mb-5 mx-2' rounded size='lg'
 
-                                            style={{backgroundColor: "rgba(90,148,66,0.73)", width: "300px"}}
-                                            btnChildren={
-                                                <>
-                                                    <MDBIcon fas icon="phone" size="1x" color="white"/>
-                                                    <cite> Связаться с автором</cite>
-                                                </>
-                                            }
-                                >
-                                    <MDBPopoverBody style={{textAlign: "center"}}>Чтобы связаться с автором объявления,
-                                        необходимо авторизоваться!</MDBPopoverBody>
-                                </MDBPopover>
-
-
-                                // <MDBPopover
-                                //     tag='span'
-                                //     btnClassName='d-inline-block'
-                                //     btnChildren={<MDBBtn disabled>Disabled button</MDBBtn>}
-                                //     placement='right'
-                                //     disabled
-                                // >
-                                //     <MDBPopoverBody>Disabled popover</MDBPopoverBody>
-                                // </MDBPopover>
-
-
-                            }
-
-                            {/*<MDBPopover*/}
-                            {/*    onClick={handleShow}*/}
-                            {/*    className=' mt-3 mb-5 mx-2'*/}
-                            {/*    rounded*/}
-                            {/*    size='lg'*/}
-                            {/*    style={{backgroundColor: "#0D47A1", width: "100px", marginLeft: "30px"}}*/}
-                            {/*    btnChildren=*/}
-                            {/*        {*/}
-                            {/*            <MDBIcon fas icon="comment" size="2x"/>*/}
-                            {/*        }*/}
-                            {/*    placement="top"*/}
-                            {/*>*/}
-                            {/*</MDBPopover>*/}
-                        </div>
-
+                                                style={{backgroundColor: "rgba(90,148,66,0.73)", width: "300px"}}
+                                                btnChildren={
+                                                    <>
+                                                        <MDBIcon fas icon="phone" size="1x" color="white"/>
+                                                        <cite> Связаться с автором</cite>
+                                                    </>
+                                                }
+                                    >
+                                        <MDBPopoverBody style={{textAlign: "center"}}>Чтобы связаться с автором
+                                            объявления,
+                                            необходимо авторизоваться!</MDBPopoverBody>
+                                    </MDBPopover>
+                                }
+                            </Col>
+                        </Row>
                         <figcaption>
                             Пользователь •
                             <cite> {authorName}</cite>

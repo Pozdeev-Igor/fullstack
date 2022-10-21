@@ -24,8 +24,9 @@ public class Comment {
     private ZonedDateTime createdDate;
     @Column(length = 5000)
     private String text;
-    @Transient
+//    @Transient
     @JsonIgnore
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, targetEntity = CommentsAnswer.class)
     private Set<CommentsAnswer> answers;
 
 
