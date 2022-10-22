@@ -13,7 +13,7 @@ import {
     MDBTextArea,
     MDBTypography
 } from "mdb-react-ui-kit";
-import CommentsContainer from "../Offcanvas/CommentsContainer";
+import CommentsContainer from "../Comment/CommentsContainer";
 
 const PersonalAdvertView = () => {
     const user = useUser();
@@ -43,7 +43,6 @@ const PersonalAdvertView = () => {
 
     // const toggleShow = () => {
     //     setShowShow(true)
-    //     console.log(showEdit)
     // };
 
     const previousAdvertValue = useRef(advert);
@@ -277,7 +276,7 @@ const PersonalAdvertView = () => {
                                 alert('заглушка')
                             }}
                         >
-                            <MDBIcon fas icon="arrow-up"/>
+                            <MDBIcon fas icon="chart-line" />
                             <Overlay target={targetUp.current} show={showUp} placement="top">
                                 <Tooltip>
                                     increase views

@@ -11,7 +11,6 @@ const CommentsAnswer = (props) => {
 
     useEffect(() => {
         updateAnswerRelativeTime();
-        console.log(props.answersData)
     }, [createdDate]);
 
     function updateAnswerRelativeTime() {
@@ -20,8 +19,6 @@ const CommentsAnswer = (props) => {
             if (typeof createdDate === "string")
                 setAnswerRelativeTime(dayjs(createdDate).fromNow());
             else {
-                // console.log(createdDate);
-                // console.log(createdDate.fromNow());
                 setAnswerRelativeTime(createdDate.fromNow());
             }
         }

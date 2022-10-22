@@ -17,6 +17,7 @@ import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Footer";
 import PersonalAdvertView from "./Pages/PersonalAdvertView";
 import AdvertView from "./Pages/AdvertView";
+import AccountView from "./Pages/AccountView";
 
 function App() {
     const user = useUser();
@@ -37,6 +38,7 @@ function App() {
                 <Route path='/adverts/personal/:advertId' element={<PrivateRoute><PersonalAdvertView/></PrivateRoute>}/>
                 {/*<Route path='/adverts/personal/:advertId' element={<PrivateRoute><Test/></PrivateRoute>}/>*/}
                 <Route path='/users/adverts' element={<PrivateRoute><PersonalDashboard/></PrivateRoute>}/>
+                <Route path='/users/:userId' element={<PrivateRoute><AccountView/></PrivateRoute>}/>
                 <Route path='/admin/categories' element={<PrivateRoute><CategoryView/></PrivateRoute>}/>
                 <Route path='/admin/subcategories' element={<PrivateRoute><SubCategoryView/></PrivateRoute>}/>
                 <Route path='/admin/categories/:categoryId' element={<PrivateRoute><EditCategoryView/></PrivateRoute>}/>

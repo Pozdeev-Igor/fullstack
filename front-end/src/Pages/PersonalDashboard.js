@@ -70,19 +70,19 @@ const PersonalDashboard = (props) => {
                                             <Card.Title>{advert.title}</Card.Title>
                                             {advert.price !== null ?
                                                 <Card.Text>
-                                                    <h4>
+                                                    {/*<h4>*/}
                                                         <MDBBadge pill className='me-2 text-dark' color='light' light>
                                                             {currencyFormat(advert.price)}
                                                         </MDBBadge>
-                                                    </h4>
+                                                    {/*</h4>*/}
                                                 </Card.Text>
                                                 :
                                                 <Card.Text>
-                                                    <h4>
+                                                    {/*<h4>*/}
                                                         <MDBBadge pill className='me-2 text-dark' color='light' light>
                                                             Цена не указана
                                                         </MDBBadge>
-                                                    </h4>
+                                                    {/*</h4>*/}
                                                 </Card.Text>
                                             }
                                         </Card.Body>

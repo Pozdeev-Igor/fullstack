@@ -67,11 +67,15 @@ public class UserService {
     }
 
     public User findUserById(Long userId) {
-        return userRepo.getReferenceById(userId);
+        return userRepo.findById(userId).get();
     }
 
     public List<User> findAll() {
         return userRepo.findAll();
+    }
+
+    public void update(User userFromDB) {
+        userRepo.save(userFromDB);
     }
 }
 

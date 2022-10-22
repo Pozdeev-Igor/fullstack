@@ -1,5 +1,6 @@
 package com.example.petproject.controller;
 
+import com.example.petproject.DTO.UsersDataDTO;
 import com.example.petproject.domain.Advert;
 import com.example.petproject.domain.User;
 import com.example.petproject.service.AdvertService;
@@ -24,7 +25,7 @@ public class UserController {
     private AdvertService advertService;
 
     @GetMapping
-    public Optional<User> getUsersNameByUser (@AuthenticationPrincipal User user) {
+    public Optional<User> getUsersNameByUser(@AuthenticationPrincipal User user) {
 
         return Optional.ofNullable(userService.findUserByUsername(user.getUsername()).orElse(null));
 
@@ -35,6 +36,18 @@ public class UserController {
         Optional<User> userFromDB = userService.findUserByUsername(user.getUsername());
         List<Advert> advertList = advertService.findByUser(userFromDB);
         return ResponseEntity.ok(advertList);
+    }
+
+    @PutMapping("{userId}")
+    public ResponseEntity<?> updateUsersData(@AuthenticationPrincipal User user,
+                                             @RequestBody UsersDataDTO usersDataDTO,
+                                             @PathVariable Long userId) {
+        User userFromDB = userService.findUserById(userId);
+        userFromDB.setName(usersDataDTO.getName());
+        userFromDB.setEmail(usersDataDTO.getEmail());
+        userFromDB.setPhoneNumber(usersDataDTO.getPhoneNumber());
+        userService.update(userFromDB);
+        return ResponseEntity.ok(userFromDB);
     }
 
 }

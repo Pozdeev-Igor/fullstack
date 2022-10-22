@@ -26,7 +26,7 @@ public class Comment {
     private String text;
 //    @Transient
     @JsonIgnore
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, targetEntity = CommentsAnswer.class)
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, targetEntity = CommentsAnswer.class, fetch = FetchType.EAGER)
     private Set<CommentsAnswer> answers;
 
 

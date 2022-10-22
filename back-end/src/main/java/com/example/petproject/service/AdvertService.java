@@ -89,4 +89,8 @@ public class AdvertService {
         Page<Advert> pagingAdvertByUser = advertRepo.pagingFindByUser(pageRequest, userId);
         return pagingAdvertByUser.getContent();
     }
+
+    public List<Advert> findByUserId(Long userId) {
+        return advertRepo.findByUserId(userId);
+    }
 }

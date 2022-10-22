@@ -20,4 +20,5 @@ public interface AdvertRepo extends PagingAndSortingRepository<Advert, Long> {
     @Query("select a from Advert a where a.image is not null order by a.id desc")
     Page<Advert> findAllByImage(PageRequest pageRequest);
 
+    List<Advert> findByUserId(Long userId);
 }

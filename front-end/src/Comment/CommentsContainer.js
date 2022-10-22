@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import Comment from "../Comment/Comment";
+import Comment from "./Comment";
 import {MDBBtn, MDBTextArea, MDBTypography} from "mdb-react-ui-kit";
 import {Row} from "react-bootstrap";
 import {useUser} from "../UserProvider/UserProvider";

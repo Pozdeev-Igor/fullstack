@@ -6,7 +6,7 @@ import LoginModal from "../Modal/LoginModal";
 import ajax from "../services/fetchServise";
 import jwt_decode from "jwt-decode";
 import {MDBBadge, MDBSpinner} from "mdb-react-ui-kit";
-import CommentsContainer from "../Offcanvas/CommentsContainer";
+import CommentsContainer from "../Comment/CommentsContainer";
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -36,7 +36,6 @@ const HomePage = () => {
             ajax(`/api/adverts?page=${currentPage}&limit=12`, "GET", user.jwt).then((advertsData) => {
                 setAdverts([...adverts, ...advertsData])
                 setCurrentPage(prevState => prevState + 1);
-                console.log(advertsData)
 
             }).finally(() => setFetching(false));
         }

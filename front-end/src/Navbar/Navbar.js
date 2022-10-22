@@ -38,7 +38,10 @@ function BasicExample(props) {
                 if (usersData) {
                     setUsersName(usersData.name);
                     setId(usersData.id);
-                } else return null;
+                } else {
+                    localStorage.setItem('jwt', '');
+                    // window.location.reload();
+                }
             })
         }
     };

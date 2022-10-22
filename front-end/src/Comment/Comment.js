@@ -50,7 +50,6 @@ const Comment = (props) => {
         ).then((answersData) => {
             formatAnswers(answersData);
             setAnswers(answersData)
-            console.log(answers)
         });
     }, []);
 

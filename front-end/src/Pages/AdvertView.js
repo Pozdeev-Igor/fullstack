@@ -1,14 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useUser} from "../UserProvider/UserProvider";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import ajax from "../services/fetchServise";
-import {Alert, Carousel, Col, Container, Row} from "react-bootstrap";
+import {Alert, Carousel, Col, Container, Overlay, Row, Tooltip} from "react-bootstrap";
 import {MDBBadge, MDBBtn, MDBIcon, MDBPopover, MDBPopoverBody, MDBPopoverHeader, MDBTypography} from "mdb-react-ui-kit";
 import {NumericFormat} from "react-number-format";
-import CommentsContainer from "../Offcanvas/CommentsContainer";
+import CommentsContainer from "../Comment/CommentsContainer";
 
 const AdvertView = () => {
     const user = useUser();
+    const navigate = useNavigate();
     const {advertId} = useParams();
     const [favoriteShow, setFavoriteShow] = useState(false);
     const [preFavoriteShow, setPreFavoriteShow] = useState(true);
@@ -23,6 +24,9 @@ const AdvertView = () => {
     const [subCategoryName, setSubCategoryName] = useState("");
     const [authorName, setAuthorName] = useState("");
     const [authorPhone, setAuthorPhone] = useState("");
+
+    const [showClose, setShowClose] = useState(false);
+    const targetClose = useRef(null);
 
     const [show, setShow] = useState(() => false);
     const handleClose = () => setShow(false);
@@ -188,6 +192,29 @@ const AdvertView = () => {
                                             необходимо авторизоваться!</MDBPopoverBody>
                                     </MDBPopover>
                                 }
+                            </Col>
+                            <Col>
+                                <MDBBtn
+                                    ref={targetClose}
+                                    floating
+                                    className='m-1'
+                                    style={{backgroundColor: '#333333'}}
+                                    role='button'
+                                    onMouseOver={() => {
+                                        setShowClose(!showClose)
+                                    }}
+                                    onMouseLeave={() => {
+                                        setShowClose(false);
+                                    }}
+                                    onClick={() => navigate(-1)}
+                                >
+                                    <MDBIcon fas icon="times"/>
+                                    <Overlay target={targetClose.current} show={showClose} placement="top">
+                                        <Tooltip>
+                                            close
+                                        </Tooltip>
+                                    </Overlay>
+                                </MDBBtn>
                             </Col>
                         </Row>
                         <figcaption>

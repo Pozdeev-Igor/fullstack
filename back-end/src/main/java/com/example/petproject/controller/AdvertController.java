@@ -48,6 +48,12 @@ public class AdvertController {
         return ResponseEntity.ok(allAdverts);
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> findAdvertsByUser (@AuthenticationPrincipal User user, @PathVariable Long userId) {
+        List<Advert> advertList = advertService.findByUserId(userId);
+        return ResponseEntity.ok(advertList);
+    }
+
     @PostMapping("/{advertId}")
     @ResponseBody
     public ResponseEntity<?> totalCreateAdvert(
