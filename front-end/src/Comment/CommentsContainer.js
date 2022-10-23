@@ -13,16 +13,26 @@ const CommentsContainer = (props) => {
     const {advertId} = props
 
     const childToParent = (commentFromChild) => {
-
         setData((prevState) => (!{prevState}))
         setCommentFromChild(commentFromChild)
-        const answersCopy = {
-            text: `${commentFromChild.createdBy.name}, `,
-            commentId: commentFromChild.id != null ? parseInt(commentFromChild.id) : null,
-            user: user.jwt,
-        };
+        let answersCopy;
+        if (commentFromChild.advert) {
+            answersCopy = {
+                text: `${commentFromChild.createdBy.name}, `,
+                commentId: commentFromChild.id != null ? parseInt(commentFromChild.id) : null,
+                user: user.jwt,
+            };
+        } else if (commentFromChild.comment) {
+            answersCopy = {
+                text: `${commentFromChild.createdBy.name}, `,
+                commentId: commentFromChild.comment.id != null ? parseInt(commentFromChild.comment.id) : null,
+                user: user.jwt,
+            };
+        }
+
         setAnswer(answersCopy);
     }
+
 
     const emptyComment = {
         id: null,
@@ -41,18 +51,13 @@ const CommentsContainer = (props) => {
     };
 
     const [commentFromChild, setCommentFromChild] = useState(null);
-    const [comment, setComment] = useState(emptyComment);
 
-    const [answer, setAnswer] = useState({
-        id: null,
-        user: user.jwt,
-        createdDate: null,
-    });
+    const [comment, setComment] = useState(emptyComment);
+    const [answer, setAnswer] = useState(emptyAnswer);
 
     const [comments, setComments] = useState([]);
     const [answers, setAnswers] = useState([]);
     const [data, setData] = useState(false);
-
 
     useInterval(() => {
         updateCommentTimeDisplay();

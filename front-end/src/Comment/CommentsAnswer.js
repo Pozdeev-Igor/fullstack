@@ -5,7 +5,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 const CommentsAnswer = (props) => {
     const {id, createdDate, createdBy, text, commentId} = props.answersData
-    const {decodedJwt} = props;
+    const {decodedJwt, childToParent} = props;
     const [answerRelativeTime, setAnswerRelativeTime] = useState("");
 
 
@@ -46,6 +46,8 @@ const CommentsAnswer = (props) => {
                     </p>
                     <div className="d-flex justify-content-start" style={{backgroundColor: "whitesmoke"}}>
                         <span className="text-muted" style={{cursor: "pointer", marginLeft: "30px"}} onClick={() => {
+                            childToParent(props.answersData)
+                            window.scrollTo(0, 1800)
                         }}>
                             <MDBIcon fas icon="reply fa-xs"/>
                             <span className="small"> reply</span>

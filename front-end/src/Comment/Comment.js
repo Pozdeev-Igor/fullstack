@@ -125,7 +125,8 @@ const Comment = (props) => {
                                         <CommentsAnswer
                                             key={answer.id}
                                             answersData={answer}
-                                            decodedJwt={decodedJwt}/>
+                                            decodedJwt={decodedJwt}
+                                            childToParent={childToParent}/>
                                         :
                                         null
                                 ))

@@ -23,11 +23,11 @@ public class CommentsAnswerService {
 
     public CommentsAnswer save(CommentsAnswerDTO answerDTO, User user) {
         CommentsAnswer answer = new CommentsAnswer();
-        Comment comment = commentRepo.findById(answerDTO.getCommentId()).get();
+//        Comment comment = commentRepo.findById(answerDTO.getCommentId()).get();
         answer.setId(answerDTO.getId());
         answer.setText(answerDTO.getText());
         answer.setCreatedBy(user);
-        answer.setComment(comment);
+        answer.setComment(commentRepo.findById(answerDTO.getCommentId()).get());
         if (answer.getId() == null) {
             answer.setCreatedDate(ZonedDateTime.now());
         }else {
