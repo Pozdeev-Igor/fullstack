@@ -78,7 +78,6 @@ const CommentsContainer = (props) => {
     function handleEditComment(commentData) {
         if (commentData.advert) {
             changeState();
-            // console.log(data)
             const i = comments.findIndex((comment) => comment.id === commentData.id);
             const commentCopy = {
                 id: comments[i].id,
@@ -88,8 +87,7 @@ const CommentsContainer = (props) => {
                 createdDate: comments[i].createdDate,
             };
             setComment(commentCopy);
-        }
-        else {
+        } else {
             setData(false);
             const answerCopy = {
                 id: commentData.id,
@@ -100,20 +98,27 @@ const CommentsContainer = (props) => {
             };
             setComment(answerCopy);
         }
-        // console.log(data);
     }
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
 
-    function handleDeleteComment(commentId) {
-        ajax(`/api/comments/${commentId}`, "delete", user.jwt).then((msg) => {
-            const commentsCopy = [...comments];
-            const i = commentsCopy.findIndex((comment) => comment.id === commentId);
-            commentsCopy.splice(i, 1);
-            formatComments(commentsCopy);
-        });
+    function handleDeleteComment(commentData) {
+        if (commentData.comment) {
+            ajax(`/api/comments/answer/${commentData.id}`, 'DELETE', user.jwt).then((msg) => {
+                const answersCopy = [...answers];
+                let i = answersCopy.findIndex((answer) => answer.id === commentData.id);
+                answersCopy.splice(i, 1);
+                formatComments(answersCopy);
+            })
+        } else {
+            ajax(`/api/comments/${commentData}`, "delete", user.jwt).then((msg) => {
+                const commentsCopy = [...comments];
+                const i = commentsCopy.findIndex((comment) => comment.id === commentData);
+                commentsCopy.splice(i, 1);
+                formatComments(commentsCopy);
+            });
+        }
+
+
     };
 
     function formatComments(commentsCopy) {
@@ -144,8 +149,6 @@ const CommentsContainer = (props) => {
             formatComments(commentsData);
         });
     }, []);
-
-
 
 
     function updateAnswer(value) {
@@ -205,7 +208,10 @@ const CommentsContainer = (props) => {
     }
 
     useEffect(() => {
-        // console.log(comment);
+        //TODO: придумать, как передать сюда id комментария, на который ссылается ответ к комментарию.
+        // чтобы подтягивать ответы к комментарию без обновления страницы
+
+        console.log(comment);
         // ajax(
         //     `/api/comments/answer?commentId=${commentFromChild.id}`,
         //     "get",
@@ -259,7 +265,7 @@ const CommentsContainer = (props) => {
                 </div>
                 <div className="float-end mt-2 pt-1">
                     <MDBBtn size="sm" className="me-1" onClick={
-                        data  ?
+                        data ?
                             submitComment
                             :
                             submitAnswer

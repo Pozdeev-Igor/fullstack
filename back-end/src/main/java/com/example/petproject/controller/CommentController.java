@@ -78,4 +78,17 @@ public class CommentController {
         }
 
     }
+
+    @DeleteMapping("/answer/{answerId}")
+    public ResponseEntity<?> deleteAnswer(@PathVariable Long answerId) {
+
+        try {
+            answerService.delete(answerId);
+            return ResponseEntity.ok(answerId);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+    }
 }

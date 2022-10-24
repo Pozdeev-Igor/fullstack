@@ -40,4 +40,8 @@ public class CommentsAnswerService {
 
         return answerSet;
     }
+
+    public void delete(Long answerId) {
+        answerRepo.deleteById(answerId);
+    }
 }

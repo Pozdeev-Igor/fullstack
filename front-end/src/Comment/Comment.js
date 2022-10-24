@@ -127,7 +127,8 @@ const Comment = (props) => {
                                             answersData={answer}
                                             decodedJwt={decodedJwt}
                                             childToParent={childToParent}
-                                            emitEditComment={emitEditComment}/>
+                                            emitEditComment={emitEditComment}
+                                            emitDeleteComment={emitDeleteComment}/>
                                         :
                                         null
                                 ))
