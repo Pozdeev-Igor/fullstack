@@ -13,26 +13,27 @@ const CommentsContainer = (props) => {
     const {advertId} = props
 
     const childToParent = (commentFromChild) => {
-        setData((prevState) => (!{prevState}))
+        setData(false)
         setCommentFromChild(commentFromChild)
+        console.log(commentFromChild)
         let answersCopy;
         if (commentFromChild.advert) {
+            // changeState()
             answersCopy = {
                 text: `${commentFromChild.createdBy.name}, `,
                 commentId: commentFromChild.id != null ? parseInt(commentFromChild.id) : null,
                 user: user.jwt,
             };
         } else if (commentFromChild.comment) {
+            setData(false)
             answersCopy = {
                 text: `${commentFromChild.createdBy.name}, `,
                 commentId: commentFromChild.comment.id != null ? parseInt(commentFromChild.comment.id) : null,
                 user: user.jwt,
             };
         }
-
         setAnswer(answersCopy);
     }
-
 
     const emptyComment = {
         id: null,
@@ -57,7 +58,7 @@ const CommentsContainer = (props) => {
 
     const [comments, setComments] = useState([]);
     const [answers, setAnswers] = useState([]);
-    const [data, setData] = useState(false);
+    const [data, setData] = useState(true);
 
     useInterval(() => {
         updateCommentTimeDisplay();
@@ -71,13 +72,8 @@ const CommentsContainer = (props) => {
         formatComments(commentsCopy);
     };
 
-    const changeState = () => {
-        setData(true);
-    }
-
     function handleEditComment(commentData) {
         if (commentData.advert) {
-            changeState();
             const i = comments.findIndex((comment) => comment.id === commentData.id);
             const commentCopy = {
                 id: comments[i].id,
@@ -100,6 +96,10 @@ const CommentsContainer = (props) => {
         }
     }
 
+    // useEffect(() => {
+    //     console.log(data)
+    // }, [data])
+
 
     function handleDeleteComment(commentData) {
         if (commentData.comment) {
@@ -117,8 +117,6 @@ const CommentsContainer = (props) => {
                 formatComments(commentsCopy);
             });
         }
-
-
     };
 
     function formatComments(commentsCopy) {
@@ -148,7 +146,7 @@ const CommentsContainer = (props) => {
         ).then((commentsData) => {
             formatComments(commentsData);
         });
-    }, []);
+    }, [comment]);
 
 
     function updateAnswer(value) {
@@ -211,7 +209,7 @@ const CommentsContainer = (props) => {
         //TODO: придумать, как передать сюда id комментария, на который ссылается ответ к комментарию.
         // чтобы подтягивать ответы к комментарию без обновления страницы
 
-        console.log(comment);
+        // console.log(comment);
         // ajax(
         //     `/api/comments/answer?commentId=${commentFromChild.id}`,
         //     "get",
