@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Comment from "./Comment";
 import {MDBBtn, MDBTextArea, MDBTypography} from "mdb-react-ui-kit";
 import {Row} from "react-bootstrap";
@@ -12,10 +12,14 @@ const CommentsContainer = (props) => {
     const user = useUser();
     const {advertId} = props
 
+    const clearInput = () => {
+        window.location.reload()
+    };
+
     const childToParent = (commentFromChild) => {
         setData(false)
         setCommentFromChild(commentFromChild)
-        console.log(commentFromChild)
+        // console.log(commentFromChild)
         let answersCopy;
         if (commentFromChild.advert) {
             // changeState()
@@ -96,9 +100,9 @@ const CommentsContainer = (props) => {
         }
     }
 
-    // useEffect(() => {
-    //     console.log(data)
-    // }, [data])
+    useEffect(() => {
+        console.log(data)
+    }, [data])
 
 
     function handleDeleteComment(commentData) {
@@ -146,7 +150,7 @@ const CommentsContainer = (props) => {
         ).then((commentsData) => {
             formatComments(commentsData);
         });
-    }, [comment]);
+    }, [comment, answer, handleDeleteComment]);
 
 
     function updateAnswer(value) {
@@ -173,6 +177,7 @@ const CommentsContainer = (props) => {
                 }
             );
         } else {
+            // console.log(commentFromChild)
             ajax("/api/comments", "post", user.jwt, comment).then((d) => {
                 const commentsCopy = [...comments];
                 commentsCopy.push(d);
@@ -191,7 +196,6 @@ const CommentsContainer = (props) => {
                     answersCopy[i] = d;
                     formatComments(answersCopy);
                     setAnswer(emptyAnswer);
-                    window.location.reload();
                 }
             );
         } else {
@@ -200,26 +204,11 @@ const CommentsContainer = (props) => {
                 answersCopy.push(d);
                 formatComments(answersCopy);
                 setAnswer(emptyAnswer);
-                window.location.reload();
             });
         }
+        setData(true)
+        setCommentFromChild(null);
     }
-
-    useEffect(() => {
-        //TODO: придумать, как передать сюда id комментария, на который ссылается ответ к комментарию.
-        // чтобы подтягивать ответы к комментарию без обновления страницы
-
-        // console.log(comment);
-        // ajax(
-        //     `/api/comments/answer?commentId=${commentFromChild.id}`,
-        //     "get",
-        //     user.jwt,
-        //     null
-        // ).then((answersData) => {
-        //     formatAnswers(answersData);
-        //     setAnswers(answersData)
-        // });
-    }, []);
 
     return (
         <>
@@ -269,7 +258,7 @@ const CommentsContainer = (props) => {
                             submitAnswer
                     }
                     >Post comment</MDBBtn>
-                    {/*<MDBBtn outline size="sm" onClick={handleClose}>Cancel</MDBBtn>*/}
+                    <MDBBtn outline size="sm" onClick={clearInput}>Cancel</MDBBtn>
                 </div>
             </Row>
         </>
