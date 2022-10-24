@@ -1,7 +1,6 @@
 package com.example.petproject.service;
 
 import com.example.petproject.DTO.CommentsAnswerDTO;
-import com.example.petproject.domain.Comment;
 import com.example.petproject.domain.CommentsAnswer;
 import com.example.petproject.domain.User;
 import com.example.petproject.repos.CommentRepo;
@@ -23,7 +22,6 @@ public class CommentsAnswerService {
 
     public CommentsAnswer save(CommentsAnswerDTO answerDTO, User user) {
         CommentsAnswer answer = new CommentsAnswer();
-//        Comment comment = commentRepo.findById(answerDTO.getCommentId()).get();
         answer.setId(answerDTO.getId());
         answer.setText(answerDTO.getText());
         answer.setCreatedBy(user);

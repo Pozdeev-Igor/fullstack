@@ -100,7 +100,7 @@ const Comment = (props) => {
                                                 <span className="text-muted"
                                                       style={{cursor: "pointer", marginLeft: "30px"}}
                                                       onClick={() => {
-                                                          emitEditComment(id)
+                                                          emitEditComment(props.commentData)
                                                       }}>
                                         <MDBIcon fas icon="pen fa-xs"/>
                                         <span className="small"> edit</span>
@@ -126,7 +126,8 @@ const Comment = (props) => {
                                             key={answer.id}
                                             answersData={answer}
                                             decodedJwt={decodedJwt}
-                                            childToParent={childToParent}/>
+                                            childToParent={childToParent}
+                                            emitEditComment={emitEditComment}/>
                                         :
                                         null
                                 ))

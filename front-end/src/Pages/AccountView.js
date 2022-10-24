@@ -53,12 +53,6 @@ const AccountView = () => {
         setUserProfile(newUserProfile);
     }
 
-    // function updateEmail(prop, label) {
-    //     const newUserProfile = {...userProfile};
-    //     newUserProfile[prop] = label;
-    //     setUserProfile(newUserProfile);
-    // }
-
     function saveUsersName() {
         if (previousProfileDataValue.current.name !== userProfile.name) {
             updateUserProfile('name', userProfile.name)
@@ -126,7 +120,7 @@ const AccountView = () => {
                     </div>
                     <div className="border-bottom d-flex align-items-center justify-content-start mt-3">
                         <MDBIcon fas icon="photo-video" size="2x"/>
-                        <span style={{cursor:'pointer'}} onClick={() => navigate(`/users/adverts`)}>
+                        <span style={{cursor: 'pointer'}} onClick={() => navigate(`/users/adverts`)}>
                             <cite className="text-muted ms-3 mt-0 ">
                                 Активных объявлений: {advertsByUser.length}
                             </cite>
@@ -200,8 +194,6 @@ const AccountView = () => {
                                     onClick={() => {
                                         saveUsersPhone()
                                     }}>edit</MDBBtn>
-
-
                         </div>
                     </Col>
                     :

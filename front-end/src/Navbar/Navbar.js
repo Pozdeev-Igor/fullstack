@@ -33,14 +33,14 @@ function BasicExample(props) {
     };
 
     function getUsersData() {
-        if (user.jwt != "") {
+        if (user.jwt !== null) {
             ajax("/api/users", "GET", user.jwt).then(usersData => {
                 if (usersData) {
                     setUsersName(usersData.name);
                     setId(usersData.id);
                 } else {
-                    localStorage.setItem('jwt', '');
-                    // window.location.reload();
+                    return null;
+                    window.location.reload();
                 }
             })
         }

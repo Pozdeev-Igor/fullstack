@@ -44,6 +44,13 @@ public class CommentController {
         return ResponseEntity.ok(comment);
     }
 
+    @PutMapping("answer/{answerId}")
+    public ResponseEntity<CommentsAnswer> updateAnswer (@RequestBody CommentsAnswerDTO answerDTO, @AuthenticationPrincipal User user) {
+        CommentsAnswer answer = answerService.save(answerDTO, user);
+
+        return ResponseEntity.ok(answer);
+    }
+
     @GetMapping("")
     public ResponseEntity<Set<Comment>> getCommentsByAdvert(@RequestParam Long advertId) {
         Set<Comment> comments = commentService.getCommentsByAdvertId(advertId);

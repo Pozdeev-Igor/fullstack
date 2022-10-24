@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Comment from "./Comment";
 import {MDBBtn, MDBTextArea, MDBTypography} from "mdb-react-ui-kit";
 import {Row} from "react-bootstrap";
@@ -71,18 +71,41 @@ const CommentsContainer = (props) => {
         formatComments(commentsCopy);
     };
 
-    function handleEditComment(commentId) {
-        const i = comments.findIndex((comment) => comment.id === commentId);
-        const commentCopy = {
-            id: comments[i].id,
-            text: comments[i].text,
-            advertId: advertId != null ? parseInt(advertId) : null,
-            user: user.jwt,
-            createdDate: comments[i].createdDate,
-        };
-        setComment(commentCopy);
-
+    const changeState = () => {
+        setData(true);
     }
+
+    function handleEditComment(commentData) {
+        if (commentData.advert) {
+            changeState();
+            // console.log(data)
+            const i = comments.findIndex((comment) => comment.id === commentData.id);
+            const commentCopy = {
+                id: comments[i].id,
+                text: comments[i].text,
+                advertId: advertId != null ? parseInt(advertId) : null,
+                user: user.jwt,
+                createdDate: comments[i].createdDate,
+            };
+            setComment(commentCopy);
+        }
+        else {
+            setData(false);
+            const answerCopy = {
+                id: commentData.id,
+                text: commentData.text,
+                commentId: commentData.comment.id != null ? parseInt(commentData.comment.id) : null,
+                user: user.jwt,
+                createdDate: commentData.createdDate,
+            };
+            setComment(answerCopy);
+        }
+        // console.log(data);
+    }
+
+    useEffect(() => {
+        console.log(data)
+    }, [data])
 
     function handleDeleteComment(commentId) {
         ajax(`/api/comments/${commentId}`, "delete", user.jwt).then((msg) => {
@@ -122,6 +145,9 @@ const CommentsContainer = (props) => {
         });
     }, []);
 
+
+
+
     function updateAnswer(value) {
         const answerCopy = {...answer};
         answerCopy.text = value;
@@ -156,14 +182,40 @@ const CommentsContainer = (props) => {
     }
 
     function submitAnswer() {
-        ajax("/api/comments/answer", "post", user.jwt, answer).then((d) => {
-            const answersCopy = [...answers];
-            answersCopy.push(d);
-            formatComments(answersCopy);
-            setAnswer(emptyAnswer);
-            window.location.reload();
-        });
+        if (comment.id) {
+            ajax(`/api/comments/answer/${comment.id}`, "put", user.jwt, comment).then(
+                (d) => {
+                    const answersCopy = [...answers];
+                    const i = answersCopy.findIndex((answer) => answer.id === d.id);
+                    answersCopy[i] = d;
+                    formatComments(answersCopy);
+                    setAnswer(emptyAnswer);
+                    window.location.reload();
+                }
+            );
+        } else {
+            ajax("/api/comments/answer", "post", user.jwt, answer).then((d) => {
+                const answersCopy = [...answers];
+                answersCopy.push(d);
+                formatComments(answersCopy);
+                setAnswer(emptyAnswer);
+                window.location.reload();
+            });
+        }
     }
+
+    useEffect(() => {
+        // console.log(comment);
+        // ajax(
+        //     `/api/comments/answer?commentId=${commentFromChild.id}`,
+        //     "get",
+        //     user.jwt,
+        //     null
+        // ).then((answersData) => {
+        //     formatAnswers(answersData);
+        //     setAnswers(answersData)
+        // });
+    }, []);
 
     return (
         <>
@@ -207,10 +259,12 @@ const CommentsContainer = (props) => {
                 </div>
                 <div className="float-end mt-2 pt-1">
                     <MDBBtn size="sm" className="me-1" onClick={
-                        commentFromChild ?
-                            submitAnswer
+                        data  ?
+                            submitComment
                             :
-                            submitComment}>Post comment</MDBBtn>
+                            submitAnswer
+                    }
+                    >Post comment</MDBBtn>
                     {/*<MDBBtn outline size="sm" onClick={handleClose}>Cancel</MDBBtn>*/}
                 </div>
             </Row>
