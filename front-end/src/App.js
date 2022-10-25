@@ -17,6 +17,7 @@ import Navbar from "./Navbar/Navbar";
 import PersonalAdvertView from "./Pages/PersonalAdvertView";
 import AdvertView from "./Pages/AdvertView";
 import AccountView from "./Pages/AccountView";
+import Favorites from "./Pages/Favorites";
 
 function App() {
     const user = useUser();
@@ -33,6 +34,7 @@ function App() {
                 <Route path='/adverts/new/:advertId' element={<PrivateRoute><NewAdvertView/></PrivateRoute>}/>
                 <Route path='/adverts/:userId/:advertId' element={<AdvertView/>}/>
                 <Route path='/adverts/personal/:advertId' element={<PrivateRoute><PersonalAdvertView/></PrivateRoute>}/>
+                <Route path='/adverts/favorite/:userId' element={<PrivateRoute><Favorites/></PrivateRoute>}/>
                 <Route path='/users/adverts' element={<PrivateRoute><PersonalDashboard/></PrivateRoute>}/>
                 <Route path='/users/:userId' element={<PrivateRoute><AccountView/></PrivateRoute>}/>
                 <Route path='/admin/categories' element={<PrivateRoute><CategoryView/></PrivateRoute>}/>

@@ -42,6 +42,7 @@ const LoginModal = (props) => {
                 alert(message);
             });
         handleClose();
+        window.location.reload();
 
 
     }

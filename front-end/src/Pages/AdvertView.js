@@ -27,6 +27,8 @@ const AdvertView = () => {
     const [showClose, setShowClose] = useState(false);
     const targetClose = useRef(null);
 
+    const [currentUser, setCurrentUser] = useState(null);
+
     const [show, setShow] = useState(() => false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -56,6 +58,19 @@ const AdvertView = () => {
             setImageList(imagesData);
         })
     }, [advertId]);
+
+    useEffect(() => {
+        if (user.jwt !== null) {
+            ajax("/api/users", "GET", user.jwt).then(usersData => {
+                if (usersData) {
+                    setCurrentUser(usersData);
+                } else {
+                    return null;
+                }
+                console.log(currentUser)
+            })
+        }
+    }, [preFavoriteShow])
 
     const favoriteClick = () => {
         setPreFavoriteShow(!preFavoriteShow);
@@ -108,7 +123,7 @@ const AdvertView = () => {
                                     )}
                                 </MDBBtn>
                                 {!preFavoriteShow ?
-                                <a >перейти в избранное</a>
+                                <span style={{cursor:'pointer'}} onClick={() => navigate(`/adverts/favorite/${currentUser.id}`)}>перейти в избранное</span>
                                     : null
                                 }
 
