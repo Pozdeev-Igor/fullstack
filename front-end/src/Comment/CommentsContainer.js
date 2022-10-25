@@ -19,10 +19,8 @@ const CommentsContainer = (props) => {
     const childToParent = (commentFromChild) => {
         setData(false)
         setCommentFromChild(commentFromChild)
-        // console.log(commentFromChild)
         let answersCopy;
         if (commentFromChild.advert) {
-            // changeState()
             answersCopy = {
                 text: `${commentFromChild.createdBy.name}, `,
                 commentId: commentFromChild.id != null ? parseInt(commentFromChild.id) : null,
@@ -78,13 +76,12 @@ const CommentsContainer = (props) => {
 
     function handleEditComment(commentData) {
         if (commentData.advert) {
-            const i = comments.findIndex((comment) => comment.id === commentData.id);
             const commentCopy = {
-                id: comments[i].id,
-                text: comments[i].text,
+                id: commentData.id,
+                text: commentData.text,
                 advertId: advertId != null ? parseInt(advertId) : null,
                 user: user.jwt,
-                createdDate: comments[i].createdDate,
+                createdDate: commentData.createdDate,
             };
             setComment(commentCopy);
         } else {
@@ -100,9 +97,10 @@ const CommentsContainer = (props) => {
         }
     }
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
+    // useEffect(() => {
+    //     // console.log(data)
+    //     console.log(commentFromChild)
+    // }, [data, comment, answer])
 
 
     function handleDeleteComment(commentData) {
@@ -150,7 +148,7 @@ const CommentsContainer = (props) => {
         ).then((commentsData) => {
             formatComments(commentsData);
         });
-    }, [comment, answer, handleDeleteComment]);
+    }, [comment, answer, handleEditComment, handleDeleteComment]);
 
 
     function updateAnswer(value) {
@@ -177,7 +175,6 @@ const CommentsContainer = (props) => {
                 }
             );
         } else {
-            // console.log(commentFromChild)
             ajax("/api/comments", "post", user.jwt, comment).then((d) => {
                 const commentsCopy = [...comments];
                 commentsCopy.push(d);
@@ -195,7 +192,7 @@ const CommentsContainer = (props) => {
                     const i = answersCopy.findIndex((answer) => answer.id === d.id);
                     answersCopy[i] = d;
                     formatComments(answersCopy);
-                    setAnswer(emptyAnswer);
+                    setComment(emptyAnswer);
                 }
             );
         } else {
