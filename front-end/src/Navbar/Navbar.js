@@ -40,7 +40,6 @@ function BasicExample(props) {
                     setId(usersData.id);
                 } else {
                     return null;
-                    window.location.reload();
                 }
             })
         }

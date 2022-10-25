@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Col, Form, Modal, Row} from "react-bootstrap";
 import {useUser} from "../UserProvider/UserProvider";
 import {useNavigate} from "react-router-dom";
@@ -12,7 +12,7 @@ const LoginModal = (props) => {
 
     const {show, handleClose, handleShow} = props
 
-    function handleSignUp () {
+    function handleSignUp() {
         navigate("/registration");
         handleClose();
     }
@@ -42,8 +42,16 @@ const LoginModal = (props) => {
                 alert(message);
             });
         handleClose();
-        // navigate("/")
+
+
     }
+
+    useEffect(() => {
+        if (window.location.href === 'http://localhost:3000/registration' && localStorage.getItem('jwt') !== "\"\"") {
+            navigate('/');
+        }
+    }, [sendLoginRequest])
+
 
     return (
         <Modal show={show} onHide={handleClose} style={{backdropFilter: "blur(5px)"}}>

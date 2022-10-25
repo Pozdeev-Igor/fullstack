@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import LoginModal from "../Modal/LoginModal";
 import { PatternFormat } from 'react-number-format';
+import {MDBBtn} from "mdb-react-ui-kit";
 
 const SignUpPage = () => {
 
@@ -42,13 +43,20 @@ const SignUpPage = () => {
         navigate("/");
     }
 
+    useEffect(() => {
+        console.log(localStorage.getItem('jwt') !== "\"\"")
+        if (window.location.href === 'http://localhost:3000/registration' && localStorage.getItem('jwt') !== "\"\"") {
+            window.location.reload();
+        }
+    })
+
     return (
         <div style={{backgroundImage: "url(https://images.wallpaperscraft.com/image/single/clouds_sky_porous_133455_1920x1080.jpg)"}}>
             <Container
-                className="signUpContainer">
-                <Form>
+                className="signUpContainer" style={{width:"600px", paddingBottom:'30px'}}>
+                <Form style={{width:"600px"}}>
                     <Row className="justify-content-center">
-                        <Col md="8" lg="6">
+                        <Col md="8" lg="6" className='mt-3'>
                             <Form.Text style={{color: "ActiveBorder"}}><h1>Sign up</h1></Form.Text>
                             <Form.Text className="text-muted">Please fill in this form to create an account.</Form.Text>
                         </Col>
@@ -100,14 +108,16 @@ const SignUpPage = () => {
 
                                 <PatternFormat
                                     format="+7 (###) ### ## ##"
+                                    style={{
+                                        width: '100%',
+                                        borderRadius: '4px',
+                                        borderWidth: '1px',
+                                        borderColor: 'lightgray',
+                                        height: '38px'
+                                    }}
                                     allowEmptyFormatting mask="*"
                                     value={phoneNumber}
                                     onChange={(e) => setPhoneNumber(e.target.value)}/>
-                                {/*<Form.Control*/}
-                                {/*    value={phoneNumber}*/}
-                                {/*    type="text"*/}
-                                {/*    placeholder="+71234567890"*/}
-                                {/*    onChange={(e) => setPhoneNumber(e.target.value)}/>*/}
                             </Form.Group>
                         </Col>
                     </Row>
@@ -150,13 +160,14 @@ const SignUpPage = () => {
                                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
                                         <Form.Check type="checkbox" label="Remember me"/>
                                     </Form.Group>
-                                    <Button
+                                    <MDBBtn
+                                        rounded
                                         variant="primary"
                                         size="sm"
                                         type="submit"
                                         onClick={() => sendSignupRequest()}>
                                         Submit
-                                    </Button>
+                                    </MDBBtn>
                                 </Col>
                             </Row>
                         </Col>

@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 import ajax from "../services/fetchServise";
 import jwt_decode from "jwt-decode";
 import {MDBBadge} from "mdb-react-ui-kit";
+import Footer from "../Footer/Footer";
 
 const PersonalDashboard = (props) => {
     // const {getUsersData} = props;
@@ -94,6 +95,7 @@ const PersonalDashboard = (props) => {
                     ))}
                 </Row>
             </Container>
+            <Footer/>
         </div>
     );
 };

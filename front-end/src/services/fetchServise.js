@@ -14,6 +14,10 @@ function ajax(url, requestMethod, jwt, requestBody) {
     }
     return fetch(url, fetchData).then((response) => {
         if (response.status === 200) return response.json();
+        if (response.status === 401) {
+            localStorage.clear()
+            window.location.reload();
+        }
     });
 }
 

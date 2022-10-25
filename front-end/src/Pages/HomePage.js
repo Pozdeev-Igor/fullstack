@@ -7,6 +7,7 @@ import ajax from "../services/fetchServise";
 import jwt_decode from "jwt-decode";
 import {MDBBadge, MDBSpinner} from "mdb-react-ui-kit";
 import CommentsContainer from "../Comment/CommentsContainer";
+import Footer from "../Footer/Footer";
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -96,6 +97,7 @@ const HomePage = () => {
             </Container>
             <LoginModal show={show} handleClose={handleClose} handleShow={handleShow}/>
 
+            <Footer/>
         </div>
     );
 };

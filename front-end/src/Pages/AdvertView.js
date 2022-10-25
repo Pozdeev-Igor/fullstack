@@ -4,7 +4,6 @@ import {useNavigate, useParams} from "react-router-dom";
 import ajax from "../services/fetchServise";
 import {Alert, Carousel, Col, Container, Overlay, Row, Tooltip} from "react-bootstrap";
 import {MDBBadge, MDBBtn, MDBIcon, MDBPopover, MDBPopoverBody, MDBPopoverHeader, MDBTypography} from "mdb-react-ui-kit";
-import {NumericFormat} from "react-number-format";
 import CommentsContainer from "../Comment/CommentsContainer";
 
 const AdvertView = () => {
@@ -94,7 +93,6 @@ const AdvertView = () => {
                                 )
 
                                 }
-
                                 <MDBBtn className='text-dark mb-3' style={{width: "40%"}} color='light'
                                         onClick={favoriteClick}>
                                     {preFavoriteShow ? (
@@ -109,6 +107,10 @@ const AdvertView = () => {
                                         </div>
                                     )}
                                 </MDBBtn>
+                                {!preFavoriteShow ?
+                                <a >перейти в избранное</a>
+                                    : null
+                                }
 
                                 <Carousel className="advert-carousel">
                                     {imageList.map((image) => (

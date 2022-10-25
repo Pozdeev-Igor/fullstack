@@ -14,7 +14,6 @@ import UsersView from "./AdminView/Pages/UsersView";
 import EditCategoryView from "./AdminView/Pages/EditCategoryView";
 import SubCategoryView from "./AdminView/Pages/SubCategoryView";
 import Navbar from "./Navbar/Navbar";
-import Footer from "./Footer/Footer";
 import PersonalAdvertView from "./Pages/PersonalAdvertView";
 import AdvertView from "./Pages/AdvertView";
 import AccountView from "./Pages/AccountView";
@@ -27,16 +26,13 @@ function App() {
         <>
             <Navbar fixed="top"/>
             <Routes>
-
                 <Route path='/' element={<HomePage/>}/>
-                {/*<Route path='/' element={<Test/>}/>*/}
                 <Route path='/login' element={<LoginPage/>}/>
                 <Route path='/activate/*' element={<LoginPage/>}/>
                 <Route path='/registration' element={<SignUpPage/>}/>
                 <Route path='/adverts/new/:advertId' element={<PrivateRoute><NewAdvertView/></PrivateRoute>}/>
                 <Route path='/adverts/:userId/:advertId' element={<AdvertView/>}/>
                 <Route path='/adverts/personal/:advertId' element={<PrivateRoute><PersonalAdvertView/></PrivateRoute>}/>
-                {/*<Route path='/adverts/personal/:advertId' element={<PrivateRoute><Test/></PrivateRoute>}/>*/}
                 <Route path='/users/adverts' element={<PrivateRoute><PersonalDashboard/></PrivateRoute>}/>
                 <Route path='/users/:userId' element={<PrivateRoute><AccountView/></PrivateRoute>}/>
                 <Route path='/admin/categories' element={<PrivateRoute><CategoryView/></PrivateRoute>}/>
@@ -45,7 +41,6 @@ function App() {
                 <Route path='/admin/users' element={<PrivateRoute><UsersView/></PrivateRoute>}/>
                 <Route path='/admin' element={<PrivateRoute><AdminMainPage/></PrivateRoute>}/>
             </Routes>
-            <Footer fixed="bottom"/>
         </>
     );
 }
