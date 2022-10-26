@@ -28,9 +28,11 @@ function App() {
             <Navbar fixed="top"/>
             <Routes>
                 <Route path='/' element={<HomePage/>}/>
+                {/*<Route path='/' element={<Test/>}/>*/}
                 <Route path='/login' element={<LoginPage/>}/>
                 <Route path='/activate/*' element={<LoginPage/>}/>
                 <Route path='/registration' element={<SignUpPage/>}/>
+                {/*<Route path='/registration' element={<Test/>}/>*/}
                 <Route path='/adverts/new/:advertId' element={<PrivateRoute><NewAdvertView/></PrivateRoute>}/>
                 <Route path='/adverts/:userId/:advertId' element={<AdvertView/>}/>
                 <Route path='/adverts/personal/:advertId' element={<PrivateRoute><PersonalAdvertView/></PrivateRoute>}/>

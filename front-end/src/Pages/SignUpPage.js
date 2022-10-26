@@ -1,13 +1,26 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {Col, Container, Form, Row} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import LoginModal from "../Modal/LoginModal";
-import { PatternFormat } from 'react-number-format';
-import {MDBBtn} from "mdb-react-ui-kit";
+import {PatternFormat} from 'react-number-format';
+import {MDBBtn, MDBInput, MDBTypography, MDBValidation, MDBValidationItem} from "mdb-react-ui-kit";
 
 const SignUpPage = () => {
 
     const navigate = useNavigate();
+    const [formValue, setFormValue] = useState({
+        name: '',
+        username: '',
+        email: '',
+        phoneNumber: '',
+        password: '',
+        confirmPassword: ''
+    });
+
+    const onChange = (e: any) => {
+        setFormValue({...formValue, [e.target.name]: e.target.value});
+    };
+
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -20,27 +33,32 @@ const SignUpPage = () => {
     const handleShow = () => setShow(true);
 
     function sendSignupRequest(e) {
+        if (formValue.confirmPassword === '' ||
+            formValue.password === '' ||
+            formValue.name === '' || formValue.email === '' || formValue.username === '') {
+            return null;
+        } else {
+            const reqBody = {
+                name: name,
+                username: username,
+                email: email,
+                password: password,
+                phoneNumber: phoneNumber,
+                confirmPassword: confirmPassword,
+            };
 
-        const reqBody = {
-            name: name,
-            username: username,
-            email: email,
-            password: password,
-            phoneNumber: phoneNumber,
-            confirmPassword: confirmPassword,
-        };
+            fetch("api/auth/registration", {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                method: "post",
+                body: JSON.stringify(reqBody),
+            })
+                .then(response => response.json());
+            alert("check your mailbox");
 
-        fetch("api/auth/registration", {
-            headers: {
-                "Content-Type": "application/json",
-            },
-            method: "post",
-            body: JSON.stringify(reqBody),
-        })
-            .then(response => response.json());
-        alert("check your mailbox");
-
-        navigate("/");
+            navigate("/");
+        }
     }
 
     useEffect(() => {
@@ -51,130 +69,131 @@ const SignUpPage = () => {
     })
 
     return (
-        <div style={{backgroundImage: "url(https://images.wallpaperscraft.com/image/single/clouds_sky_porous_133455_1920x1080.jpg)"}}>
+        <div
+            style={{backgroundImage: "url(https://images.wallpaperscraft.com/image/single/clouds_sky_porous_133455_1920x1080.jpg)"}}>
             <Container
-                className="signUpContainer" style={{width:"600px", paddingBottom:'30px'}}>
-                <Form style={{width:"600px"}}>
-                    <Row className="justify-content-center">
-                        <Col md="8" lg="6" className='mt-3'>
-                            <Form.Text style={{color: "ActiveBorder"}}><h1>Sign up</h1></Form.Text>
-                            <Form.Text className="text-muted">Please fill in this form to create an account.</Form.Text>
-                        </Col>
-                    </Row>
-                    <Row className="justify-content-center" style={{marginTop: "20px"}}>
-                        <Col md="8" lg="6">
-
-                            <Form.Group className="mb-3" controlId="formBasicName">
-                                <Form.Label>Full name</Form.Label>
-                                <Form.Control
-                                    value={name}
-                                    type="text"
-                                    placeholder="Enter your full name"
-                                    onChange={(e) => setName(e.target.value)}/>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-
-                    <Row className="justify-content-center">
-                        <Col md="8" lg="6">
-                            <Form.Group className="mb-3" controlId="formBasicUsername">
-                                <Form.Label>Username</Form.Label>
-                                <Form.Control
-                                    value={username}
-                                    type="text"
-                                    placeholder="Enter username"
-                                    onChange={(e) => setUsername(e.target.value)}/>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-
-                    <Row className="justify-content-center">
-                        <Col md="8" lg="6">
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>Email address</Form.Label>
-                                <Form.Control
-                                    value={email}
-                                    type="email"
-                                    placeholder="Enter email"
-                                    onChange={(e) => setEmail(e.target.value)}/>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-
-                    <Row className="justify-content-center">
-                        <Col md="8" lg="6">
-                            <Form.Group className="mb-3" controlId="formBasicPhone">
-                                <Form.Label>Phone number</Form.Label>
-
+                className="signUpContainer" style={{width: "600px", paddingBottom: '30px'}}>
+                <Row className="justify-content-center">
+                    <MDBTypography className='text-muted text-center mt-3'>
+                        Please fill in this form to create an account
+                    </MDBTypography>
+                    <Col md="8" lg="6" className='mt-3'>
+                        <MDBValidation>
+                            <MDBValidationItem feedback='Please input your full name' invalid className='col-md-10'>
+                                <MDBInput
+                                    value={formValue.name}
+                                    name='name'
+                                    onChange={onChange}
+                                    id='validationCustom01'
+                                    required
+                                    label='Full name'
+                                />
+                            </MDBValidationItem>
+                            <MDBValidationItem feedback='Please input your username' invalid className='col-md-10 mt-4'>
+                                <MDBInput
+                                    value={formValue.username}
+                                    name='username'
+                                    onChange={onChange}
+                                    id='validationCustom02'
+                                    required
+                                    label='Username'
+                                />
+                            </MDBValidationItem>
+                            <MDBValidationItem feedback='Please input your email' invalid className='col-md-10 mt-4'>
+                                <MDBInput
+                                    value={formValue.email}
+                                    name='email'
+                                    onChange={onChange}
+                                    id='validationCustom03'
+                                    required
+                                    label='Email'
+                                />
+                            </MDBValidationItem>
+                            <MDBValidationItem className='col-md-10 mt-4' feedback='Please provide a valid city.'
+                                               invalid>
                                 <PatternFormat
                                     format="+7 (###) ### ## ##"
+                                    name='phoneNumber'
                                     style={{
                                         width: '100%',
                                         borderRadius: '4px',
                                         borderWidth: '1px',
                                         borderColor: 'lightgray',
-                                        height: '38px'
+                                        height: '38px',
+                                        backgroundColor: 'whitesmoke'
                                     }}
                                     allowEmptyFormatting mask="*"
-                                    value={phoneNumber}
-                                    onChange={(e) => setPhoneNumber(e.target.value)}/>
-                            </Form.Group>
-                        </Col>
-                    </Row>
+                                    value={formValue.phoneNumber}
+                                    required
+                                    onChange={onChange}/>
+                            </MDBValidationItem>
+                            <MDBValidationItem feedback='Please input password' invalid className='col-md-10 mt-4'>
+                                <MDBInput
+                                    value={formValue.password}
+                                    type='password'
+                                    name='password'
+                                    onChange={onChange}
+                                    id='validationCustom04'
+                                    required
+                                    label='password'
+                                />
+                            </MDBValidationItem>
+                            {(formValue.confirmPassword !== "" && formValue.confirmPassword !== formValue.password) ?
+                                (<MDBValidationItem feedback='Please confirm password' invalid
+                                                    className='col-md-10 mt-4'>
+                                        <MDBInput
+                                            value={formValue.confirmPassword}
+                                            type='password'
+                                            name='confirmPassword'
+                                            onChange={onChange}
+                                            id='validationCustom05'
+                                            required
+                                            label='Пароли не совпадают!'
+                                        />
+                                    </MDBValidationItem>
+                                ) : (
 
-                    <Row className="justify-content-center">
-                        <Col md="8" lg="6">
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control
-                                    value={password}
-                                    type="password"
-                                    placeholder="Password"
-                                    onChange={(e) => setPassword(e.target.value)}/>
-                            </Form.Group>
-
-                            {(confirmPassword !== "" && confirmPassword !== password) ?
-                                (<Form.Group className="mb-3" controlId="formBasicConfirmPassword" >
-                                    <Form.Label style={{color:"red"}}>Пароли не совпадают!</Form.Label>
-                                    <Form.Control
-                                        style={{borderColor:"red", borderWidth:"3px"}}
-                                        value={confirmPassword}
-                                        type="password"
-                                        placeholder="Password"
-                                        onChange={(e) => setConfirmPassword(e.target.value)}/>
-                                </Form.Group>
-                                ):(
-
-                            <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
-                                <Form.Label>Confirm Password</Form.Label>
-                                <Form.Control
-                                    value={confirmPassword}
-                                    type="password"
-                                    placeholder="Password"
-                                    onChange={(e) => setConfirmPassword(e.target.value)}/>
-                            </Form.Group>
+                                    <MDBValidationItem feedback='Please confirm password' invalid
+                                                       className='col-md-10 mt-4'>
+                                        <MDBInput
+                                            value={formValue.confirmPassword}
+                                            type='password'
+                                            name='confirmPassword'
+                                            onChange={onChange}
+                                            id='validationCustom05'
+                                            required
+                                            label='Confirm password'
+                                        />
+                                    </MDBValidationItem>
                                 )}
-                            <Row className="justify-content-center">
-                                <Col
-                                    className="mt-3 mb-2 d-flex flex-column gap-3 flex-md-row justify-content-md-between">
-                                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                                        <Form.Check type="checkbox" label="Remember me"/>
-                                    </Form.Group>
+                            <div className='col-12 mt-5 space-between'>
+                                {(formValue.confirmPassword === "" || formValue.confirmPassword !== formValue.password) ?
+                                    <MDBBtn
+                                        rounded
+                                        disabled
+                                        variant="primary"
+                                        size="sm"
+                                        type="submit"
+                                        onClick={() => sendSignupRequest()}
+                                    >
+                                        Submit
+                                    </MDBBtn>
+                                    :
                                     <MDBBtn
                                         rounded
                                         variant="primary"
                                         size="sm"
                                         type="submit"
-                                        onClick={() => sendSignupRequest()}>
+                                        onClick={() => sendSignupRequest()}
+                                    >
                                         Submit
                                     </MDBBtn>
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
-                </Form>
+                                }
+                            </div>
+                        </MDBValidation>
+                    </Col>
+                </Row>
             </Container>
-            <LoginModal show={show} handleClose={handleClose} handleShow={handleShow}/>
         </div>
     );
 };

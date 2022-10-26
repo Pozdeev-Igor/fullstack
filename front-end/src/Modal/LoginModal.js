@@ -22,6 +22,7 @@ const LoginModal = (props) => {
             username: username,
             password: password
         };
+        console.log(reqBody)
 
         fetch("/api/auth/login", {
             headers: {
@@ -31,6 +32,7 @@ const LoginModal = (props) => {
             body: JSON.stringify(reqBody),
         })
             .then((response) => {
+                console.log(response)
                 if (response.status === 200) {
                     return Promise.all([response.json(), response.headers]);
                 } else return Promise.reject("Invalid login attempt");
@@ -42,7 +44,7 @@ const LoginModal = (props) => {
                 alert(message);
             });
         handleClose();
-        window.location.reload();
+        // window.location.reload();
 
 
     }

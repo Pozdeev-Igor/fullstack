@@ -33,7 +33,7 @@ function BasicExample(props) {
     };
 
     function getUsersData() {
-        if (user.jwt !== null) {
+        if (user.jwt !== "") {
             ajax("/api/users", "GET", user.jwt).then(usersData => {
                 if (usersData) {
                     setUsersName(usersData.name);
