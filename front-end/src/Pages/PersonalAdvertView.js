@@ -68,13 +68,13 @@ const PersonalAdvertView = () => {
         ajax(`/api/adverts/${advertId}`, "GET", user.jwt).then((response) => {
             setAdvert(response);
         })
-    }, [advertId, user.jwt, advert.price]);
+    }, [advert, user.jwt]);
 
     useEffect(() => {
         ajax(`/api/images/${advertId}`, "GET", user.jwt).then((imagesData) => {
             setImageList(imagesData);
         })
-    }, [advertId, user.jwt]);
+    }, [advert]);
 
     return (
         <Container className="personal-advert-view">

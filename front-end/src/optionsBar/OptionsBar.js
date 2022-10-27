@@ -33,7 +33,7 @@ const OptionsBar = ({handleShowEditBlock}) => {
                     setShowEdit(false)
                 }}
                 onClick={() => {
-                    handleShowEditBlock();
+                    handleShowEditBlock(false);
                     window.scrollTo(0, 400)
                 }}
             >

@@ -97,12 +97,6 @@ const CommentsContainer = (props) => {
         }
     }
 
-    // useEffect(() => {
-    //     // console.log(data)
-    //     console.log(commentFromChild)
-    // }, [data, comment, answer])
-
-
     function handleDeleteComment(commentData) {
         if (commentData.comment) {
             ajax(`/api/comments/answer/${commentData.id}`, 'DELETE', user.jwt).then((msg) => {
