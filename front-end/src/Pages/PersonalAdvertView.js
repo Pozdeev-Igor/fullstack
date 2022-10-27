@@ -1,18 +1,17 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useUser} from "../UserProvider/UserProvider";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import ajax from "../services/fetchServise";
-import {Carousel, Col, Container, Overlay, Row, Tooltip} from "react-bootstrap";
-import {MDBBtn, MDBIcon, MDBInput, MDBTextArea, MDBTypography} from "mdb-react-ui-kit";
+import {Carousel, Col, Container, Row} from "react-bootstrap";
+import {MDBBtn, MDBInput, MDBTextArea, MDBTypography} from "mdb-react-ui-kit";
 import CommentsContainer from "../Comment/CommentsContainer";
 import PricePopover from "../popoverPrice/PricePopover";
+import OptionsBar from "../optionsBar/OptionsBar";
 
 const PersonalAdvertView = () => {
     const user = useUser();
-    const navigate = useNavigate();
     const {advertId} = useParams();
     const [imageList, setImageList] = useState([]);
-    const [price, setPrice] = useState(null);
     const [advert, setAdvert] = useState({
         title: "",
         description: "",
@@ -20,21 +19,10 @@ const PersonalAdvertView = () => {
     });
 
     const [showEditBlock, setShowEditBlock] = useState(false);
-    const [showPopover, setShowPopover] = useState(false);
 
-    const [showEdit, setShowEdit] = useState(false);
-    const [showDelete, setShowDelete] = useState(false);
-    const [showUp, setShowUp] = useState(false);
-    const [showSettings, setShowSettings] = useState(false);
-    const [showClose, setShowClose] = useState(false);
-    const targetEdit = useRef(null);
-    const targetDelete = useRef(null);
-    const targetUp = useRef(null);
-    const targetSettings = useRef(null);
-    const targetClose = useRef(null);
-
-
-
+    const handleShowEditBlock = (data) => {
+        setShowEditBlock(!data)
+    }
 
     const previousAdvertValue = useRef(advert);
 
@@ -44,22 +32,12 @@ const PersonalAdvertView = () => {
         setAdvert(newAdvert);
     }
 
-    function currencyFormat(num) {
-        if (!num) {
-            return 0;
-        } else {
-            let bum = '' + num;
-            return bum.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ') + '   ₽'
-        }
-    }
-
     function saveTitle() {
         if (previousAdvertValue.current.title !== advert.title) {
             updateAdvert("title", advert.title);
         }
         persist();
         setShowEditBlock(false);
-        // window.location.reload();
     }
 
     function saveDescription() {
@@ -68,7 +46,6 @@ const PersonalAdvertView = () => {
         }
         persist();
         setShowEditBlock(false);
-        // window.location.reload();
     }
 
     function savePrice() {
@@ -91,8 +68,7 @@ const PersonalAdvertView = () => {
         ajax(`/api/adverts/${advertId}`, "GET", user.jwt).then((response) => {
             setAdvert(response);
         })
-    }, [advertId, user.jwt, price]);
-
+    }, [advertId, user.jwt, advert.price]);
 
     useEffect(() => {
         ajax(`/api/images/${advertId}`, "GET", user.jwt).then((imagesData) => {
@@ -128,7 +104,6 @@ const PersonalAdvertView = () => {
                             <Col md="10" sm="6" xs="6" style={{marginLeft: "5%", marginTop: "30px"}}>
                                 <h5 className='pb-3 mb-3 border-bottom'>
                                     {advert.description}
-
                                 </h5>
                                 <PricePopover
                                     advert={advert}
@@ -175,128 +150,7 @@ const PersonalAdvertView = () => {
                     </Container>
                 </Col>
                 <Col>
-                    <div style={{paddingLeft: "360px", marginTop: "30px", backgroundColor: "whitesmoke"}}>
-
-                        <MDBBtn
-                            ref={targetEdit}
-                            floating
-                            className='m-1'
-                            style={{backgroundColor: '#55acee'}}
-                            role='button'
-                            onMouseOver={() => {
-                                setShowEdit(!showEdit)
-                            }}
-                            onMouseLeave={() => {
-                                setShowEdit(false)
-                            }}
-                            onClick={() => {
-                                setShowEditBlock(!showEditBlock)
-                                window.scrollTo(0, 400)
-                            }}
-                        >
-                            <MDBIcon fas icon="pencil-alt"/>
-                            <Overlay target={targetEdit.current} show={showEdit} placement="top">
-                                <Tooltip>
-                                    edit advert
-                                </Tooltip>
-                            </Overlay>
-                        </MDBBtn>
-
-                        <MDBBtn
-                            ref={targetDelete}
-                            floating
-                            className='m-1'
-                            style={{backgroundColor: '#dd4b39'}}
-                            onClick={() => {
-                                console.log('click!')
-                            }}
-                            role='button'
-                            onMouseOver={() => {
-                                setShowDelete(!showDelete)
-                            }}
-                            onMouseLeave={() => {
-                                setShowDelete(false);
-                            }}
-
-                        >
-                            <MDBIcon fas icon="trash-alt"/>
-                            <Overlay target={targetDelete.current} show={showDelete} placement="top">
-                                <Tooltip>
-                                    completely delete advert
-                                </Tooltip>
-                            </Overlay>
-                        </MDBBtn>
-
-                        <MDBBtn
-                            ref={targetUp}
-                            floating
-                            className='m-1'
-                            style={{backgroundColor: '#ac2bac'}}
-                            role='button'
-                            onMouseOver={() => {
-                                setShowUp(!showUp)
-                            }}
-                            onMouseLeave={() => {
-                                setShowUp(false);
-                            }}
-                            onClick={() => {
-                                alert('заглушка')
-                            }}
-                        >
-                            <MDBIcon fas icon="chart-line"/>
-                            <Overlay target={targetUp.current} show={showUp} placement="top">
-                                <Tooltip>
-                                    increase views
-                                </Tooltip>
-                            </Overlay>
-                        </MDBBtn>
-
-                        <MDBBtn
-                            ref={targetSettings}
-                            floating
-                            className='m-1'
-                            style={{backgroundColor: '#0082ca'}}
-                            role='button'
-                            onMouseOver={() => {
-                                setShowSettings(!showSettings)
-                            }}
-                            onMouseLeave={() => {
-                                setShowSettings(false);
-                            }}
-                            onClick={() => {
-                                alert('заглушка')
-                            }}
-                        >
-                            <MDBIcon fas icon="cog"/>
-                            <Overlay target={targetSettings.current} show={showSettings} placement="top">
-                                <Tooltip>
-                                    settings
-                                </Tooltip>
-                            </Overlay>
-                        </MDBBtn>
-
-                        <MDBBtn
-                            ref={targetClose}
-                            floating
-                            className='m-1'
-                            style={{backgroundColor: '#333333'}}
-                            role='button'
-                            onMouseOver={() => {
-                                setShowClose(!showClose)
-                            }}
-                            onMouseLeave={() => {
-                                setShowClose(false);
-                            }}
-                            onClick={() => navigate(-1)}
-                        >
-                            <MDBIcon fas icon="times"/>
-                            <Overlay target={targetClose.current} show={showClose} placement="top">
-                                <Tooltip>
-                                    close
-                                </Tooltip>
-                            </Overlay>
-                        </MDBBtn>
-                    </div>
+                    <OptionsBar handleShowEditBlock={handleShowEditBlock}/>
                     <CommentsContainer advertId={advertId}/>
 
                 </Col>
