@@ -22,16 +22,6 @@ const HomePage = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    // function currencyFormat(num) {
-    //     if (!num) {
-    //         return 0;
-    //     } else {
-    //         let bum = '' + num;
-    //         return bum.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ') + '   ₽'
-    //     }
-    // }
-
-
     useEffect(() => {
         if (fetching) {
             ajax(`/api/adverts?page=${currentPage}&limit=12`, "GET", user.jwt).then((advertsData) => {
@@ -70,7 +60,6 @@ const HomePage = () => {
                 </Row>
             </Container>
             <LoginModal show={show} handleClose={handleClose} handleShow={handleShow}/>
-
             <Footer/>
         </div>
     );

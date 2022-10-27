@@ -4,19 +4,20 @@ import {Card} from "react-bootstrap";
 import {MDBBadge} from "mdb-react-ui-kit";
 import {useUser} from "../UserProvider/UserProvider";
 import {useNavigate} from "react-router-dom";
+import currencyFormat from "../util/currencyFormat";
 
 const ItemCard = (props) => {
     const user = useUser();
     const navigate = useNavigate();
 
-    function currencyFormat(num) {
-        if (!num) {
-            return 0;
-        } else {
-            let bum = '' + num;
-            return bum.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ') + '   ₽'
-        }
-    }
+    // function currencyFormat(num) {
+    //     if (!num) {
+    //         return 0;
+    //     } else {
+    //         let bum = '' + num;
+    //         return bum.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ') + '   ₽'
+    //     }
+    // }
 
     return (
         <Card

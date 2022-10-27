@@ -3,17 +3,9 @@ import {useUser} from "../UserProvider/UserProvider";
 import {useNavigate, useParams} from "react-router-dom";
 import ajax from "../services/fetchServise";
 import {Carousel, Col, Container, Overlay, Row, Tooltip} from "react-bootstrap";
-import {
-    MDBBtn,
-    MDBIcon,
-    MDBInput,
-    MDBPopover,
-    MDBPopoverBody,
-    MDBPopoverHeader,
-    MDBTextArea,
-    MDBTypography
-} from "mdb-react-ui-kit";
+import {MDBBtn, MDBIcon, MDBInput, MDBTextArea, MDBTypography} from "mdb-react-ui-kit";
 import CommentsContainer from "../Comment/CommentsContainer";
+import PricePopover from "../popoverPrice/PricePopover";
 
 const PersonalAdvertView = () => {
     const user = useUser();
@@ -41,9 +33,8 @@ const PersonalAdvertView = () => {
     const targetSettings = useRef(null);
     const targetClose = useRef(null);
 
-    // const toggleShow = () => {
-    //     setShowShow(true)
-    // };
+
+
 
     const previousAdvertValue = useRef(advert);
 
@@ -139,40 +130,11 @@ const PersonalAdvertView = () => {
                                     {advert.description}
 
                                 </h5>
-
-                                <MDBPopover
-                                    rounded
-                                    rootclose={true}
-                                    style={{marginBottom: "30px"}}
-                                    size='lg'
-                                    color='primary'
-                                    btnChildren={currencyFormat(advert.price)}>
-                                    <MDBPopoverHeader>
-                                        <Row className="d-flex justify-content-between">
-                                            <Col className='mt-1'>{currencyFormat(advert.price)} </Col>
-                                            <MDBBtn className="btn-close" color="none" onClick={()=> {
-                                                document.body.click()
-                                                console.log('click')
-                                            }} disabled aria-label="Close"/>
-                                        </Row>
-                                    </MDBPopoverHeader>
-                                    <MDBPopoverBody>
-                                        <Row>
-                                            <Col className="justify-content-start">
-                                                <MDBInput
-                                                    style={{marginTop: "30px"}}
-                                                    label='price'
-                                                    id='form1'
-                                                    type='number'
-                                                    value={advert.price === null ? 0 : (advert.price)}
-                                                    onChange={(e) => updateAdvert("price", e.target.value)}/>
-                                                <MDBBtn className='mt-2' rounded
-                                                        onClick={() => savePrice()}>Edit</MDBBtn>
-                                            </Col>
-                                        </Row>
-                                    </MDBPopoverBody>
-                                </MDBPopover>
-
+                                <PricePopover
+                                    advert={advert}
+                                    updateAdvert={updateAdvert}
+                                    savePrice={savePrice}
+                                />
                                 {showEditBlock ?
                                     <>
                                         <Row>

@@ -15,9 +15,6 @@ function formatDate(string) {
     if (month === '11') return day+' november '+ year;
     if (month === '12') return day+' december '+ year;
 
-       // return  console.log(day);
-
-// return console.log(string[i])
 }
 
 export default formatDate;
