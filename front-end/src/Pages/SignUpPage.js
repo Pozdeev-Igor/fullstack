@@ -38,21 +38,13 @@ const SignUpPage = () => {
             formValue.name === '' || formValue.email === '' || formValue.username === '') {
             return null;
         } else {
-            const reqBody = {
-                name: name,
-                username: username,
-                email: email,
-                password: password,
-                phoneNumber: phoneNumber,
-                confirmPassword: confirmPassword,
-            };
 
             fetch("api/auth/registration", {
                 headers: {
                     "Content-Type": "application/json",
                 },
                 method: "post",
-                body: JSON.stringify(reqBody),
+                body: JSON.stringify(formValue),
             })
                 .then(response => response.json());
             alert("check your mailbox");
@@ -62,9 +54,8 @@ const SignUpPage = () => {
     }
 
     useEffect(() => {
-        console.log(localStorage.getItem('jwt') !== "\"\"")
         if (window.location.href === 'http://localhost:3000/registration' && localStorage.getItem('jwt') !== "\"\"") {
-            window.location.reload();
+            // window.location.reload();
         }
     })
 

@@ -28,7 +28,7 @@ const PersonalAdvertView = () => {
     });
 
     const [showEditBlock, setShowEditBlock] = useState(false);
-    // const targetEditBlock = useRef();
+    const [showPopover, setShowPopover] = useState(false);
 
     const [showEdit, setShowEdit] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
@@ -85,7 +85,6 @@ const PersonalAdvertView = () => {
             updateAdvert("price", parseInt(advert.price));
         }
         persist();
-        window.location.reload();
     }
 
     const persist = () => {
@@ -101,7 +100,7 @@ const PersonalAdvertView = () => {
         ajax(`/api/adverts/${advertId}`, "GET", user.jwt).then((response) => {
             setAdvert(response);
         })
-    }, [advertId, user.jwt]);
+    }, [advertId, user.jwt, price]);
 
 
     useEffect(() => {
@@ -143,12 +142,19 @@ const PersonalAdvertView = () => {
 
                                 <MDBPopover
                                     rounded
+                                    rootclose={true}
                                     style={{marginBottom: "30px"}}
                                     size='lg'
                                     color='primary'
                                     btnChildren={currencyFormat(advert.price)}>
                                     <MDBPopoverHeader>
-                                        {currencyFormat(advert.price)}
+                                        <Row className="d-flex justify-content-between">
+                                            <Col className='mt-1'>{currencyFormat(advert.price)} </Col>
+                                            <MDBBtn className="btn-close" color="none" onClick={()=> {
+                                                document.body.click()
+                                                console.log('click')
+                                            }} disabled aria-label="Close"/>
+                                        </Row>
                                     </MDBPopoverHeader>
                                     <MDBPopoverBody>
                                         <Row>
@@ -160,9 +166,8 @@ const PersonalAdvertView = () => {
                                                     type='number'
                                                     value={advert.price === null ? 0 : (advert.price)}
                                                     onChange={(e) => updateAdvert("price", e.target.value)}/>
-                                            </Col>
-                                            <Col className="justify-content-start">
-                                                <MDBBtn rounded onClick={() => savePrice()}>Edit</MDBBtn>
+                                                <MDBBtn className='mt-2' rounded
+                                                        onClick={() => savePrice()}>Edit</MDBBtn>
                                             </Col>
                                         </Row>
                                     </MDBPopoverBody>
@@ -276,7 +281,7 @@ const PersonalAdvertView = () => {
                                 alert('заглушка')
                             }}
                         >
-                            <MDBIcon fas icon="chart-line" />
+                            <MDBIcon fas icon="chart-line"/>
                             <Overlay target={targetUp.current} show={showUp} placement="top">
                                 <Tooltip>
                                     increase views

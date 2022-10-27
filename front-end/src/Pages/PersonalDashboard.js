@@ -6,6 +6,7 @@ import ajax from "../services/fetchServise";
 import jwt_decode from "jwt-decode";
 import {MDBBadge} from "mdb-react-ui-kit";
 import Footer from "../Footer/Footer";
+import ItemCard from "../itemCard/ItemCard";
 
 const PersonalDashboard = (props) => {
     // const {getUsersData} = props;
@@ -60,34 +61,31 @@ const PersonalDashboard = (props) => {
                         <Col key={advert.id}>
                             {
                                 (advert.user.username) === (jwt_decode(user.jwt).sub) ?
-                                    <Card className="justify-content-lg-start " style={{
-                                        width: '18rem',
-                                        cursor: "pointer",
-                                        marginTop: "30px",
-                                    }}
-                                          onClick={() => navigate(`/adverts/personal/${advert.id}`)}>
-                                        <Card.Img variant="top" key={advert.id} src={advert.image}/>
-                                        <Card.Body>
-                                            <Card.Title>{advert.title}</Card.Title>
-                                            {advert.price !== null ?
-                                                <Card.Text>
-                                                    {/*<h4>*/}
-                                                        <MDBBadge pill className='me-2 text-dark' color='light' light>
-                                                            {currencyFormat(advert.price)}
-                                                        </MDBBadge>
-                                                    {/*</h4>*/}
-                                                </Card.Text>
-                                                :
-                                                <Card.Text>
-                                                    {/*<h4>*/}
-                                                        <MDBBadge pill className='me-2 text-dark' color='light' light>
-                                                            Цена не указана
-                                                        </MDBBadge>
-                                                    {/*</h4>*/}
-                                                </Card.Text>
-                                            }
-                                        </Card.Body>
-                                    </Card>
+                                    <ItemCard advert={advert}/>
+                                    // <Card className="justify-content-lg-start " style={{
+                                    //     width: '18rem',
+                                    //     cursor: "pointer",
+                                    //     marginTop: "30px",
+                                    // }}
+                                    //       onClick={() => navigate(`/adverts/personal/${advert.id}`)}>
+                                    //     <Card.Img variant="top" key={advert.id} src={advert.image}/>
+                                    //     <Card.Body>
+                                    //         <Card.Title>{advert.title}</Card.Title>
+                                    //         {advert.price !== null ?
+                                    //             <Card.Text>
+                                    //                     <MDBBadge pill className='me-2 text-dark' color='light' light>
+                                    //                         {currencyFormat(advert.price)}
+                                    //                     </MDBBadge>
+                                    //             </Card.Text>
+                                    //             :
+                                    //             <Card.Text>
+                                    //                     <MDBBadge pill className='me-2 text-dark' color='light' light>
+                                    //                         Цена не указана
+                                    //                     </MDBBadge>
+                                    //             </Card.Text>
+                                    //         }
+                                    //     </Card.Body>
+                                    // </Card>
                                     :
                                     <></>
                             }

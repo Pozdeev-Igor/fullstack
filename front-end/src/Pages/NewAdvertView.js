@@ -70,7 +70,6 @@ const NewAdvertView = () => {
                 <MDBTypography tag='div' className='display-3 pb-3 mb-3' style={{marginLeft: "25%"}}>
                     Add new advert
                 </MDBTypography>
-
                 <>
                     <MDBTabs pills className='mb-3'>
                         {category.map((cat) => (

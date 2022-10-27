@@ -5,9 +5,9 @@ import {useUser} from "../UserProvider/UserProvider";
 import LoginModal from "../Modal/LoginModal";
 import ajax from "../services/fetchServise";
 import jwt_decode from "jwt-decode";
-import {MDBBadge, MDBSpinner} from "mdb-react-ui-kit";
-import CommentsContainer from "../Comment/CommentsContainer";
+import {MDBBadge} from "mdb-react-ui-kit";
 import Footer from "../Footer/Footer";
+import ItemCard from "../itemCard/ItemCard";
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -22,14 +22,14 @@ const HomePage = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    function currencyFormat(num) {
-        if (!num) {
-            return 0;
-        } else {
-            let bum = '' + num;
-            return bum.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ') + '   ₽'
-        }
-    }
+    // function currencyFormat(num) {
+    //     if (!num) {
+    //         return 0;
+    //     } else {
+    //         let bum = '' + num;
+    //         return bum.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ') + '   ₽'
+    //     }
+    // }
 
 
     useEffect(() => {
@@ -64,33 +64,7 @@ const HomePage = () => {
                             <></>
                             :
                             <Col key={advert.id}>
-                                <Card
-
-                                    style={{width: '18rem', marginTop: '30px', cursor: "pointer"}}
-                                    onClick={() => {
-                                        (user.jwt && advert.user.username === jwt_decode(user.jwt).sub) ?
-                                            navigate(`/adverts/personal/${advert.id}`)
-                                            :
-                                            navigate(`/adverts/${advert.user.id}/${advert.id}`);
-                                    }}>
-                                    <Card.Img key={advert.id} variant="top" src={advert.image}/>
-                                    <Card.Body>
-                                        <Card.Title style={{borderBottom: "#0D47A1"}}>{advert.title}</Card.Title>
-                                        {advert.price !== null ?
-                                            <h4>
-                                                <MDBBadge pill className='me-2 text-dark' color='light' light>
-                                                    {currencyFormat(advert.price)}
-                                                </MDBBadge>
-                                            </h4>
-                                            :
-                                            <h4>
-                                                <MDBBadge pill className='me-2 text-dark' color='light' light>
-                                                    Цена не указана
-                                                </MDBBadge>
-                                            </h4>
-                                        }
-                                    </Card.Body>
-                                </Card>
+                                <ItemCard advert={advert}/>
                             </Col>
                     ))}
                 </Row>

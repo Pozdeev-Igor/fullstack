@@ -7,7 +7,7 @@ import java.time.ZonedDateTime;
 @Entity
 public class CommentsAnswer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(length = 5000)
     private String text;
