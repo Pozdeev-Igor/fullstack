@@ -51,14 +51,4 @@ public class CommentsAnswerDTO {
         this.createdDate = createdDate;
     }
 
-    @Override
-    public String toString() {
-        return "CommentsAnswerDTO{" +
-                "id=" + id +
-                ", commentId=" + commentId +
-                ", text='" + text + '\'' +
-                ", createdBy='" + createdBy + '\'' +
-                ", createdDate=" + createdDate +
-                '}';
-    }
 }

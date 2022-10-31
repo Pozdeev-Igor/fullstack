@@ -33,7 +33,6 @@ public class AdvertController {
         Iterable<Advert> advertList = advertService.findAll();
         Iterable<Advert> adverts = advertService.getAllAdverts(advertList);
         List<Advert> allAdverts = advertService.getAdvertsByPagination(page, limit);
-//
         return ResponseEntity.ok(allAdverts);
     }
 
@@ -44,7 +43,6 @@ public class AdvertController {
 
         List<Advert> allAdverts = advertService.getAdvertsByPaginationByUser(page, limit, user.getId());
         Iterable<Advert> adverts = advertService.getAllAdverts(allAdverts);
-//
         return ResponseEntity.ok(allAdverts);
     }
 

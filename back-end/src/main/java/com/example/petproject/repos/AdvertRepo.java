@@ -9,6 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface AdvertRepo extends PagingAndSortingRepository<Advert, Long> {
 
@@ -21,4 +22,6 @@ public interface AdvertRepo extends PagingAndSortingRepository<Advert, Long> {
     Page<Advert> findAllByImage(PageRequest pageRequest);
 
     List<Advert> findByUserId(Long userId);
+
+    Set<Advert> findAllAdvertsByUserId(Long userId);
 }

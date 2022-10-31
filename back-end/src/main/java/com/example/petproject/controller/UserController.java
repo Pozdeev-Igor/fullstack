@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/users")
@@ -48,6 +49,34 @@ public class UserController {
         userFromDB.setPhoneNumber(usersDataDTO.getPhoneNumber());
         userService.update(userFromDB);
         return ResponseEntity.ok(userFromDB);
+    }
+
+    @PutMapping("/user/{userId}/advert/{advertId}")
+    public ResponseEntity<?> setFavoritesByUser(    @AuthenticationPrincipal User user,
+                                                    @PathVariable Long advertId,
+                                                    @PathVariable Long userId) {
+        Advert advertFromDB = advertService.findById(advertId).orElseThrow();
+        Set<Advert> advertSet = user.getAdverts();
+        advertSet.add(advertFromDB);
+        userService.update(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/user/{userId}/advert/{advertId}")
+    public ResponseEntity<?> deleteFavoriteByUser(    @AuthenticationPrincipal User user,
+                                                      @PathVariable Long advertId,
+                                                      @PathVariable Long userId) {
+        user.removeAdvert(advertId);
+        userService.update(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/user/{userId}/advert/{advertId}")
+    public ResponseEntity<?> getFavoritesByUserId(@AuthenticationPrincipal User user,
+                                                  @PathVariable Long advertId,
+                                                  @PathVariable Long userId) {
+        Set<Advert> advertSet = user.getAdverts();
+        return ResponseEntity.ok(advertSet);
     }
 
 }

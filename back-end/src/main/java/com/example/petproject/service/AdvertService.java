@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AdvertService {
@@ -92,5 +93,9 @@ public class AdvertService {
 
     public List<Advert> findByUserId(Long userId) {
         return advertRepo.findByUserId(userId);
+    }
+
+    public Set<Advert> findAllAdvertsByUserId(Long userId) {
+        return advertRepo.findAllAdvertsByUserId(userId);
     }
 }

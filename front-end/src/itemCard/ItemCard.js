@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import jwt_decode from "jwt-decode";
 import {Card} from "react-bootstrap";
 import {MDBBadge} from "mdb-react-ui-kit";
@@ -9,15 +9,6 @@ import currencyFormat from "../util/currencyFormat";
 const ItemCard = (props) => {
     const user = useUser();
     const navigate = useNavigate();
-
-    // function currencyFormat(num) {
-    //     if (!num) {
-    //         return 0;
-    //     } else {
-    //         let bum = '' + num;
-    //         return bum.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ') + '   ₽'
-    //     }
-    // }
 
     return (
         <Card

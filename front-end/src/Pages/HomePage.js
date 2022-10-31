@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Col, Container, Row} from "react-bootstrap";
+import {Col, Container, Row} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import {useUser} from "../UserProvider/UserProvider";
 import LoginModal from "../Modal/LoginModal";
 import ajax from "../services/fetchServise";
-import jwt_decode from "jwt-decode";
-import {MDBBadge} from "mdb-react-ui-kit";
 import Footer from "../Footer/Footer";
 import ItemCard from "../itemCard/ItemCard";
 

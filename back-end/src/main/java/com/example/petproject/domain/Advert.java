@@ -1,6 +1,9 @@
 package com.example.petproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Advert {
@@ -18,14 +21,16 @@ public class Advert {
     @JoinColumn(name = "sub_category_id")
     private SubCategory subCategory;
 
-    //    @OneToMany(mappedBy = "advert", targetEntity = ImageName.class)
-//    private List<ImageName> images;
-//    @Transient
     @Column(columnDefinition = "TEXT")
     private String image;
 
     private String Status;
     private Long price;
+    @ManyToMany(    fetch = FetchType.EAGER,
+                    cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+                    mappedBy = "adverts")
+    @JsonIgnore
+    private Set<User> users;
 
     public SubCategory getSubCategory() {
         return subCategory;
@@ -91,4 +96,11 @@ public class Advert {
         this.image = image;
     }
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 }

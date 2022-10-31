@@ -142,7 +142,7 @@ const CommentsContainer = (props) => {
         ).then((commentsData) => {
             formatComments(commentsData);
         });
-    }, [comment, answer, handleEditComment, handleDeleteComment]);
+        }, [comment, answer, handleEditComment, handleDeleteComment]);
 
 
     function updateAnswer(value) {

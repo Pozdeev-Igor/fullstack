@@ -16,9 +16,10 @@ function ajax(url, requestMethod, jwt, requestBody) {
         if (response.status === 200) return response.json();
         if (response.status === 401) {
             localStorage.clear()
-            window.location.reload();
+            window.location.href='/';
         }
     });
 }
+
 
 export default ajax;

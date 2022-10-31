@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -29,6 +30,13 @@ public class User implements UserDetails {
 
     private String phoneNumber;
     private String activationCode;
+    @ManyToMany(    fetch = FetchType.EAGER,
+                    cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+
+    @JoinTable(     name = "user_advert",
+                    joinColumns = @JoinColumn(name = "user_id"),
+                    inverseJoinColumns = @JoinColumn(name = "advert_id"))
+    private Set<Advert> adverts;
 
     public LocalDate getCohortStartDate() {
         return cohortStartDate;
@@ -121,5 +129,26 @@ public class User implements UserDetails {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public void addAdvert(Advert advert) {
+        this.adverts.add(advert);
+        advert.getUsers().add(this);
+    }
+
+    public void removeAdvert(Long advertId) {
+        Advert advert = this.adverts.stream().filter(a -> a.getId() == advertId).findFirst().orElse(null);
+        if (advert != null) {
+            this.adverts.remove(advert);
+            advert.getUsers().remove(this);
+        }
+    }
+
+    public Set<Advert> getAdverts() {
+        return adverts;
+    }
+
+    public void setAdverts(Set<Advert> adverts) {
+        this.adverts = adverts;
     }
 }

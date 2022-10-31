@@ -50,14 +50,4 @@ public class CommentDTO {
         this.createdDate = createdDate;
     }
 
-    @Override
-    public String toString() {
-        return "CommentDTO{" +
-                "id=" + id +
-                ", advertId=" + advertId +
-                ", text='" + text + '\'' +
-                ", user='" + user + '\'' +
-                ", createdDate=" + createdDate +
-                '}';
-    }
 }

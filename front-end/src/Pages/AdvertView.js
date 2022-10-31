@@ -5,12 +5,13 @@ import ajax from "../services/fetchServise";
 import {Alert, Carousel, Col, Container, Overlay, Row, Tooltip} from "react-bootstrap";
 import {MDBBadge, MDBBtn, MDBIcon, MDBPopover, MDBPopoverBody, MDBPopoverHeader, MDBTypography} from "mdb-react-ui-kit";
 import CommentsContainer from "../Comment/CommentsContainer";
+import currencyFormat from "../util/currencyFormat";
 
 const AdvertView = () => {
     const user = useUser();
     const navigate = useNavigate();
     const {advertId} = useParams();
-    const [favoriteShow, setFavoriteShow] = useState(false);
+    const [favorites, setFavorites] = useState([]);
     const [preFavoriteShow, setPreFavoriteShow] = useState(true);
     const [imageList, setImageList] = useState([]);
     const [advert, setAdvert] = useState({
@@ -28,19 +29,7 @@ const AdvertView = () => {
     const targetClose = useRef(null);
 
     const [currentUser, setCurrentUser] = useState(null);
-
-    const [show, setShow] = useState(() => false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
-    function currencyFormat(num) {
-        if (!num) {
-            return 0;
-        } else {
-            let bum = '' + num;
-            return bum.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ') + '   ₽'
-        }
-    }
+    const [userId, setUserId] = useState(null);
 
     useEffect(() => {
         ajax(`/api/adverts/${advertId}`, "GET", user.jwt).then((response) => {
@@ -49,7 +38,6 @@ const AdvertView = () => {
             setSubCategoryName(response.subCategory.name);
             setAuthorName(response.user.name);
             setAuthorPhone(response.user.phoneNumber)
-            // console.log(response)
         })
     }, [advertId]);
 
@@ -60,23 +48,48 @@ const AdvertView = () => {
     }, [advertId]);
 
     useEffect(() => {
-        if (user.jwt !== null) {
+        if (user.jwt !== "") {
             ajax("/api/users", "GET", user.jwt).then(usersData => {
                 if (usersData) {
                     setCurrentUser(usersData);
+                    setUserId(usersData.id);
                 } else {
                     return null;
                 }
-                console.log(currentUser)
             })
         }
-    }, [preFavoriteShow])
+    }, [userId, user.jwt, advert])
+
+    useEffect(() => {
+        ajax(`/api/users/user/${userId}/advert/${advertId}`, 'GET', user.jwt).then(
+            (responceData) => {
+                setFavorites(responceData);
+                if (Array.isArray(favorites) && favorites.length > 0) {
+                    const favy = favorites.find((fav) => {
+                        return fav.id === parseInt(advertId)
+                    });
+                    favy
+                        ?
+                        setPreFavoriteShow(false)
+                        :
+                        setPreFavoriteShow(true)
+                } else {
+                    setPreFavoriteShow(true)
+                }
+            }
+        )
+    }, [preFavoriteShow, favorites, advertId, userId])
+
 
     const favoriteClick = () => {
-        setPreFavoriteShow(!preFavoriteShow);
-        setFavoriteShow(!favoriteShow)
+        if (user.jwt) {
+            if (preFavoriteShow === true) {
+                ajax(`/api/users/user/${userId}/advert/${advertId}`, 'PUT', user.jwt)
+            } else {
+                ajax(`/api/users/user/${userId}/advert/${advertId}`, 'DELETE', user.jwt)
+            }
+        }
     }
-
 
     return (
         <div>
@@ -106,27 +119,32 @@ const AdvertView = () => {
                                         Категория объявления не определена
                                     </figcaption>
                                 )
-
                                 }
-                                <MDBBtn className='text-dark mb-3' style={{width: "40%"}} color='light'
-                                        onClick={favoriteClick}>
-                                    {preFavoriteShow ? (
-                                        <div>
-                                            <MDBIcon far icon="heart" size="1x" style={{color: "#DD4B39FF"}}/>
-                                            <cite style={{marginLeft: "5px"}}>добавить в избранное</cite>
-                                        </div>
-                                    ) : (
-                                        <div>
-                                            <MDBIcon fas icon="heart" size="1x" style={{color: "#DD4B39FF"}}/>
-                                            <cite style={{marginLeft: "5px"}}>добавлено в избранное</cite>
-                                        </div>
-                                    )}
-                                </MDBBtn>
-                                {!preFavoriteShow ?
-                                <span style={{cursor:'pointer'}} onClick={() => navigate(`/adverts/favorite/${currentUser.id}`)}>перейти в избранное</span>
-                                    : null
-                                }
-
+                                <Row>
+                                    <Col lg='8' md='8' sm='8'>
+                                        <MDBBtn className='text-dark mb-3' style={{width: "40%"}} color='light'
+                                                onClick={favoriteClick}>
+                                            {preFavoriteShow ? (
+                                                <div>
+                                                    <MDBIcon far icon="heart" size="1x" style={{color: "#DD4B39FF"}}/>
+                                                    <cite style={{marginLeft: "5px"}}>добавить в избранное</cite>
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    <MDBIcon fas icon="heart" size="1x" style={{color: "#DD4B39FF"}}/>
+                                                    <cite style={{marginLeft: "5px"}}>добавлено в избранное</cite>
+                                                </div>
+                                            )}
+                                        </MDBBtn>
+                                    </Col>
+                                    <Col lg='4'>
+                                        {!preFavoriteShow ?
+                                            <span style={{cursor: 'pointer'}}
+                                                  onClick={() => navigate(`/adverts/favorite/${currentUser.id}`)}>перейти в избранное</span>
+                                            : null
+                                        }
+                                    </Col>
+                                </Row>
                                 <Carousel className="advert-carousel">
                                     {imageList.map((image) => (
                                         <Carousel.Item interval={3000} key={image.id}>
@@ -156,7 +174,7 @@ const AdvertView = () => {
                             </Row>
                         </Container>
                     </Col>
-                    <Col className='mt-5 me-2' >
+                    <Col className='mt-5 me-2'>
                         <Row>
                             <Col>
                                 {
