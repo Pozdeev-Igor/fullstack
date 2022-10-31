@@ -13,9 +13,7 @@ const HomePage = () => {
 
     const [currentPage, setCurrentPage] = useState(0);
     const [fetching, setFetching] = useState(true);
-
     const [adverts, setAdverts] = useState([]);
-
     const [show, setShow] = useState(() => false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -25,10 +23,8 @@ const HomePage = () => {
             ajax(`/api/adverts?page=${currentPage}&limit=12`, "GET", user.jwt).then((advertsData) => {
                 setAdverts([...adverts, ...advertsData])
                 setCurrentPage(prevState => prevState + 1);
-
             }).finally(() => setFetching(false));
         }
-
     }, [fetching]);
 
     useEffect(() => {
@@ -48,7 +44,7 @@ const HomePage = () => {
             <Container className="row-cols-lg-1" style={{marginBottom: "30px"}}>
                 <Row xs="auto" md="auto" lg="auto">
                     {adverts.map((advert) => (
-                        advert.status === "Объявление на проверке" ?
+                        advert.status === "Объявление на проверке" || advert.status === "Объявление в архиве" ?
                             <></>
                             :
                             <Col key={advert.id}>

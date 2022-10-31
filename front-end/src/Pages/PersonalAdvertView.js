@@ -7,6 +7,7 @@ import {MDBBtn, MDBInput, MDBTextArea, MDBTypography} from "mdb-react-ui-kit";
 import CommentsContainer from "../Comment/CommentsContainer";
 import PricePopover from "../popoverPrice/PricePopover";
 import OptionsBar from "../optionsBar/OptionsBar";
+import CustomCarousel from "../carousel/CustomCarousel";
 
 const PersonalAdvertView = () => {
     const user = useUser();
@@ -89,17 +90,7 @@ const PersonalAdvertView = () => {
                                 </MDBTypography>
                             </Col>
                         </Row>
-                        <Carousel>
-                            {imageList.map((image) => (
-                                <Carousel.Item interval={3000} key={image.id}>
-                                    <img
-                                        className="d-block w-100"
-                                        src={image.name}
-                                        alt={image.id}
-                                    />
-                                </Carousel.Item>
-                            ))}
-                        </Carousel>
+                        <CustomCarousel imageList={imageList}/>
                         <Row>
                             <Col md="10" sm="6" xs="6" style={{marginLeft: "5%", marginTop: "30px"}}>
                                 <h5 className='pb-3 mb-3 border-bottom'>
@@ -152,11 +143,9 @@ const PersonalAdvertView = () => {
                 <Col>
                     <OptionsBar handleShowEditBlock={handleShowEditBlock}/>
                     <CommentsContainer advertId={advertId}/>
-
                 </Col>
             </Row>
         </Container>
-
     );
 };
 

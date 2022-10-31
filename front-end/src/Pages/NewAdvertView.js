@@ -20,22 +20,20 @@ const NewAdvertView = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState(null);
-    // const prefix = "₽ ";
     const [subCategory, setSubCategory] = useState([]);
     const [category, setCategory] = useState([]);
     const [subCategoryId, setSubCategoryId] = useState(null);
 
     const [item, setItem] = useState({kindOfStand: "", another: "another"});
-    // const {kindOfStand} = item;
 
-    const handlePriceChange = (e) => {
-        e.preventDefault();
-        const { value = "" } = e.target;
-        const parsedValue = value.replace(/[^\d.]/gi, "");
-        setPrice(parsedValue);
-    };
+    // const handlePriceChange = (e) => {
+    //     e.preventDefault();
+    //     const { value = "" } = e.target;
+    //     const parsedValue = value.replace(/[^\d.]/gi, "");
+    //     setPrice(parsedValue);
+    // };
 
-    const handleOnBlur = () => setPrice(Number(price).toFixed(2));
+    // const handleOnBlur = () => setPrice(Number(price).toFixed(2));
 
     const handleChange = e => {
         e.persist();

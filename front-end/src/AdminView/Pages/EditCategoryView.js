@@ -10,7 +10,6 @@ const EditCategoryView = () => {
     const user = useUser();
     const navigate = useNavigate();
     const {categoryId} = useParams();
-    // const {subId} = useParams();
 
     const [category, setCategory] = useState({
         name: "",

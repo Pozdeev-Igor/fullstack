@@ -3,9 +3,9 @@ import {useUser} from "../UserProvider/UserProvider";
 import {useNavigate, useParams} from "react-router-dom";
 import ajax from "../services/fetchServise";
 import {Col, Container, Overlay, Row, Tooltip} from "react-bootstrap";
-import {MDBBtn, MDBIcon, MDBInput, MDBTypography} from "mdb-react-ui-kit";
+import {MDBBtn, MDBIcon, MDBTypography} from "mdb-react-ui-kit";
 import formatDate from "../util/dateFormatter";
-import {PatternFormat} from "react-number-format";
+import EditAccountBlock from "../editAccountBlock/EditAccountBlock";
 
 const AccountView = () => {
     const user = useUser();
@@ -77,7 +77,6 @@ const AccountView = () => {
         setShowEditBlock(false);
     }
 
-
     function persist() {
         const reqBody = {
             name: userProfile.name,
@@ -120,11 +119,19 @@ const AccountView = () => {
                     </div>
                     <div className="border-bottom d-flex align-items-center justify-content-start mt-3">
                         <MDBIcon fas icon="photo-video" size="2x"/>
-                        <span style={{cursor: 'pointer'}} onClick={() => navigate(`/users/adverts`)}>
+                        {advertsByUser.length > 0 ?
+                            <span style={{cursor: 'pointer'}} onClick={() => navigate(`/users/adverts`)}>
                             <cite className="text-muted ms-3 mt-0 ">
                                 Активных объявлений: {advertsByUser.length}
                             </cite>
                         </span>
+                            :
+                            <span>
+                            <cite className="text-muted ms-3 mt-0 ">
+                                Активных объявлений: {advertsByUser.length}
+                            </cite>
+                        </span>
+                        }
                     </div>
                     <div className='mt-5 mb-3 border-bottom'>
                         <MDBBtn
@@ -153,49 +160,11 @@ const AccountView = () => {
                     </div>
                 </Col>
                 {showEditBlock ?
-                    <Col>
-                        <div>
-                            <MDBInput
-                                label={userProfile.name}
-                                id='name' type='text'
-                                className='display-5 pb-3 mt-5 mb-3 '
-                                // value={userProfile.name}
-                                onChange={(e) => updateUserProfile('name', e.target.value)}/>
-                            <MDBBtn rounded style={{backgroundColor: '#55acee', marginLeft: '550px'}} className="mt-1"
-                                    onClick={() => {
-                                        saveUsersName()
-                                    }}>edit</MDBBtn>
-
-                            <MDBInput
-                                label={userProfile.email}
-                                id='email' type='email'
-                                className='display-5 pb-3 mt-5 mb-3 '
-                                onChange={(e) => updateUserProfile('email', e.target.value)}/>
-                            <MDBBtn rounded style={{backgroundColor: '#55acee', marginLeft: '550px'}} className="mt-1"
-                                    onClick={() => {
-                                        saveUsersEmail()
-                                    }}>edit</MDBBtn>
-
-                            <PatternFormat
-                                className='pb-3 mt-5 mb-3'
-                                style={{
-                                    width: '100%',
-                                    borderRadius: '4px',
-                                    borderWidth: '1px',
-                                    borderColor: 'lightgray',
-                                    height: '45px'
-                                }}
-                                format="+7 (###) ### ## ##"
-                                allowEmptyFormatting mask="*"
-                                value={userProfile.phoneNumber}
-                                onChange={(e) => updateUserProfile('phoneNumber', e.target.value)}
-                            />
-                            <MDBBtn rounded style={{backgroundColor: '#55acee', marginLeft: '550px'}} className="mt-1"
-                                    onClick={() => {
-                                        saveUsersPhone()
-                                    }}>edit</MDBBtn>
-                        </div>
-                    </Col>
+                    <EditAccountBlock userProfile={userProfile}
+                                      updateUserProfile={updateUserProfile}
+                                      saveUsersEmail={saveUsersEmail}
+                                      saveUsersPhone={saveUsersPhone}
+                                      saveUsersName={saveUsersName}/>
                     :
                     null
                 }

@@ -6,6 +6,7 @@ import {Alert, Carousel, Col, Container, Overlay, Row, Tooltip} from "react-boot
 import {MDBBadge, MDBBtn, MDBIcon, MDBPopover, MDBPopoverBody, MDBPopoverHeader, MDBTypography} from "mdb-react-ui-kit";
 import CommentsContainer from "../Comment/CommentsContainer";
 import currencyFormat from "../util/currencyFormat";
+import CustomCarousel from "../carousel/CustomCarousel";
 
 const AdvertView = () => {
     const user = useUser();
@@ -78,7 +79,7 @@ const AdvertView = () => {
                 }
             }
         )
-    }, [preFavoriteShow, favorites, advertId, userId])
+    }, [user.jwt, favorites, advertId, userId])
 
 
     const favoriteClick = () => {
@@ -145,18 +146,7 @@ const AdvertView = () => {
                                         }
                                     </Col>
                                 </Row>
-                                <Carousel className="advert-carousel">
-                                    {imageList.map((image) => (
-                                        <Carousel.Item interval={3000} key={image.id}>
-                                            <img
-                                                className="d-block w-100"
-                                                src={image.name}
-                                                alt={image.id}
-                                            />
-                                        </Carousel.Item>
-                                    ))}
-                                </Carousel>
-
+                                <CustomCarousel imageList={imageList}/>
                                 <MDBTypography tag='div' className='display-6 pb-3 mb-3 border-bottom'>
                                     Описание
                                 </MDBTypography>
@@ -166,9 +156,9 @@ const AdvertView = () => {
                                             {advert.description}
                                         </MDBTypography>
                                     ) : (
-                                        <h5 className='pb-3 mb-3 border-bottom'>
+                                        <MDBTypography className='lead pb-3 mb-5 border-bottom'>
                                             автор не составил описание объявлению
-                                        </h5>
+                                        </MDBTypography>
                                     )
                                 }
                             </Row>
@@ -192,13 +182,10 @@ const AdvertView = () => {
                                             </MDBBadge>
                                         </h3>
                                     )
-
                                 }
                             </Col>
                             <Col>
-
                                 {user.jwt ?
-
                                     <MDBPopover className='mt-3 mb-5 mx-2' rounded size='lg'
                                                 style={{backgroundColor: "#33691E", width: "300px"}}
                                                 btnChildren={
@@ -213,15 +200,12 @@ const AdvertView = () => {
                                     </MDBPopover>
                                     :
                                     <MDBPopover className='mt-3 mb-5 mx-2' rounded size='lg'
-
                                                 style={{backgroundColor: "rgba(90,148,66,0.73)", width: "300px"}}
                                                 btnChildren={
                                                     <>
                                                         <MDBIcon fas icon="phone" size="1x" color="white"/>
                                                         <cite> Связаться с автором</cite>
-                                                    </>
-                                                }
-                                    >
+                                                    </>}>
                                         <MDBPopoverBody style={{textAlign: "center"}}>Чтобы связаться с автором
                                             объявления,
                                             необходимо авторизоваться!</MDBPopoverBody>
@@ -267,8 +251,6 @@ const AdvertView = () => {
                     </Col>
                 </Row>
             </Container>
-
-
         </div>
     );
 };

@@ -21,16 +21,16 @@ const SignUpPage = () => {
         setFormValue({...formValue, [e.target.name]: e.target.value});
     };
 
-    const [name, setName] = useState("");
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-
-    const [show, setShow] = useState(() => false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    // const [name, setName] = useState("");
+    // const [username, setUsername] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
+    // const [phoneNumber, setPhoneNumber] = useState("");
+    // const [confirmPassword, setConfirmPassword] = useState("");
+    //
+    // const [show, setShow] = useState(() => false);
+    // const handleClose = () => setShow(false);
+    // const handleShow = () => setShow(true);
 
     function sendSignupRequest(e) {
         if (formValue.confirmPassword === '' ||
@@ -48,16 +48,9 @@ const SignUpPage = () => {
             })
                 .then(response => response.json());
             alert("check your mailbox");
-
             navigate("/");
         }
     }
-
-    useEffect(() => {
-        if (window.location.href === 'http://localhost:3000/registration' && localStorage.getItem('jwt') !== "\"\"") {
-            // window.location.reload();
-        }
-    })
 
     return (
         <div
@@ -100,7 +93,7 @@ const SignUpPage = () => {
                                     label='Email'
                                 />
                             </MDBValidationItem>
-                            <MDBValidationItem className='col-md-10 mt-4' feedback='Please provide a valid city.'
+                            <MDBValidationItem className='col-md-10 mt-4' feedback='Please provide a valid phone number.'
                                                invalid>
                                 <PatternFormat
                                     format="+7 (###) ### ## ##"

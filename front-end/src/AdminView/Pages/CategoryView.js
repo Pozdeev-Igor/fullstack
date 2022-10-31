@@ -59,15 +59,14 @@ const CategoryView = () => {
                 <tr>
                     <th>id</th>
                     <th>Category Name</th>
-                    {/*<th>Usage</th>*/}
                 </tr>
                 </thead>
                 <tbody>
                 {categories && categories.map((category) => (
-                    <tr key={category.id} style={{cursor:"pointer"}} onClick={() => navigate(`/admin/categories/${category.id}`)}>
+                    <tr key={category.id} style={{cursor: "pointer"}}
+                        onClick={() => navigate(`/admin/categories/${category.id}`)}>
                         <td>{category.id}</td>
                         <td>{category.name}</td>
-                        {/*<td><Button onClick={() => navigate(`/admin/categories/${category.id}`)}>Edit</Button></td>*/}
                     </tr>
                 ))}
                 </tbody>
