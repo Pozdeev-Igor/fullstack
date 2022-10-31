@@ -22,7 +22,7 @@ const PricePopover = (props) => {
                     <Col className="justify-content-start">
                         <MDBInput
                             style={{marginTop: "30px"}}
-                            label='price'
+                            label={props.advert.price}
                             id='form1'
                             type='number'
                             value={props.advert.price === null ? 0 : (props.advert.price)}

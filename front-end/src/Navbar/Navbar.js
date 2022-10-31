@@ -117,7 +117,7 @@ function BasicExample(props) {
                                 Account
                             </NavDropdown.Item>
                             <NavDropdown.Item onClick={() => {
-                                navigate(`/users/${id}/favorites`)
+                                navigate(`/adverts/favorite/${id}`)
                             }} >Favorites</NavDropdown.Item>
                             <NavDropdown.Item onClick={() => {
                                 navigate(`/users/${id}/messages`)

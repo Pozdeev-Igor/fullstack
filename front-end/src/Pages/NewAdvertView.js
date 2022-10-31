@@ -26,15 +26,6 @@ const NewAdvertView = () => {
 
     const [item, setItem] = useState({kindOfStand: "", another: "another"});
 
-    // const handlePriceChange = (e) => {
-    //     e.preventDefault();
-    //     const { value = "" } = e.target;
-    //     const parsedValue = value.replace(/[^\d.]/gi, "");
-    //     setPrice(parsedValue);
-    // };
-
-    // const handleOnBlur = () => setPrice(Number(price).toFixed(2));
-
     const handleChange = e => {
         e.persist();
         setItem(prevState => ({...prevState, kindOfStand: e.target.value}));

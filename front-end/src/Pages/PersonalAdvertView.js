@@ -2,12 +2,21 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useUser} from "../UserProvider/UserProvider";
 import {useParams} from "react-router-dom";
 import ajax from "../services/fetchServise";
-import {Carousel, Col, Container, Row} from "react-bootstrap";
-import {MDBBtn, MDBInput, MDBTextArea, MDBTypography} from "mdb-react-ui-kit";
+import {Col, Container, Row} from "react-bootstrap";
+import {
+    MDBBtn,
+    MDBInput,
+    MDBPopover,
+    MDBPopoverBody,
+    MDBPopoverHeader,
+    MDBTextArea,
+    MDBTypography
+} from "mdb-react-ui-kit";
 import CommentsContainer from "../Comment/CommentsContainer";
-import PricePopover from "../popoverPrice/PricePopover";
 import OptionsBar from "../optionsBar/OptionsBar";
 import CustomCarousel from "../carousel/CustomCarousel";
+import currencyFormat from "../util/currencyFormat";
+import PricePopover from "../popoverPrice/PricePopover";
 
 const PersonalAdvertView = () => {
     const user = useUser();
@@ -69,7 +78,7 @@ const PersonalAdvertView = () => {
         ajax(`/api/adverts/${advertId}`, "GET", user.jwt).then((response) => {
             setAdvert(response);
         })
-    }, [advert, user.jwt, advert.price]);
+    }, []);
 
     useEffect(() => {
         ajax(`/api/images/${advertId}`, "GET", user.jwt).then((imagesData) => {
@@ -101,6 +110,36 @@ const PersonalAdvertView = () => {
                                     updateAdvert={updateAdvert}
                                     savePrice={savePrice}
                                 />
+
+
+                                {/*<MDBPopover*/}
+                                {/*    rounded*/}
+                                {/*    style={{marginBottom: "30px"}}*/}
+                                {/*    size='lg'*/}
+                                {/*    color='primary'*/}
+                                {/*    btnChildren={currencyFormat(advert.price)}>*/}
+                                {/*    <MDBPopoverHeader>*/}
+                                {/*        <Row className="d-flex justify-content-between">*/}
+                                {/*            <Col className='mt-1'>{currencyFormat(advert.price)} </Col>*/}
+                                {/*        </Row>*/}
+                                {/*    </MDBPopoverHeader>*/}
+                                {/*    <MDBPopoverBody>*/}
+                                {/*        <Row>*/}
+                                {/*            <Col className="justify-content-start">*/}
+                                {/*                <MDBInput*/}
+                                {/*                    style={{marginTop: "30px"}}*/}
+                                {/*                    label={advert.price}*/}
+                                {/*                    id='form1'*/}
+                                {/*                    type='number'*/}
+                                {/*                    value={advert.price === null ? 0 : (advert.price)}*/}
+                                {/*                    onChange={(e) => updateAdvert("price", e.target.value)}/>*/}
+                                {/*                <MDBBtn className='mt-2' rounded*/}
+                                {/*                        onClick={() => savePrice()}>Edit</MDBBtn>*/}
+                                {/*            </Col>*/}
+                                {/*        </Row>*/}
+                                {/*    </MDBPopoverBody>*/}
+                                {/*</MDBPopover>*/}
+
                                 {showEditBlock ?
                                     <>
                                         <Row>

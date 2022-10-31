@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useUser} from "../UserProvider/UserProvider";
 import {useNavigate, useParams} from "react-router-dom";
 import ajax from "../services/fetchServise";
-import {Alert, Carousel, Col, Container, Overlay, Row, Tooltip} from "react-bootstrap";
+import {Alert, Col, Container, Overlay, Row, Tooltip} from "react-bootstrap";
 import {MDBBadge, MDBBtn, MDBIcon, MDBPopover, MDBPopoverBody, MDBPopoverHeader, MDBTypography} from "mdb-react-ui-kit";
 import CommentsContainer from "../Comment/CommentsContainer";
 import currencyFormat from "../util/currencyFormat";
@@ -31,6 +31,10 @@ const AdvertView = () => {
 
     const [currentUser, setCurrentUser] = useState(null);
     const [userId, setUserId] = useState(null);
+
+    const navigateToFavorites = () => {
+        navigate(`/adverts/favorite/${currentUser.id}`)
+    }
 
     useEffect(() => {
         ajax(`/api/adverts/${advertId}`, "GET", user.jwt).then((response) => {
@@ -62,7 +66,7 @@ const AdvertView = () => {
     }, [userId, user.jwt, advert])
 
     useEffect(() => {
-        ajax(`/api/users/user/${userId}/advert/${advertId}`, 'GET', user.jwt).then(
+        ajax(`/api/users/user/${userId}`, 'GET', user.jwt).then(
             (responceData) => {
                 setFavorites(responceData);
                 if (Array.isArray(favorites) && favorites.length > 0) {
@@ -141,7 +145,7 @@ const AdvertView = () => {
                                     <Col lg='4'>
                                         {!preFavoriteShow ?
                                             <span style={{cursor: 'pointer'}}
-                                                  onClick={() => navigate(`/adverts/favorite/${currentUser.id}`)}>перейти в избранное</span>
+                                                  onClick={navigateToFavorites}>перейти в избранное</span>
                                             : null
                                         }
                                     </Col>

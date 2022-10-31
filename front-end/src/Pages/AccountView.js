@@ -3,9 +3,10 @@ import {useUser} from "../UserProvider/UserProvider";
 import {useNavigate, useParams} from "react-router-dom";
 import ajax from "../services/fetchServise";
 import {Col, Container, Overlay, Row, Tooltip} from "react-bootstrap";
-import {MDBBtn, MDBIcon, MDBTypography} from "mdb-react-ui-kit";
+import {MDBBtn, MDBIcon, MDBRipple, MDBTypography} from "mdb-react-ui-kit";
 import formatDate from "../util/dateFormatter";
 import EditAccountBlock from "../editAccountBlock/EditAccountBlock";
+import ItemCard from "../itemCard/ItemCard";
 
 const AccountView = () => {
     const user = useUser();
@@ -122,23 +123,23 @@ const AccountView = () => {
                         {advertsByUser.length > 0 ?
                             <span style={{cursor: 'pointer'}} onClick={() => navigate(`/users/adverts`)}>
                             <cite className="text-muted ms-3 mt-0 ">
-                                Активных объявлений: {advertsByUser.length}
+                                Всего объявлений: {advertsByUser.length}
                             </cite>
                         </span>
                             :
                             <span>
                             <cite className="text-muted ms-3 mt-0 ">
-                                Активных объявлений: {advertsByUser.length}
+                                Всего объявлений: {advertsByUser.length}
                             </cite>
                         </span>
                         }
                     </div>
-                    <div className='mt-5 mb-3 border-bottom'>
+                    <div className="d-flex align-items-center mt-3 border-bottom">
                         <MDBBtn
                             ref={targetEdit}
                             floating
                             className='m-1'
-                            style={{backgroundColor: '#55acee'}}
+                            style={{backgroundColor: '#55acee', paddingBottom: '10px'}}
                             role='button'
                             onMouseOver={() => {
                                 setShowEdit(!showEdit)
@@ -157,6 +158,35 @@ const AccountView = () => {
                                 </Tooltip>
                             </Overlay>
                         </MDBBtn>
+                        <div>
+                            <cite className="text-muted">
+                                Редактировать профиль
+                            </cite>
+                        </div>
+                    </div>
+                    <div className='mt-5'>
+                        <cite className="text-muted">
+                            <strong>Объявления в архиве</strong>
+                        </cite>
+                    </div>
+                    <div className="d-flex align-items-center border-bottom mb-5 pb-3">
+                        <Container style={{marginBottom: "30px"}}>
+                            <Row xs="auto" md="auto" lg="auto">
+                                {advertsByUser.map((advert) => (
+                                    advert.status === "Объявление в архиве" ?
+                                        <Col key={advert.id}>
+                                            <MDBRipple rippleTag='div' className='bg-image'>
+                                                <ItemCard advert={advert}/>
+                                                <div className='mask'
+                                                     style={{backgroundColor: 'rgba(251, 251, 251, 0.6)'}}></div>
+                                            </MDBRipple>
+                                        </Col>
+
+                                        :
+                                        <></>
+                                ))}
+                            </Row>
+                        </Container>
                     </div>
                 </Col>
                 {showEditBlock ?

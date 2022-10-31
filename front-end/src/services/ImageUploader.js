@@ -25,7 +25,6 @@ const ImageUploader = (props) => {
     };
     const uploadFiles = () => {
 
-
         const reqBody = {
             title: title,
             description: description,
@@ -35,7 +34,7 @@ const ImageUploader = (props) => {
         }
         ajax(`/api/adverts/${advertId}`, "POST", user.jwt, reqBody)
         // navigate("/");
-        window.location.href="/";
+        window.location.href = "/";
     };
 
     return (
@@ -88,7 +87,6 @@ const ImageUploader = (props) => {
                                         : undefined
                                 }
                             >
-                                {/*Choose a file or Drag it here*/}
                                 <MDBIcon far icon="file-image"/>
                             </div>
 
@@ -146,7 +144,6 @@ const ImageUploader = (props) => {
                 )}
             </ImageUploading>
         </div>
-
     );
 };
 

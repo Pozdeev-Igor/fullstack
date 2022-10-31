@@ -71,9 +71,8 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/user/{userId}/advert/{advertId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<?> getFavoritesByUserId(@AuthenticationPrincipal User user,
-                                                  @PathVariable Long advertId,
                                                   @PathVariable Long userId) {
         Set<Advert> advertSet = user.getAdverts();
         return ResponseEntity.ok(advertSet);
