@@ -2,6 +2,7 @@ package com.example.petproject.controller;
 
 import com.example.petproject.DTO.CommentDTO;
 import com.example.petproject.DTO.CommentsAnswerDTO;
+import com.example.petproject.Enums.AnswerStatusEnum;
 import com.example.petproject.domain.Comment;
 import com.example.petproject.domain.CommentsAnswer;
 import com.example.petproject.domain.User;
@@ -98,5 +99,15 @@ public class CommentController {
                                                         @RequestParam(name = "usersName") String usersName) {
         Set<CommentsAnswer> answers = answerService.findAnswersByusersName(usersName);
         return ResponseEntity.ok(answers);
+    }
+
+    @PutMapping("/messages/{answerId}")
+    public ResponseEntity<?> changeAnswerStatus (
+                                                    @AuthenticationPrincipal User user,
+                                                    @PathVariable Long answerId) {
+        CommentsAnswer answerFromDB = answerService.findById(answerId);
+        answerFromDB.setStatus(AnswerStatusEnum.VIEWED.getStatus());
+        answerService.update(answerFromDB);
+        return ResponseEntity.ok(answerFromDB);
     }
 }

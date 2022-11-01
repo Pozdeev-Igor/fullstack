@@ -24,7 +24,6 @@ public class CommentsAnswerService {
     public CommentsAnswer save(CommentsAnswerDTO answerDTO, User user) {
         CommentsAnswer answer = new CommentsAnswer();
         answer.setStatus(AnswerStatusEnum.UNWATCHED.getStatus());
-        System.out.println(AnswerStatusEnum.UNWATCHED.getStatus());
         answer.setId(answerDTO.getId());
         answer.setText(answerDTO.getText());
         answer.setCreatedBy(user);
@@ -50,5 +49,13 @@ public class CommentsAnswerService {
 
     public Set<CommentsAnswer> findAnswersByusersName(String usersName) {
       return answerRepo.findAnswersByusersName(usersName);
+    }
+
+    public CommentsAnswer findById(Long answerId) {
+        return answerRepo.findById(answerId).orElseThrow();
+    }
+
+    public void update(CommentsAnswer answerFromDB) {
+        answerRepo.save(answerFromDB);
     }
 }

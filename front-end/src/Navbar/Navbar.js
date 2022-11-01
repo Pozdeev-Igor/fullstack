@@ -17,6 +17,7 @@ function BasicExample(props) {
     const [id, setId] = useState(null);
     const [roles, setRoles] = useState([]);
     const [messages, setMessages] = useState([]);
+    const [allMessages, setAllMessages] = useState([]);
 
     const [show, setShow] = useState(() => false);
     const handleClose = () => setShow(false);
@@ -68,14 +69,18 @@ function BasicExample(props) {
     }
 
 
-useEffect(() => {
-    ajax(`/api/comments/messages?usersName=${usersName}`, 'GET', user.jwt).then(response =>
-    setMessages(response.filter((mess) => { return mess.status === "Не просмотрено"} )));
-}, [user.jwt, usersName, messages])
+    useEffect(() => {
+        ajax(`/api/comments/messages?usersName=${usersName}`, 'GET', user.jwt).then(response => {
+            setAllMessages(response);
+            setMessages(response.filter((mess) => {
+                return mess.status === "Не просмотрено"
+            }))
+        });
+    }, [user.jwt, usersName, messages])
 
     const toMessages = () => {
         console.log(messages)
-        navigate(`/users/${id}/messages`, {state: {messages: messages}})
+        navigate(`/users/${id}/messages`, {state: {messages: messages, allMessages: allMessages}})
     }
 
     return (
@@ -119,54 +124,68 @@ useEffect(() => {
                 <Navbar.Collapse className="justify-content-end">
 
                     {user.jwt && usersName !== null ? (
-
-                        <NavDropdown title={usersName} id="basic-nav-dropdown">
-                            <NavDropdown.Item onClick={() => {
-                                navigate(`/users/adverts`)
-                            }}>
-                                <div className='d-flex justify-content-between'>
-                                    My adverts
-                                    <MDBIcon fas icon="photo-video"/>
-                                </div>
-                            </NavDropdown.Item>
-                            <NavDropdown.Item onClick={() => {
-                                navigate(`/users/${id}`)
-                            }}>
-                                <div className='d-flex justify-content-between'>
-                                    Account
-                                    <MDBIcon far icon="user"/>
-                                </div>
-                            </NavDropdown.Item>
-                            <NavDropdown.Item onClick={() => {
-                                navigate(`/adverts/favorite/${id}`)
-                            }}>
-                                <div className='d-flex justify-content-between'>
-                                    Favorites
-                                    <MDBIcon far icon="heart" />
-                                </div>
-                            </NavDropdown.Item>
-                            <NavDropdown.Item onClick={toMessages}>
-                                <div className='d-flex justify-content-between'>
-                                    Messages
-                                    <div>
+                        <>
+                            <div>
+                                {Array.isArray(messages) && messages.length > 0 ?
+                                    <>
                                         <MDBIcon far icon="envelope"/>
-                                        {Array.isArray(messages) && messages.length > 0 ?
-                                    <MDBBadge color='danger' notification pill>
-                                        {messages.length}
-                                    </MDBBadge>
-                                            :
-                                            <></>
-                                        }
+                                        <MDBBadge color='danger' notification pill>
+                                            {messages.length}
+                                        </MDBBadge>
+                                    </>
+                                    :
+                                    <></>
+                                }
+                            </div>
+                            <NavDropdown title={usersName} id="basic-nav-dropdown">
+                                <NavDropdown.Item onClick={() => {
+                                    navigate(`/users/adverts`)
+                                }}>
+                                    <div className='d-flex justify-content-between'>
+                                        My adverts
+                                        <MDBIcon fas icon="photo-video"/>
                                     </div>
-                                </div>
-                            </NavDropdown.Item>
-                            <NavDropdown.Divider/>
-                            <NavDropdown.Item onClick={() => {
-                                toLogOut()
-                            }}>
-                                Log out
-                            </NavDropdown.Item>
-                        </NavDropdown>
+                                </NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => {
+                                    navigate(`/users/${id}`)
+                                }}>
+                                    <div className='d-flex justify-content-between'>
+                                        Account
+                                        <MDBIcon far icon="user"/>
+                                    </div>
+                                </NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => {
+                                    navigate(`/adverts/favorite/${id}`)
+                                }}>
+                                    <div className='d-flex justify-content-between'>
+                                        Favorites
+                                        <MDBIcon far icon="heart"/>
+                                    </div>
+                                </NavDropdown.Item>
+                                <NavDropdown.Item onClick={toMessages}>
+                                    <div className='d-flex justify-content-between'>
+                                        Messages
+                                        <div>
+                                            <MDBIcon far icon="envelope"/>
+                                            {Array.isArray(messages) && messages.length > 0 ?
+                                                <MDBBadge color='danger' notification pill>
+                                                    {messages.length}
+                                                </MDBBadge>
+                                                :
+                                                <></>
+                                            }
+                                        </div>
+                                    </div>
+                                </NavDropdown.Item>
+                                <NavDropdown.Divider/>
+                                <NavDropdown.Item onClick={() => {
+                                    toLogOut()
+                                }}>
+                                    Log out
+                                </NavDropdown.Item>
+                            </NavDropdown>
+
+                        </>
                     ) : (
 
                         <Navbar.Text>
