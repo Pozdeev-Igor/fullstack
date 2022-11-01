@@ -19,6 +19,8 @@ public class CommentsAnswer {
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
+    private String status;
+
     public Long getId() {
         return id;
     }
@@ -57,5 +59,13 @@ public class CommentsAnswer {
 
     public void setComment(Comment comment) {
         this.comment = comment;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

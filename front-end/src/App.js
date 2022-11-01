@@ -17,6 +17,7 @@ import PersonalAdvertView from "./Pages/PersonalAdvertView";
 import AdvertView from "./Pages/AdvertView";
 import AccountView from "./Pages/AccountView";
 import Favorites from "./Pages/Favorites";
+import Messages from "./Pages/Messages";
 
 function App() {
     const user = useUser();
@@ -27,16 +28,15 @@ function App() {
             <Navbar fixed="top"/>
             <Routes>
                 <Route path='/' element={<HomePage/>}/>
-                {/*<Route path='/' element={<Test/>}/>*/}
                 <Route path='/activate/*' element={<LoginPage/>}/>
                 <Route path='/registration' element={<SignUpPage/>}/>
-                {/*<Route path='/registration' element={<Test/>}/>*/}
                 <Route path='/adverts/new/:advertId' element={<PrivateRoute><NewAdvertView/></PrivateRoute>}/>
                 <Route path='/adverts/:userId/:advertId' element={<AdvertView/>}/>
                 <Route path='/adverts/personal/:advertId' element={<PrivateRoute><PersonalAdvertView/></PrivateRoute>}/>
                 <Route path='/adverts/favorite/:userId' element={<PrivateRoute><Favorites/></PrivateRoute>}/>
                 <Route path='/users/adverts' element={<PrivateRoute><PersonalDashboard/></PrivateRoute>}/>
                 <Route path='/users/:userId' element={<PrivateRoute><AccountView/></PrivateRoute>}/>
+                <Route path='/users/:userId/messages' element={<PrivateRoute><Messages/></PrivateRoute>}/>
                 <Route path='/admin/categories' element={<PrivateRoute><CategoryView/></PrivateRoute>}/>
                 <Route path='/admin/categories/:categoryId' element={<PrivateRoute><EditCategoryView/></PrivateRoute>}/>
                 <Route path='/admin/users' element={<PrivateRoute><UsersView/></PrivateRoute>}/>

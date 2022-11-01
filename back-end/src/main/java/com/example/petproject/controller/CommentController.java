@@ -91,4 +91,12 @@ public class CommentController {
         }
 
     }
+
+    @GetMapping("/messages")
+    public ResponseEntity<?> getAnswersByUsersName (
+                                                        @AuthenticationPrincipal User user,
+                                                        @RequestParam(name = "usersName") String usersName) {
+        Set<CommentsAnswer> answers = answerService.findAnswersByusersName(usersName);
+        return ResponseEntity.ok(answers);
+    }
 }

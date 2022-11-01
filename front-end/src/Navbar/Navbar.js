@@ -6,6 +6,7 @@ import ajax from "../services/fetchServise";
 import {useUser} from "../UserProvider/UserProvider";
 import LoginModal from "../Modal/LoginModal";
 import jwt_decode from "jwt-decode";
+import {MDBBadge, MDBIcon} from "mdb-react-ui-kit";
 
 
 function BasicExample(props) {
@@ -15,6 +16,7 @@ function BasicExample(props) {
     const [usersName, setUsersName] = useState(null);
     const [id, setId] = useState(null);
     const [roles, setRoles] = useState([]);
+    const [messages, setMessages] = useState([]);
 
     const [show, setShow] = useState(() => false);
     const handleClose = () => setShow(false);
@@ -65,6 +67,17 @@ function BasicExample(props) {
         })
     }
 
+
+useEffect(() => {
+    ajax(`/api/comments/messages?usersName=${usersName}`, 'GET', user.jwt).then(response =>
+    setMessages(response.filter((mess) => { return mess.status === "Не просмотрено"} )));
+}, [user.jwt, usersName, messages])
+
+    const toMessages = () => {
+        console.log(messages)
+        navigate(`/users/${id}/messages`, {state: {messages: messages}})
+    }
+
     return (
         <Navbar bg="white" expand="lg">
             <Container>
@@ -110,18 +123,43 @@ function BasicExample(props) {
                         <NavDropdown title={usersName} id="basic-nav-dropdown">
                             <NavDropdown.Item onClick={() => {
                                 navigate(`/users/adverts`)
-                            }}>My adverts</NavDropdown.Item>
+                            }}>
+                                <div className='d-flex justify-content-between'>
+                                    My adverts
+                                    <MDBIcon fas icon="photo-video"/>
+                                </div>
+                            </NavDropdown.Item>
                             <NavDropdown.Item onClick={() => {
                                 navigate(`/users/${id}`)
                             }}>
-                                Account
+                                <div className='d-flex justify-content-between'>
+                                    Account
+                                    <MDBIcon far icon="user"/>
+                                </div>
                             </NavDropdown.Item>
                             <NavDropdown.Item onClick={() => {
                                 navigate(`/adverts/favorite/${id}`)
-                            }} >Favorites</NavDropdown.Item>
-                            <NavDropdown.Item onClick={() => {
-                                navigate(`/users/${id}/messages`)
-                            }}>Messages</NavDropdown.Item>
+                            }}>
+                                <div className='d-flex justify-content-between'>
+                                    Favorites
+                                    <MDBIcon far icon="heart" />
+                                </div>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item onClick={toMessages}>
+                                <div className='d-flex justify-content-between'>
+                                    Messages
+                                    <div>
+                                        <MDBIcon far icon="envelope"/>
+                                        {Array.isArray(messages) && messages.length > 0 ?
+                                    <MDBBadge color='danger' notification pill>
+                                        {messages.length}
+                                    </MDBBadge>
+                                            :
+                                            <></>
+                                        }
+                                    </div>
+                                </div>
+                            </NavDropdown.Item>
                             <NavDropdown.Divider/>
                             <NavDropdown.Item onClick={() => {
                                 toLogOut()

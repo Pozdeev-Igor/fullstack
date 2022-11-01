@@ -1,6 +1,7 @@
 package com.example.petproject.service;
 
 import com.example.petproject.DTO.CommentsAnswerDTO;
+import com.example.petproject.Enums.AnswerStatusEnum;
 import com.example.petproject.domain.CommentsAnswer;
 import com.example.petproject.domain.User;
 import com.example.petproject.repos.CommentRepo;
@@ -22,6 +23,8 @@ public class CommentsAnswerService {
 
     public CommentsAnswer save(CommentsAnswerDTO answerDTO, User user) {
         CommentsAnswer answer = new CommentsAnswer();
+        answer.setStatus(AnswerStatusEnum.UNWATCHED.getStatus());
+        System.out.println(AnswerStatusEnum.UNWATCHED.getStatus());
         answer.setId(answerDTO.getId());
         answer.setText(answerDTO.getText());
         answer.setCreatedBy(user);
@@ -43,5 +46,9 @@ public class CommentsAnswerService {
 
     public void delete(Long answerId) {
         answerRepo.deleteById(answerId);
+    }
+
+    public Set<CommentsAnswer> findAnswersByusersName(String usersName) {
+      return answerRepo.findAnswersByusersName(usersName);
     }
 }
