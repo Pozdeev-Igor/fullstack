@@ -1,21 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useUser} from "../UserProvider/UserProvider";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import ajax from "../services/fetchServise";
 import {Col, Container, Row} from "react-bootstrap";
-import {
-    MDBBtn,
-    MDBInput,
-    MDBPopover,
-    MDBPopoverBody,
-    MDBPopoverHeader,
-    MDBTextArea,
-    MDBTypography
-} from "mdb-react-ui-kit";
+import {MDBBtn, MDBInput, MDBTextArea, MDBTypography} from "mdb-react-ui-kit";
 import CommentsContainer from "../Comment/CommentsContainer";
 import OptionsBar from "../optionsBar/OptionsBar";
 import CustomCarousel from "../carousel/CustomCarousel";
-import currencyFormat from "../util/currencyFormat";
 import PricePopover from "../popoverPrice/PricePopover";
 
 const PersonalAdvertView = () => {
@@ -29,9 +20,15 @@ const PersonalAdvertView = () => {
     });
 
     const [showEditBlock, setShowEditBlock] = useState(false);
+    const navigate = useNavigate();
 
     const handleShowEditBlock = (data) => {
         setShowEditBlock(!data)
+    }
+
+    const setStatusArchived = () => {
+        ajax(`/api/adverts/archived/${advertId}`, 'PUT', user.jwt, null);
+        navigate(-1);
     }
 
     const previousAdvertValue = useRef(advert);
@@ -111,35 +108,6 @@ const PersonalAdvertView = () => {
                                     savePrice={savePrice}
                                 />
 
-
-                                {/*<MDBPopover*/}
-                                {/*    rounded*/}
-                                {/*    style={{marginBottom: "30px"}}*/}
-                                {/*    size='lg'*/}
-                                {/*    color='primary'*/}
-                                {/*    btnChildren={currencyFormat(advert.price)}>*/}
-                                {/*    <MDBPopoverHeader>*/}
-                                {/*        <Row className="d-flex justify-content-between">*/}
-                                {/*            <Col className='mt-1'>{currencyFormat(advert.price)} </Col>*/}
-                                {/*        </Row>*/}
-                                {/*    </MDBPopoverHeader>*/}
-                                {/*    <MDBPopoverBody>*/}
-                                {/*        <Row>*/}
-                                {/*            <Col className="justify-content-start">*/}
-                                {/*                <MDBInput*/}
-                                {/*                    style={{marginTop: "30px"}}*/}
-                                {/*                    label={advert.price}*/}
-                                {/*                    id='form1'*/}
-                                {/*                    type='number'*/}
-                                {/*                    value={advert.price === null ? 0 : (advert.price)}*/}
-                                {/*                    onChange={(e) => updateAdvert("price", e.target.value)}/>*/}
-                                {/*                <MDBBtn className='mt-2' rounded*/}
-                                {/*                        onClick={() => savePrice()}>Edit</MDBBtn>*/}
-                                {/*            </Col>*/}
-                                {/*        </Row>*/}
-                                {/*    </MDBPopoverBody>*/}
-                                {/*</MDBPopover>*/}
-
                                 {showEditBlock ?
                                     <>
                                         <Row>
@@ -180,7 +148,9 @@ const PersonalAdvertView = () => {
                     </Container>
                 </Col>
                 <Col>
-                    <OptionsBar handleShowEditBlock={handleShowEditBlock}/>
+                    <OptionsBar
+                        setStatusArchived={setStatusArchived}
+                        handleShowEditBlock={handleShowEditBlock}/>
                     <CommentsContainer advertId={advertId}/>
                 </Col>
             </Row>

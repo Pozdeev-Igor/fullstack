@@ -1,6 +1,7 @@
 package com.example.petproject.controller;
 
 import com.example.petproject.DTO.AdvertResponseDTO;
+import com.example.petproject.Enums.AdvertStatusEnum;
 import com.example.petproject.domain.Advert;
 import com.example.petproject.domain.User;
 import com.example.petproject.service.AdvertService;
@@ -79,6 +80,14 @@ public class AdvertController {
         advertFromDB.setTitle(advert.getTitle());
         advertFromDB.setDescription(advert.getDescription());
         advertFromDB.setPrice(advert.getPrice());
+        advertService.save(user, advertFromDB);
+        return ResponseEntity.ok(advertFromDB);
+    }
+
+    @PutMapping("/archived/{advertId}")
+    public ResponseEntity<?> archiveAdvert(@AuthenticationPrincipal User user, @PathVariable Long advertId) {
+        Advert advertFromDB = advertService.findById(advertId).orElseThrow();
+        advertFromDB.setStatus(AdvertStatusEnum.ARCHIVED.getStatus());
         advertService.save(user, advertFromDB);
         return ResponseEntity.ok(advertFromDB);
     }

@@ -3,7 +3,7 @@ import {MDBBtn, MDBIcon} from "mdb-react-ui-kit";
 import {Overlay, Tooltip} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 
-const OptionsBar = ({handleShowEditBlock}) => {
+const OptionsBar = (props) => {
 
     const navigate = useNavigate();
 
@@ -33,8 +33,8 @@ const OptionsBar = ({handleShowEditBlock}) => {
                     setShowEdit(false)
                 }}
                 onClick={() => {
-                    handleShowEditBlock(false);
-                    window.scrollTo(0, 400)
+                    props.handleShowEditBlock(false);
+                    window.scrollTo(0, 1800)
                 }}
             >
                 <MDBIcon fas icon="pencil-alt"/>
@@ -51,7 +51,7 @@ const OptionsBar = ({handleShowEditBlock}) => {
                 className='m-1'
                 style={{backgroundColor: '#dd4b39'}}
                 onClick={() => {
-                    console.log('click!')
+                    props.setStatusArchived();
                 }}
                 role='button'
                 onMouseOver={() => {
