@@ -89,7 +89,7 @@ const PersonalAdvertView = () => {
                 <Col>
                     <Container className={"sticky-top"}>
                         <Row>
-                            <Col>
+                            <Col className='pe-5'>
                                 <MDBTypography tag='div' className='display-5 pb-3 mb-3 border-bottom'
                                                style={{marginLeft: "5%"}}>
                                     {advert.title}
@@ -147,7 +147,7 @@ const PersonalAdvertView = () => {
                         </Row>
                     </Container>
                 </Col>
-                <Col>
+                <Col className='ms-5'>
                     <OptionsBar
                         setStatusArchived={setStatusArchived}
                         handleShowEditBlock={handleShowEditBlock}/>

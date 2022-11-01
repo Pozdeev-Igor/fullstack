@@ -20,7 +20,7 @@
 }
 
 .advert-carousel {
-    /*width: 50%;*/
+    width: 110%;
     /*margin-left: 25%;*/
     margin-bottom: 50px;
     margin-top: 30px;
@@ -56,4 +56,6 @@
     /*width: 600px;*/
     background-color: whitesmoke;
 }
+
+
 

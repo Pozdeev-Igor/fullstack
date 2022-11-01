@@ -1,9 +1,15 @@
 import React from 'react';
 import {MDBBtn, MDBContainer, MDBFooter, MDBIcon} from 'mdb-react-ui-kit';
 
-const Footer = () => {
+const Footer = ({adverts}) => {
+
+    let bottom = '';
+    Array.isArray(adverts) && adverts.length === 0 ? bottom = 'fixed-bottom'
+        :
+        bottom = 'sticky-bottom';
+
     return (
-        <MDBFooter className='bg-light text-center text-white fixed-bottom'>
+        <MDBFooter className={`bg-light text-center text-white ${bottom}`}>
             <MDBContainer className='p-4 pb-0'>
                 <section className='mb-4'>
                     <MDBBtn

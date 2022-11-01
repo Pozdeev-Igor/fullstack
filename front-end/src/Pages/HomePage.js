@@ -54,7 +54,11 @@ const HomePage = () => {
                 </Row>
             </Container>
             <LoginModal show={show} handleClose={handleClose} handleShow={handleShow}/>
-            <Footer/>
+            {/*{Array.isArray(adverts) && adverts.length === 0 ?*/}
+            {/*    <Footer className='sticky-bottom'/>*/}
+                {/*:*/}
+                <Footer adverts={adverts}/>
+            }
         </div>
     );
 };
