@@ -72,7 +72,7 @@ public class AdvertService {
         for (Advert advert : advertList) {
             if (advert.getImage() == null) {
 //                advert.setImage(null);
-                advert.setStatus(AdvertStatusEnum.AWAITING_CONFIRMATION.getStatus());
+                advert.setStatus(AdvertStatusEnum.ARCHIVED.getStatus());
             }
         }
         return advertList;

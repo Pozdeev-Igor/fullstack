@@ -5,6 +5,7 @@ import ajax from "../services/fetchServise";
 import jwt_decode from "jwt-decode";
 import Footer from "../Footer/Footer";
 import ItemCard from "../itemCard/ItemCard";
+import loginPage from "./LoginPage";
 
 const PersonalDashboard = () => {
     const user = useUser();
@@ -22,7 +23,6 @@ const PersonalDashboard = () => {
                 setFetching(false);
             });
         }
-
     }, [fetching]);
 
     useEffect(() => {
@@ -44,10 +44,10 @@ const PersonalDashboard = () => {
                     {adverts.map((advert) => (
                         <Col key={advert.id}>
                             {
-                                ((advert.user.username) === (jwt_decode(user.jwt).sub) && (advert.status !== "Объявление в архиве")) ?
-                                    <ItemCard advert={advert}/>
+                                ((advert.user.username) !== (jwt_decode(user.jwt).sub) || (advert.status === "Объявление в архиве")) ?
+                                   <></>
                                     :
-                                    <></>
+                                    <ItemCard advert={advert}/>
                             }
                         </Col>
                     ))}

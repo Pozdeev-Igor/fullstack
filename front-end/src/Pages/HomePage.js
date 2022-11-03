@@ -44,17 +44,20 @@ const HomePage = () => {
             <Container className="row-cols-lg-1" style={{marginBottom: "30px"}}>
                 <Row xs="auto" md="auto" lg="auto">
                     {adverts.map((advert) => (
-                        advert.status === "Объявление на проверке" || advert.status === "Объявление в архиве" ?
-                            <></>
-                            :
-                            <Col>
-                                <ItemCard key={advert.id} advert={advert}/>
-                            </Col>
+                        <div key={advert.id}>
+                            {advert.status === "Объявление на проверке" || advert.status === "Объявление в архиве" ?
+                                <></>
+                                :
+                                <Col>
+                                    <ItemCard advert={advert}/>
+                                </Col>
+                            }
+                        </div>
                     ))}
                 </Row>
             </Container>
             <LoginModal show={show} handleClose={handleClose} handleShow={handleShow}/>
-                <Footer adverts={adverts}/>
+            <Footer adverts={adverts}/>
 
         </div>
     );
