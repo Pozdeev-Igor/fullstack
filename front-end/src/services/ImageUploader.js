@@ -2,13 +2,14 @@ import React, {useEffect, useState} from 'react';
 import ImageUploading from "react-images-uploading";
 import {Alert, Button, ButtonGroup} from "react-bootstrap";
 import ajax from "./fetchServise";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useUser} from "../UserProvider/UserProvider";
 import {MDBIcon} from "mdb-react-ui-kit";
 import Resizer from "react-image-file-resizer";
 
 const ImageUploader = (props) => {
     const user = useUser();
+    const navigate = useNavigate();
     const {advertId} = useParams();
     const {
         maxNumber = 10,
@@ -17,6 +18,7 @@ const ImageUploader = (props) => {
         title, description, subCategoryId, price
     } = props;
     const [images, setImages] = useState([]);
+    const [result, setResult] = useState([]);
 
 
     const resizeFile = (file) =>
@@ -35,30 +37,33 @@ const ImageUploader = (props) => {
             );
         });
 
+    const onChange = (imageList, addUpdateIndex) => {
+        setImages(imageList);
 
+    };
 
-    const onChange =  (imageList, addUpdateIndex) => {
-        Array.from(imageList).forEach(file => resizeFile(file.file).then(f => {
-            setImages((images) => images.concat(f))
-
-            console.log(images)
+    useEffect(() => {
+        Array.from(images).forEach( file => resizeFile(file.file).then(f => {
+        setResult((result) => result.concat(f))
         }))
-       };
+        setResult(result => [])
+    }, [images])
 
     const onError = () => {
         setImages([]);
+
+
     };
     const uploadFiles = async () => {
-
         const reqBody = {
             title: title,
             description: description,
             price: price,
             subCategoryId: parseInt(subCategoryId),
-            images: images.map((img) => img),
+            images: result.map((img) => img),
         }
-      await  ajax(`/api/adverts/${advertId}`, "POST", user.jwt, reqBody)
-        window.location.href = "/";
+        await ajax(`/api/adverts/${advertId}`, "POST", user.jwt, reqBody)
+        navigate('/');
     };
 
     return (
@@ -66,7 +71,7 @@ const ImageUploader = (props) => {
             <ImageUploading
                 multiple
                 value={images}
-                onChange={(e) =>onChange(e)}
+                onChange={(e) => onChange(e)}
                 onError={onError}
                 maxNumber={maxNumber}
                 acceptType={acceptType}
@@ -127,7 +132,7 @@ const ImageUploader = (props) => {
                                         }}
                                     >
                                         <img
-                                            src={image}
+                                            src={image["data_url"]}
                                             alt=""
                                             style={{width: "100%"}}
                                         />

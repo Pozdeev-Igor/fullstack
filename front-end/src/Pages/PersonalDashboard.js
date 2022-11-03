@@ -44,7 +44,7 @@ const PersonalDashboard = () => {
                     {adverts.map((advert) => (
                         <Col key={advert.id}>
                             {
-                                ((advert.user.username) === (jwt_decode(user.jwt).sub) && advert.status !== 'Объявление в архиве') ?
+                                ((advert.user.username) === (jwt_decode(user.jwt).sub) && (advert.status !== "Объявление в архиве")) ?
                                     <ItemCard advert={advert}/>
                                     :
                                     <></>
