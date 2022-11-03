@@ -53,7 +53,7 @@ const PersonalDashboard = () => {
                     ))}
                 </Row>
             </Container>
-            <Footer/>
+            <Footer adverts={adverts}/>
         </div>
     );
 };

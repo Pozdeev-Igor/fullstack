@@ -24,13 +24,19 @@ const Messages = () => {
     return (
         <div>
             <h3 className='ms-5 mt-3 align-items-center border-bottom'>
-                <MDBTypography>
-                    Новые сообщения
-                </MDBTypography>
+                {messages.length > 0 ?
+                    <MDBTypography>
+                        Новые сообщения
+                    </MDBTypography>
+                    :
+                    <MDBTypography style={{marginBottom:'550px'}}>
+                        Новых сообщений нет.
+                    </MDBTypography>
+                }
             </h3>
             {messages.map((message) => (
 
-                <MDBListGroup style={{minWidth: '22rem', maxWidth: '50rem'}} light >
+                <MDBListGroup style={{minWidth: '22rem', maxWidth: '50rem'}} light>
                     <span style={{cursor: 'pointer'}} onClick={() => navigateToAdvert(message)}>
                     <MDBListGroupItem className='d-flex justify-content-start align-items-center ms-5 mt-3'>
                         <div className='d-flex align-items-center ms-3 pe-3'>
@@ -80,7 +86,7 @@ const Messages = () => {
                         </MDBBadge>
                         </div>
                     </MDBListGroupItem>
-                    <div className='mask' style={{ backgroundColor: 'rgba(251, 251, 251, 0.4)' }}></div>
+                    <div className='mask' style={{backgroundColor: 'rgba(251, 251, 251, 0.4)'}}></div>
                 </MDBRipple>
                 </span>
                 </MDBListGroup>

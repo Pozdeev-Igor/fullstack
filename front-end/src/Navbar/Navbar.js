@@ -68,7 +68,6 @@ function BasicExample(props) {
         })
     }
 
-
     useEffect(() => {
         ajax(`/api/comments/messages?usersName=${usersName}`, 'GET', user.jwt).then(response => {
             setAllMessages(response);
@@ -128,13 +127,13 @@ function BasicExample(props) {
                             <div>
                                 {Array.isArray(messages) && messages.length > 0 ?
                                     <>
-                                        <MDBIcon far icon="envelope"/>
+                                        <MDBIcon far icon="bell" />
                                         <MDBBadge color='danger' notification pill>
                                             {messages.length}
                                         </MDBBadge>
                                     </>
                                     :
-                                    <></>
+                                    <MDBIcon far icon="bell" />
                                 }
                             </div>
                             <NavDropdown title={usersName} id="basic-nav-dropdown">

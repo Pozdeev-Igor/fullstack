@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ImageUploading from "react-images-uploading";
 import {Alert, Button, ButtonGroup} from "react-bootstrap";
 import ajax from "./fetchServise";
 import {useParams} from "react-router-dom";
 import {useUser} from "../UserProvider/UserProvider";
 import {MDBIcon} from "mdb-react-ui-kit";
+import Resizer from "react-image-file-resizer";
 
 const ImageUploader = (props) => {
     const user = useUser();
@@ -17,23 +18,46 @@ const ImageUploader = (props) => {
     } = props;
     const [images, setImages] = useState([]);
 
-    const onChange = (imageList, addUpdateIndex) => {
-        setImages(imageList);
-    };
+
+    const resizeFile = (file) =>
+        new Promise((resolve) => {
+            Resizer.imageFileResizer(
+                file,
+                584,
+                1080,
+                "JPEG",
+                80,
+                0,
+                (uri) => {
+                    resolve(uri);
+                },
+                "base64"
+            );
+        });
+
+
+
+    const onChange =  (imageList, addUpdateIndex) => {
+        Array.from(imageList).forEach(file => resizeFile(file.file).then(f => {
+            setImages((images) => images.concat(f))
+
+            console.log(images)
+        }))
+       };
+
     const onError = () => {
         setImages([]);
     };
-    const uploadFiles = () => {
+    const uploadFiles = async () => {
 
         const reqBody = {
             title: title,
             description: description,
             price: price,
             subCategoryId: parseInt(subCategoryId),
-            images: images.map((img) => img.data_url),
+            images: images.map((img) => img),
         }
-        ajax(`/api/adverts/${advertId}`, "POST", user.jwt, reqBody)
-        // navigate("/");
+      await  ajax(`/api/adverts/${advertId}`, "POST", user.jwt, reqBody)
         window.location.href = "/";
     };
 
@@ -42,12 +66,13 @@ const ImageUploader = (props) => {
             <ImageUploading
                 multiple
                 value={images}
-                onChange={onChange}
+                onChange={(e) =>onChange(e)}
                 onError={onError}
                 maxNumber={maxNumber}
                 acceptType={acceptType}
                 maxFileSize={maxFileSize}
                 dataURLKey="data_url"
+                type="file"
             >
                 {({
                       imageList,
@@ -102,7 +127,7 @@ const ImageUploader = (props) => {
                                         }}
                                     >
                                         <img
-                                            src={image["data_url"]}
+                                            src={image}
                                             alt=""
                                             style={{width: "100%"}}
                                         />

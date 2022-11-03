@@ -47,15 +47,15 @@ const HomePage = () => {
                         advert.status === "Объявление на проверке" || advert.status === "Объявление в архиве" ?
                             <></>
                             :
-                            <Col key={advert.id}>
-                                <ItemCard advert={advert}/>
+                            <Col>
+                                <ItemCard key={advert.id} advert={advert}/>
                             </Col>
                     ))}
                 </Row>
             </Container>
             <LoginModal show={show} handleClose={handleClose} handleShow={handleShow}/>
                 <Footer adverts={adverts}/>
-            }
+
         </div>
     );
 };
