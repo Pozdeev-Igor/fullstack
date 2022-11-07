@@ -7,7 +7,7 @@ import java.util.Optional;
 public class SubCategory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String name;
     @ManyToOne

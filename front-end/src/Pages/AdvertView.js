@@ -44,7 +44,7 @@ const AdvertView = () => {
             setAuthorName(response.user.name);
             setAuthorPhone(response.user.phoneNumber)
         })
-    }, [advertId]);
+    }, [advertId, user.jwt]);
 
     useEffect(() => {
         ajax(`/api/images/${advertId}`, "GET", user.jwt).then((imagesData) => {
@@ -63,6 +63,7 @@ const AdvertView = () => {
                 }
             })
         }
+        console.log(authorName)
     }, [userId, user.jwt, advert])
 
     useEffect(() => {

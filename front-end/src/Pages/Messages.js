@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
 import {MDBBadge, MDBListGroup, MDBListGroupItem, MDBRipple, MDBTypography} from "mdb-react-ui-kit";
 import {useUser} from "../UserProvider/UserProvider";
@@ -13,12 +13,13 @@ const Messages = () => {
     const navigate = useNavigate();
 
     const navigateToAdvert = (message) => {
+        ajax(`/api/comments/messages/${message.id}`, 'PUT', user.jwt)
+
         user.jwt && message.comment.advert.user.username === jwt_decode(user.jwt).sub ?
             (navigate(`/adverts/personal/${message.comment.advert.id}`))
             :
             (navigate(`/adverts/${message.comment.advert.user.id}/${message.comment.advert.id}`))
 
-        ajax(`/api/comments/messages/${message.id}`, 'PUT', user.jwt)
     }
 
     return (
@@ -36,7 +37,7 @@ const Messages = () => {
             </h3>
             {messages.map((message) => (
 
-                <MDBListGroup style={{minWidth: '22rem', maxWidth: '50rem'}} light>
+                <MDBListGroup key={message.id} style={{minWidth: '22rem', maxWidth: '50rem'}} light>
                     <span style={{cursor: 'pointer'}} onClick={() => navigateToAdvert(message)}>
                     <MDBListGroupItem className='d-flex justify-content-start align-items-center ms-5 mt-3'>
                         <div className='d-flex align-items-center ms-3 pe-3'>
@@ -65,8 +66,7 @@ const Messages = () => {
             </h3>
             {allMessages.map((mess) => (
 
-
-                <MDBListGroup style={{minWidth: '22rem', maxWidth: '50rem'}} light>
+                <MDBListGroup key={mess.id} style={{minWidth: '22rem', maxWidth: '50rem'}} light>
                     <span style={{cursor: 'pointer'}} onClick={() => navigateToAdvert(mess)}>
                 <MDBRipple rippleTag='div' className='bg-image'>
                     <MDBListGroupItem className='d-flex justify-content-start align-items-center ms-5 mt-3'>

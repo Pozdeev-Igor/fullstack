@@ -5,7 +5,7 @@ import ajax from "./fetchServise";
 import {useNavigate, useParams} from "react-router-dom";
 import {useUser} from "../UserProvider/UserProvider";
 import {MDBIcon} from "mdb-react-ui-kit";
-import Resizer from "react-image-file-resizer";
+import resizeFile from "../util/FileResizer";
 
 const ImageUploader = (props) => {
     const user = useUser();
@@ -20,31 +20,14 @@ const ImageUploader = (props) => {
     const [images, setImages] = useState([]);
     const [result, setResult] = useState([]);
 
-
-    const resizeFile = (file) =>
-        new Promise((resolve) => {
-            Resizer.imageFileResizer(
-                file,
-                584,
-                1080,
-                "JPEG",
-                80,
-                0,
-                (uri) => {
-                    resolve(uri);
-                },
-                "base64"
-            );
-        });
-
     const onChange = (imageList, addUpdateIndex) => {
         setImages(imageList);
 
     };
 
     useEffect(() => {
-        Array.from(images).forEach( file => resizeFile(file.file).then(f => {
-        setResult((result) => result.concat(f))
+        Array.from(images).forEach(file => resizeFile(file.file).then(f => {
+            setResult((result) => result.concat(f))
         }))
         setResult(result => [])
     }, [images])

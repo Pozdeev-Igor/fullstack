@@ -23,10 +23,6 @@ function BasicExample(props) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    useEffect(() => {
-        setRoles(getRolesFromJWT());
-    }, [user.jwt]);
-
     function getRolesFromJWT() {
         if (user.jwt) {
             const decodedJwt = jwt_decode(user.jwt);
@@ -50,6 +46,7 @@ function BasicExample(props) {
 
     useEffect(() => {
         getUsersData();
+        setRoles(getRolesFromJWT());
     }, [user.jwt]);
 
 
@@ -70,15 +67,16 @@ function BasicExample(props) {
 
     useEffect(() => {
         ajax(`/api/comments/messages?usersName=${usersName}`, 'GET', user.jwt).then(response => {
-            setAllMessages(response);
+            setAllMessages(response.filter((mess) => {
+                return mess.status === "Просмотрено"
+            }));
             setMessages(response.filter((mess) => {
                 return mess.status === "Не просмотрено"
             }))
         });
-    }, [user.jwt, usersName, messages])
+    }, [usersName, user.jwt, allMessages])
 
     const toMessages = () => {
-        console.log(messages)
         navigate(`/users/${id}/messages`, {state: {messages: messages, allMessages: allMessages}})
     }
 

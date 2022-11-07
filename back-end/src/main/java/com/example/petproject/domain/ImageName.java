@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class ImageName {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column(columnDefinition = "TEXT")
     private String name;
