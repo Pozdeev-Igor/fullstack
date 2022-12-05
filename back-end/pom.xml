@@ -84,6 +84,7 @@
     </dependencies>
 
     <build>
+        <finalName>adverts-back-docker</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

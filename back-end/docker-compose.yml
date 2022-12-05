@@ -1,0 +1,46 @@
+version: '3.1'
+services:
+  Client:
+    image: 'client:adverts-front'
+    build:
+      context: .
+    volumes:
+      - ./src:/app/src
+    ports:
+      - 3000:3000
+    depends_on:
+      - back-end
+  back-end:
+    image: 'adverts-back-docker.jar'
+    ports:
+      - "8080:8080"
+    depends_on:
+      PostgreSQL:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/petProject
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  PostgreSQL:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=petProject
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  Flyway:
+    image: flyway/flyway
+    command: -url=jdbc:postgresql://PostgreSQL:5432/petProject -schemas=public -user=postgres -password=admin -connectRetries=60 migrate
+    volumes:
+      - .:/flyway/sql
+    depends_on:
+        - PostgreSQL

@@ -5,7 +5,6 @@ import ajax from "../services/fetchServise";
 import jwt_decode from "jwt-decode";
 import Footer from "../Footer/Footer";
 import ItemCard from "../itemCard/ItemCard";
-import loginPage from "./LoginPage";
 
 const PersonalDashboard = () => {
     const user = useUser();
