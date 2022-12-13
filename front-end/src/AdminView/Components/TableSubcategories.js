@@ -84,4 +84,5 @@ const TableSubcategories = () => {
     );
 };
 
+
 export default TableSubcategories;
